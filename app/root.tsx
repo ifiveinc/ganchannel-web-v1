@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import Footer from "./components/footer/footer";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -40,6 +41,7 @@ export default function Root() {
         <ScrollRestoration />
         <Scripts />
       </body>
+      <Footer />
     </html>
   );
 }
