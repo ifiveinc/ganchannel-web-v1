@@ -3,6 +3,8 @@ import { ImHome,ImNewspaper } from "react-icons/im";
 import { MdOutlineWorkHistory,MdPeopleOutline } from "react-icons/md";
 import "./pageNavFooter.css"
 
+import { FaRegQuestionCircle } from "react-icons/fa";
+
 
 export default function Footer() {
 
@@ -25,11 +27,11 @@ export default function Footer() {
             </NavLink>
             
             <NavLink 
-                to="/part-time-job" 
+                to="/faq" 
                 className="page-button" 
-                aria-label="アルバイト"
+                aria-label="質問"
             >
-                <MdOutlineWorkHistory size={40}/>
+                <FaRegQuestionCircle size={40}/>
             </NavLink>
 
             <NavLink 
