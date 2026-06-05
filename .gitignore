@@ -4,3 +4,11 @@
 # React Router
 /.react-router/
 /build/
+
+# SSL certificates for local dev
+*.key
+*.crt
+ca.key
+ca.crt
+cert.key
+cert.crt

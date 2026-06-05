@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -26,12 +27,28 @@ export const links: Route.LinksFunction = () => [
 ];
 
 
-export default function Root() { 
+export default function Root() {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("SW registered:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("SW registration failed:", error);
+        });
+    }
+  }, []);
+
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#166534" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <Meta />
         <Links />
       </head>
