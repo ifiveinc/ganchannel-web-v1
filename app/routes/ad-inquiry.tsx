@@ -1,14 +1,14 @@
-import iFiveicon from "../components/news/iFiveicon.png";
+import iFiveIcon from "~/assets/ifive-icon.png";
 
 
-export default function ad_inq(){
+export default function AdInquiry() {
 
 
   return (
     <div>
         <div className="relative font-serif h-20 bg-green-800 text-4xl items-center flex justify-center">
             <a href="/" className="absolute left-4 ml-4">
-                 <img className="rounded-full bg-white w-12 h-12" src={iFiveicon} alt="" />
+                 <img className="rounded-full bg-white w-12 h-12" src={iFiveIcon} alt="" />
             </a>
             問い合わせ
         </div>

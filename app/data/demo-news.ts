@@ -1,4 +1,4 @@
-import type { NewsData } from "./news-data";
+import type { NewsData } from "~/types/news";
 
 
 export const demoNewsData:NewsData[] = [

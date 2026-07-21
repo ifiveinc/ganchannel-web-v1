@@ -1,5 +1,5 @@
-import type { NewsData } from "./news-data";
-import iFiveicon from "./iFiveicon.png";
+import type { NewsData } from "~/types/news";
+import iFiveIcon from "~/assets/ifive-icon.png";
 
 type NewsCardProps = {
   newsData: NewsData;
@@ -25,7 +25,7 @@ export default function NewsCard({ newsData }: NewsCardProps) {
     >
       <div className="h-full w-1/4 p-2">
         <img
-          src={isImageExist ? newsData.image : iFiveicon}
+          src={isImageExist ? newsData.image : iFiveIcon}
           alt=""
           className="h-full w-full object-contain"
         />

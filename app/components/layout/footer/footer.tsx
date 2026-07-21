@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import { ImHome,ImNewspaper } from "react-icons/im";
-import { MdOutlineWorkHistory,MdPeopleOutline } from "react-icons/md";
-import "./pageNavFooter.css"
+import { MdPeopleOutline } from "react-icons/md";
+import "./footer.css"
 
 import { FaRegQuestionCircle } from "react-icons/fa";
 

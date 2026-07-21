@@ -8,9 +8,9 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./app.css";
-import Footer from "./components/footer/footer";
-import Ad from "./components/ad_banner/ad_banner";
+import "./styles/app.css";
+import Footer from "~/components/layout/footer/footer";
+import Ad from "~/components/layout/ad-banner/ad-banner";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

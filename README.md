@@ -1,18 +1,18 @@
-# Welcome to React Router!
+# Web版 がんちゃんねる
 
-A modern, production-ready template for building full-stack React applications using React Router.
+岩手大学の情報を統合するWebアプリ「がんちゃんねる」。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+技術構成: React Router v7（SSR）/ TypeScript / React 19 / Tailwind CSS v4 / Vite
 
-## Features
+## ドキュメント
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+各種ドキュメントの正本は [`docs/`](./docs) に集約している。
+
+- [ドキュメント目次](./docs/README.md)
+- [開発規約](./docs/development-guidelines.md)
+- [アーキテクチャ・ディレクトリ構成](./docs/architecture.md)
+- [デザイン規約](./docs/design-guidelines.md)（作成中）
+- [要件・仕様](./docs/requirements.md)（作成中）
 
 ## Getting Started
 

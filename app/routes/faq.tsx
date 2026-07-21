@@ -1,10 +1,10 @@
 import { useState } from "react";
-import iFiveicon from "../components/news/iFiveicon.png";
+import iFiveIcon from "~/assets/ifive-icon.png";
 
-import { faqList } from "./faqList";
+import { faqList } from "~/data/faq-list";
 
 
-export default function faq() {
+export default function Faq() {
   //検索フォームに入力された文字をUseStateで保持
   const[Search, setSearch] = useState("");
 
@@ -59,7 +59,7 @@ export default function faq() {
       {/*relativeは座標系の親要素absoluteは子要素*/}
       <div className="relative font-serif h-20 bg-green-800 text-6xl items-center flex justify-center">
        <a href="/" className="absolute left-4 ml-4">
-        <img className="rounded-full bg-white w-12 h-12" src={iFiveicon} alt="" />
+        <img className="rounded-full bg-white w-12 h-12" src={iFiveIcon} alt="" />
        </a>
       {/*<span>は改行しないインライン要素*/}
        <div>

@@ -1,13 +1,20 @@
 import type { Route } from "./+types/_index";
-import { Welcome } from "../welcome/welcome";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "がんちゃんねる" },
+    {
+      name: "description",
+      content: "岩手大学の情報を統合するアプリ「がんちゃんねる」",
+    },
   ];
 }
 
 export default function Index() {
-  return <Welcome />;
+  return (
+    <div className="min-h-screen p-6">
+      <h1 className="text-2xl font-bold">がんちゃんねる</h1>
+      {/* TODO: ホーム画面の実装（デザイン確定後に着手） */}
+    </div>
+  );
 }

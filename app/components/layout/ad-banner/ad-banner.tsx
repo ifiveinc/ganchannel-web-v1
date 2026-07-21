@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import ad_iFiveicon from "./ad_iFiveicon.png";
+import adIFiveIcon from "~/assets/ifive-banner-icon.png";
 
 //useEffectでスクロールの副作用を管理する
 import{ useState, useEffect } from "react";
@@ -34,8 +34,8 @@ export default function Ad()
         //zで上に表示させる。
         //NavLinkはimport必須、aタグよりリロード時間が短縮
        <div className={`fixed bottom-22 h-22 z-20 bg-white w-full ring-1 ring-gray-300 text-black ${display ? "" : "invisible"}`}> 
-       <NavLink to="/ad_inq" className="flex gap-3 bottom-24 h-22 w-full">
-        <img className="bg-white w-18 h-22 ring-1 ring-gray-300" src={ad_iFiveicon} />
+       <NavLink to="/ad-inquiry" className="flex gap-3 bottom-24 h-22 w-full">
+        <img className="bg-white w-18 h-22 ring-1 ring-gray-300" src={adIFiveIcon} />
         <div className="flex-col text-sm md:text-base">
             <p className="font-bold">
                 【広告募集中】

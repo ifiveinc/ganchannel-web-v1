@@ -1,22 +1,13 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import { demoNewsData } from "~/components/news/demo-news-data";
-import type { NewsData } from "../components/news/news-data";
-import NewsCard from "../components/news/news-card";
+import { useLoaderData } from "react-router";
+import { NEWS_CATEGORIES } from "~/constants";
+import { fetchNews } from "~/services/news-service";
+import type { NewsData } from "~/types/news";
+import NewsCard from "~/components/features/news/news-card";
 
 
 export async function loader() {
-  const API_URL = "https://ifive.sakura.ne.jp/scrape/iwate_u_data.json";
-
-  const response = await fetch(API_URL);
-
-  // エラーチェック（もし取得に失敗したらエラー画面を表示させる）
-  if (!response.ok) {
-    throw new Error("データの取得に失敗しました。");
-  }
-
-  // 取得したデータをJSON形式に変換して返す
-  const data = await response.json();
+  const data = await fetchNews();
   return { data }; // オブジェクト形式で返すと扱いやすいです
 }
 
@@ -27,20 +18,13 @@ export default function News() {
   console.log(data)
   
 
-  //const newsDeta = demoNewsData; //ダミーデータを使用する場合のニュースデータ
-  const newsDeta:NewsData[]=data            //サーバのデータを使用する場合
+  // ダミーデータを使う場合は demoNews（~/data/demo-news）に差し替える
+  const newsDeta: NewsData[] = data; // サーバのデータを使用する場合
 
   //絞り込み機能に必要なstateを定義
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  //絞り込むカテゴリーを定義.スタイルの都合上、一旦"キャリア・地域共創教育"を削除
-  const categories = [
-    "All",
-    "ニュース",
-    "イベント",
-    "最新研究",
-    "入試情報",
-    "お知らせ",
-  ];
+  //絞り込むカテゴリーは constants に集約（スタイルの都合上"キャリア・地域協創教育"は一旦除外）
+  const categories = NEWS_CATEGORIES;
 
   const filteredNews =
     selectedCategory === "All"
