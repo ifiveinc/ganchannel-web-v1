@@ -8,3 +8,6 @@
 # ローカル開発用の証明書
 *.crt
 *.key
+
+# チャットボット検討メモ（管理対象外）
+docs/chatbot-decisions.md
