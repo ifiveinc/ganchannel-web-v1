@@ -383,36 +383,32 @@ alter table qa_logs enable row level security;
 
 ## 5. Tailwind CSS v4 実装方針
 
-### 5-1. カラートークン
+**【2026-08-04変更】カラートークンはすでに`app/styles/app.css`に実装済み。** `circle-info`機能とあわせてデザイントークン体系（`docs/design-guidelines.md` §2・§26）が先行実装され、`develop`にマージされた。本書がフェーズ0として計画していたトークン追加作業は不要になった（§6参照）。
 
-`app/styles/app.css`の`@theme`に以下を追加する（`docs/design-guidelines.md` §5-2のカラーパレットをそのままトークン化）。
+### 5-1. カラートークン（既存、参照のみ）
 
-```css
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+| トークン | Tailwindクラス例 | 用途 |
+| --- | --- | --- |
+| `primary` / `primary-hover` / `primary-active` / `primary-subtle` | `bg-primary` `text-primary` `hover:bg-primary-hover` | ブランド強調、主要ボタン |
+| `ink` / `ink-muted` | `text-ink` `text-ink-muted` | 本文・見出し／補助テキスト |
+| `surface` / `surface-card` | `bg-surface` `bg-surface-card` | 全体背景／カード背景 |
+| `border` / `border-strong` | `border-border` `border-border-strong` | 区切り線・枠線 |
+| `danger` / `danger-subtle` | `text-danger` `bg-danger` `bg-danger-subtle` | エラー表示 |
 
-  --color-brand-primary: #1B4D33;
-  --color-brand-secondary: #E2E8E5;
-  --color-brand-accent: #1F2937;
-  --color-brand-bg: #FFFFFF;
-  --color-brand-card: #F4F6F4;
-}
-```
-
-Tailwind v4は`--color-*`をテーマトークンとして自動的にユーティリティクラス化する。これにより`bg-brand-primary` / `text-brand-accent` / `border-brand-secondary` / `bg-brand-card`が使用可能になる。このトークン定義は§6「フェーズ0」として、チャット機能の他のコードより先に着手する。
+チャット機能固有の色（β バナー等）も、新規トークンを追加せずこの一覧から選ぶ（`docs/design-guidelines.md` §2.2「独断でトークン外の色を使わない」）。
 
 ### 5-2. クラス命名・CSS管理方針
 
-- 本機能の新規コンポーネントは**Tailwindユーティリティクラスのみ**を使用する。CSS Modulesおよび個別`.css`ファイルは作成しない
-- 色は5-1のトークン（`brand-*`）を使う。`bg-[#004400]`のような任意値記法での直接指定はしない
-- `docs/design-guidelines.md` §15-2もTailwindユーティリティクラスに統一済み（2026-08-03修正）。矛盾は解消済み
+- 本機能の新規コンポーネントは**Tailwindユーティリティクラスを主に**使用する。CSS Modulesは`docs/design-guidelines.md` §26.3の例外規定（複雑なキーフレームアニメーション等、理由をPRに記載）に該当する場合のみ使う
+- 色は5-1のトークンを使う。`bg-[#004400]`のような任意値記法や、Tailwind標準パレット（`gray-500`等）は使わない（`docs/design-guidelines.md` §2.2）
 
-### 5-3. ブレークポイント
+### 5-3. レイアウト・ブレークポイント
 
-カスタムブレークポイントは定義しない（Tailwind v4のデフォルト: `sm`640px / `md`768px / `lg`1024px / `xl`1280px / `2xl`1536px を使用）。
+`docs/design-guidelines.md` §6・§7に従う。
 
-モバイル/PC表示の分岐は既存コード（`app/components/layout/ad-banner/ad-banner.tsx`の`md:text-base`、`app/routes/faq.tsx`の`md:w-50`など）の慣習に合わせ、**`md:`（768px）を分岐点とする**。`docs/design-guidelines.md` §8-3の「PC表示時は`max-w-md`または`max-w-lg`で`mx-auto`」は`chat-window.tsx`のルート要素に`md:max-w-lg md:mx-auto`として適用する。
+- カスタムブレークポイントは定義しない（Tailwind v4のデフォルトをそのまま使う）
+- **本体は`max-w-lg`（512px）の単一カラムで、PCでも列数を増やさない。** `chat-window.tsx`のルート要素に`mx-auto w-full max-w-lg px-4`を適用する（既存の`_app.tsx`配下の画面・`circle-info.tsx`と同じパターン）
+- モバイルファーストで書き、`md:`は主にナビゲーション（§1-1で決めた`/chat`独自レイアウトの表示切り替え等）にのみ使う。それ以外で`md:`を多用している場合はレイアウトを見直す
 
 ---
 
@@ -422,8 +418,8 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 
 | # | 優先度 | 依存 | 概要 | 対象ファイル（§1参照） |
 |---|---|---|---|---|
-| 0 | 必須・前提 | なし | `@theme`にブランドカラートークンを追加 | `app/styles/app.css`（変更） |
-| 1 | 必須 | 0 | DDL適用、Supabaseクライアント、スナップショット読込・フォールバック、`.env.example` | 1-2 (`supabase-client.server.ts`, `snapshot-service.server.ts`)、1-6、1-7 |
+| 0 | ~~必須・前提~~ | — | **完了（対応不要）。** `circle-info`機能とあわせてカラートークンが`develop`に実装済み（§5参照）。フェーズ番号は欠番として維持する | — |
+| 1 | 必須 | なし | DDL適用（`chunks`/`qa_cache`/`qa_logs`のみ）、Supabaseクライアント、スナップショット読込・フォールバック、`.env.example` | 1-2 (`supabase-client.server.ts`, `snapshot-service.server.ts`)、1-6、1-7 |
 | 2 | 必須 | 1 | サークルデータ取り込み（`sync-circles.ts`／`sync-registry.ts`）、3状態判定ロジック（§9・§10参照） | `app/types/circle.ts`（拡張）、`app/types/circle-registry.ts`、`scripts/sync-circles.ts`、`scripts/sync-registry.ts`、`app/services/circles/column-map.ts`、`app/services/circles/name-overrides.ts`、`app/services/circle-registry-service.ts`、`app/services/circle-resolution-service.ts` |
 | 3 | 必須 | 1 | C層キーワードリスト作成、判定ロジック | `risk-filter.server.ts`、`app/data/risk-c-keywords.ts` |
 | 4 | 高 | 1 | FAQ20件データ作成、一致判定 | `faq-service.server.ts`、`app/data/chatbot-faq.ts` |
