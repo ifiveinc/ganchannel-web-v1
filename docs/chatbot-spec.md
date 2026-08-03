@@ -483,13 +483,13 @@ alter table qa_logs enable row level security;
 | 16 | §10-2 / §10-3 | **対応済み。** `CircleRegistryEntry.kana`は`null`許容とした（§2）。ふりがなはフォーム回答済みの団体（`Circle.kana`）のみが持つ情報として扱い、名簿にしか無い団体（`circle_registry`のみ）はかな無しを許容する |
 | 17 | §10-2 | **対応済み。** `CircleRegistryEntry.category`（4種）と`Circle.organizationType`（7種）は別軸のまま許容する。将来的に全団体がフォーム回答するようになれば名簿（`circle_registry`）の利用は縮小していく想定のため、今の時点で軸を揃える設計コストはかけない |
 | 18 | §10-4 | 「その他学生有志団体」は`circle_registry`への投入元が無い。フォーム回答（`app/data/circles.ts`）があれば`detailed`として表示・回答はできるが、`circle_registry`には対応エントリが作れないため、フォーム未回答の同団体形態は`unknown`にしかならない。この制約を許容するかどうか確認すること（item 10のFK制約は解消済みのため、この点のみ残る） |
-| 19 | §1-1 | `/chat`を独自レイアウト（`_app.tsx`配下に置かない）にする判断は本書側の暫定案。チーム内で確認すること |
+| 19 | §1-1 | **対応済み（暫定判断のまま確定、2026-08-04）。** `/chat`は`_app.tsx`配下に置かない独自レイアウトとする |
 | 20 | §9-5a | `circle-info`の`Circle`型が持つ`genres`/`tags`/`recruitmentStatus`/`isRecommended`/`summary`/`recommendedFor`/`restriction`/`newcomerEvent`/`isOfficial`に対応するCSV列が、共有されているヘッダ一覧（§9-5a）に見当たらない。フォームに列が無いのか、まだ共有されていないだけかを確認すること。列が無い場合、`sync-circles.ts`はこれらのフィールドを空値／デフォルト値のまま生成し、`circle-info`チームが手動で補完する運用になる想定だが、その運用分担も確認が必要 |
-| 21 | §4 | `app/data/circles.ts`を`sync-circles.ts`（自動生成・上書き）と`circle-info`チームの手動編集の両方が更新することになる。同時編集によるコンフリクト・上書き事故を防ぐ運用（更新はどちらか一方に一本化する、実行タイミングを揃える等）を確認すること |
+| 21 | §4 / §9-2a | **対応済み（2026-08-04）。** `sync-circles.ts`は「実行前のgit未コミット変更チェック」と「フィールド単位マージ（`circle-info`所有フィールドは上書きしない）」の2段構えで、`circle-info`チームの手動編集との競合を防ぐ設計にした（§9-2a）。運用上の確認事項として残るのは、この設計の実装自体（マージロジックのテスト）のみ |
 | 22 | §9-4 | `app/data/circles.ts`の新規エントリに振る`id`（スラッグ）の生成方法が未定。日本語の団体名から一意で読める`id`を機械的に生成する方法（ローマ字変換ライブラリの使用、連番、`name-overrides.ts`での手動指定等）を確認すること |
 | 23 | §9-5a | `app/constants/index.ts`の`ORGANIZATION_TYPES`は`"NEXT STEP工房"`（スペースあり）だが、本書はこれまで`"NEXTSTEP工房"`（スペースなし）と表記していた。フォームの実際の回答値がどちらの表記かを確認し、`column-map.ts`の突合で表記ゆれとして扱う必要がある |
 | 24 | §9-5a | CSVの1列とCircle型の構造化フィールドが対応しない箇所が2つある：(a) 「入会費・年会費など」が1列なのに`fee.admission`/`fee.annual`は別フィールド、(b) 「実績」が自由記述1つなのに`achievements`は`{year, content}[]`の配列。どちらも自動分割は信頼性が低い。暫定の格納方法を決めるか、フォーム自体の質問を分割するか確認すること |
-| 25 | §9-5a | 「代表者名」の扱いが本書と`circle-info`側で対立している。本書は従来「個人情報のため取り込まない、チャットボットの回答にも出さない」としていたが、`circle-info`は`contact.representative`として掲載する前提（`docs/circle-info/requirements.md` §8.2は連絡先メールの公開可否のみを未決事項としている）。データを共有する以上、方針をどちらかに揃える必要がある |
+| 25 | §9-5a | **対応済み（2026-08-04）。** `sync-circles.ts`はCSVの「代表者名」列を取り込まない（個人情報のため）。`contact.representative`への値の設定は`circle-info`チームの手動編集に委ねる（本書のスクリプトは書き込まない・上書きしない）。チャットボットの回答にも出さない |
 
 ---
 
@@ -499,7 +499,7 @@ alter table qa_logs enable row level security;
 
 ### 9-1. 取り込み方式
 
-フォームの回答スプレッドシートをCSV公開し、そのURL（`CIRCLE_FORM_CSV_URL`、§1-7）を`fetch`して取得・正規化し、`app/data/circles.ts`（既存の`Circle[]`配列、§2）を生成・上書きする。Google Forms API・サービスアカウント認証は使わない（サークル情報は公開前提のデータであり、認証機構を導入するコストに見合わないため）。
+フォームの回答スプレッドシートをCSV公開し、そのURL（`CIRCLE_FORM_CSV_URL`、§1-7）を`fetch`して取得・正規化し、`app/data/circles.ts`（既存の`Circle[]`配列、§2）へ**マージする（上書きしない、§9-2a）**。Google Forms API・サービスアカウント認証は使わない（サークル情報は公開前提のデータであり、認証機構を導入するコストに見合わないため）。
 
 ### 9-2. 実行タイミング
 
@@ -508,6 +508,27 @@ alter table qa_logs enable row level security;
 **生成物（`app/data/circles.ts`）は開発者が差分を確認してコミットする。** `scripts/generate-snapshot.ts`と同じ理由（§8 item 7）で、Renderのビルドコンテナには git push 権限が無いため、ビルド時の自動生成では成立しない。
 
 `--dry-run`オプションを実装する。指定時はファイルへの書き込みを行わず、検出した差分（追加・更新・警告）を標準出力に表示するのみとする。
+
+### 9-2a. `app/data/circles.ts`の安全な更新方法（`circle-info`チームとの競合対策）
+
+`app/data/circles.ts`は`sync-circles.ts`（本スクリプト）と`circle-info`チームの手動編集の両方が触る（§9-9）。単純な「CSVの内容で全体を上書き」は、`circle-info`チームが加えた変更（未コミット・未pushのものを含む）を消してしまう事故につながる（§8 item 21）。これを防ぐため、以下の2つの対策をスクリプトの仕様として組み込む。
+
+**① 実行前のgit状態チェック（未コミット変更の検知）**
+
+スクリプト開始時に`git status --porcelain app/data/circles.ts`相当のチェックを行い、**このファイルに未コミットの変更がある場合は、書き込みを行わずエラーで停止する。** `circle-info`チームが作業中（ローカルで編集中、または未push）である可能性を機械的に検知するための安全装置。`--force`のような無視オプションは用意しない（無視したいなら先にコミットさせる）。
+
+**② フィールド単位のマージ（上書きしない）**
+
+CSVの各行を、既存の`app/data/circles.ts`の該当エントリ（§9-4の名寄せロジックで名前一致するもの）に対して**フィールド単位で**反映する。フィールドを「フォーム（sync-circles.ts）が所有する」ものと「`circle-info`チームが手動で管理する」ものに分け、後者は一切書き換えない。
+
+| 区分 | フィールド |
+|---|---|
+| フォーム所有（`sync-circles.ts`が上書きする） | `name`, `organizationType`, `kana`, `aliases`, `description`, `activity.*`, `fee.*`, `members.*`, `achievements`, `images`, `logo`, `tags`, `contact.email`, `contact.links` |
+| `circle-info`チーム所有（`sync-circles.ts`は触らない） | `genres`, `recruitmentStatus`, `isRecommended`, `summary`, `recommendedFor`, `restriction`, `newcomerEvent`, `isOfficial`, `contact.representative`（§8 item 25） |
+
+- 既存エントリ（名寄せで一致）：フォーム所有フィールドのみ上書きし、`circle-info`チーム所有フィールドは既存の値をそのまま保持する
+- CSVにあるが既存エントリに無い団体：新規エントリとして追加する。`circle-info`チーム所有フィールドは安全側のデフォルト値（`isRecommended: false`等）で初期化し、後から`circle-info`チームが手動で埋める前提とする
+- 既存エントリにあるがCSVに無い団体（`circle-info`チームが独自に追加した団体等）：**削除しない**。そのまま残す
 
 ### 9-3. 重複行の扱い
 
@@ -554,7 +575,7 @@ alter table qa_logs enable row level security;
 | 16 | 大まかな男女比 | `members.genderRatio` | |
 | 17 | 大まかな初心者：経験者割合 | `members.beginnerRatio`（`string \| null`） | true/falseへの変換は情報が落ち変換ルールも恣意的になるため、フォームの回答をそのままテキストで保持する（既存の`circle-info`の型もこの設計） |
 | 18 | 実績（テキストまたはURL） | **要確認** | `Circle.achievements`は`{ year, content }[]`の配列だが、CSVは1つの自由記述。年ごとに機械的に分割する方法が無いため、`content`にそのまま入れ`year`は空文字にする（1件のみの配列）か、`circle-info`チームが後から手動整形するかを確認（§8 item 24） |
-| 19 | 代表者名 | **要確認（方針の対立）** | `Circle.contact.representative`に対応する既存フィールドがある。ただし本書は以前「個人情報のため取り込まない」としていた。`circle-info`側は掲載する前提（`docs/circle-info/requirements.md` §8.2 item 5は連絡先メールの公開可否のみを未決事項としており、代表者名自体は掲載対象）。方針をどちらかに揃える必要がある（§8 item 25） |
+| 19 | 代表者名 | **取り込まない（確定、2026-08-04）** | 個人情報のため`sync-circles.ts`では取り込まない。`Circle.contact.representative`は`circle-info`チームが手動で管理するフィールドとし、本スクリプトは書き込み・上書きのどちらも行わない（§8 item 25、§9-9の担当分担参照） |
 | 20 | 団体との連絡手段（SNS・メール等） | `contact.email` / `contact.links`（統合） | メールアドレス形式なら`contact.email`、SNS/WebのURLなら下記#21と合わせて`contact.links`（`type`は`instagram`/`x`/`website`/`other`をURLパターンで判定） |
 | 21 | その他SNSリンク | `contact.links`（統合） | 同上 |
 | 22 | 雰囲気・特徴（チェックボックス） | `tags`（変更） | `circle-info`の`tags`は自由タグ（「ガチ」「エンジョイ」「初心者歓迎」「週1以下」等、`docs/circle-info/requirements.md` §6.3の例）を指しており、この列と一致する可能性が高い。**`moodTags`という独自フィールドは廃止し、既存の`tags`を使う** |
@@ -586,7 +607,7 @@ alter table qa_logs enable row level security;
 
 `app/services/circles/column-map.ts`・`name-overrides.ts`の正規化ロジックは、サークル紹介ページ担当と同じものを使う（スプレッドシートを読むコードを2箇所に作らない）。
 
-**`app/data/circles.ts`の更新は、`sync-circles.ts`（自動生成）と`circle-info`チームの手動編集の両方が発生しうる。** 同時編集によるコンフリクト・上書き事故を防ぐ運用（更新をどちらか一方に一本化する、実行前に声をかけあう等）を確認すること（§8 item 21）。
+**`app/data/circles.ts`の更新は、`sync-circles.ts`（自動生成）と`circle-info`チームの手動編集の両方が発生する前提で設計する。** フィールド単位の所有権分担とgit状態チェックによる安全装置を§9-2aで定義済み（§8 item 21、対応済み）。
 
 ### 9-10. `circle_registry`の投入元について
 
