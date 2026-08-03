@@ -418,7 +418,7 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 
 - 本機能の新規コンポーネントは**Tailwindユーティリティクラスのみ**を使用する。CSS Modulesおよび個別`.css`ファイルは作成しない
 - 色は5-1のトークン（`brand-*`）を使う。`bg-[#004400]`のような任意値記法での直接指定はしない
-- **要確認**: `docs/design-guidelines.md` §15-2は「CSSの管理方法：CSS Modules」と記載されており、上記方針と矛盾する。規約側の記載修正が必要（`docs/chatbot-decisions.md` §17-6で未対応のまま残っている項目）
+- `docs/design-guidelines.md` §15-2もTailwindユーティリティクラスに統一済み（2026-08-03修正）。矛盾は解消済み
 
 ### 5-3. ブレークポイント
 
@@ -489,7 +489,6 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 | 5 | §1-7 | `CIRCLE_STRONG_MATCH_THRESHOLD`（サークル名強一致の閾値。「高く設定する」という方針のみ決定済みで数値は未確定） |
 | 6 | §1-6 | `circles.photo_urls`が指す実体（Supabase Storageか、`app/assets/`相当の自前配信領域か）の保存先が未確定 |
 | 7 | §1-6 | `scripts/generate-snapshot.ts`の実行主体・タイミング（開発者が手動実行してコミットするか、CIで実行するか）が未確定。Renderのビルドコンテナにはgit push権限が無いため、「ビルド時に生成しリポジトリに含める」はRenderの`npm run build`内では成立しない |
-| 8 | §5-2 | `docs/design-guidelines.md` §15-2「CSSの管理方法：CSS Modules」の記載が本書の方針（Tailwindユーティリティのみ）と矛盾している。規約側の修正が必要 |
 | 9 | 全体 | `docs/chatbot-decisions.md` §17に記載の未確定事項（LLMモデルのGA確認、Cerebrasモデル選定、商用利用可否確認など）は本書の対象外。該当フェーズ（5, 8）の着手前に別途解消すること |
 | 10 | §9-4 | `circles.circle_registry_id`は`NOT NULL`かつ`circle_registry`への外部キー。`sync-circles.ts`が団体名を`circle_registry`と突合できなかった場合（§9-4の4番目の分岐）、正規化名のスラッグを警告に使うことは決定済みだが、この団体を`circles`へupsertする手段が現行DDLには無い（FK制約に抵触する）。`circle_registry`側に暫定行を自動作成するか、upsert自体をスキップして警告のみ出すか、着手前に確定させること |
 | 11 | §1-6 | `scripts/sync-photos.ts`の実行方法（npm scriptにするか、手動実行のみか、実行タイミング）が未定 |
