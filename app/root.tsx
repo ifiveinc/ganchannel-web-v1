@@ -5,11 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./styles/app.css";
-import Footer from "~/components/layout/footer/footer";
+import BottomNav from "~/components/layout/bottom-nav/bottom-nav";
+import { APP_NAV_ITEMS } from "~/components/layout/bottom-nav/app-nav-items";
 import Ad from "~/components/layout/ad-banner/ad-banner";
 
 export const links: Route.LinksFunction = () => [
@@ -20,15 +22,21 @@ export const links: Route.LinksFunction = () => [
     crossOrigin: "anonymous",
   },
   {
+    // デザイン規約 §4.1：日本語グリフを持つ Noto Sans JP を 400/700 の2ウェイトのみ読み込む
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap",
   },
 ];
 
 
-export default function Root() { 
+export default function Root() {
+  // circle-info は機能内に専用のボトムナビを持つため、共通ナビと下部で衝突する。
+  // 配下では共通ナビを描画せず、機能内ナビに任せる（docs/circle-info/spec.md §7.2）。
+  const { pathname } = useLocation();
+  const hasOwnBottomNav = pathname.startsWith("/circle-info");
+
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,8 +49,13 @@ export default function Root() {
 
         <ScrollRestoration />
         <Scripts />
+        {/* 広告バナーは全ページ共通。下部固定ナビ（64px）の上に載せる */}
         <Ad />
-        <Footer />
+        {!hasOwnBottomNav && (
+          // TODO: 共通ヘッダーの上部ナビ（規約 §29-10）が未実装のため、md:以上でも
+          //       このナビを表示している。ヘッダー実装時に hideOnDesktop を付ける
+          <BottomNav items={APP_NAV_ITEMS} ariaLabel="メインメニュー" />
+        )}
       </body>
     </html>
   );

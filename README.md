@@ -11,7 +11,8 @@
 - [ドキュメント目次](./docs/README.md)
 - [開発規約](./docs/development-guidelines.md)
 - [アーキテクチャ・ディレクトリ構成](./docs/architecture.md)
-- [デザイン規約](./docs/design-guidelines.md)（作成中）
+- [デザイン規約](./docs/design-guidelines.md)
+- [デザイン規約の要件定義書](./docs/design-requirements.md)
 - [要件・仕様](./docs/requirements.md)（作成中）
 
 ## Getting Started

@@ -1,22 +1,41 @@
 @import "tailwindcss";
 
+/* デザイントークンはここに一元的に定義する（デザイン規約 §26.1）。
+   他の場所で色・角丸・影を定義しない。 */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* フォント */
+  --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system,
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
 
-  --color-brand-primary: #1B4D33;
-  --color-brand-secondary: #E2E8E5;
-  --color-brand-accent: #1F2937;
-  --color-brand-bg: #FFFFFF;
-  --color-brand-card: #F4F6F4;
+  /* カラー：ブランド */
+  --color-primary: #1b4d33;
+  --color-primary-hover: #143a26;
+  --color-primary-active: #0e2b1c;
+  --color-primary-subtle: #e8f0eb;
+
+  /* カラー：ニュートラル */
+  --color-ink: #1f2937;
+  --color-ink-muted: #4b5563;
+  --color-surface: #ffffff;
+  --color-surface-card: #f4f6f4;
+  --color-border: #e2e8e5;
+  --color-border-strong: #82908a;
+
+  /* カラー：状態 */
+  --color-danger: #b3261e;
+  --color-danger-subtle: #fdecea;
+
+  /* 角丸 */
+  --radius-control: 0.5rem; /* 8px：ボタン・入力欄・タブ */
+  --radius-card: 0.75rem; /* 12px：カード */
+  --radius-sheet: 1rem; /* 16px：モーダル */
+
+  /* 影 */
+  --shadow-card: 0 1px 2px 0 rgb(31 41 55 / 0.06);
+  --shadow-overlay: 0 8px 24px -4px rgb(31 41 55 / 0.18);
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  @apply bg-surface text-ink;
 }
-

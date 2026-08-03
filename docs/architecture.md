@@ -18,15 +18,23 @@ app/
 ├── root.tsx                    # 全ページ共通のレイアウト（Footer・広告バナーを含む）
 ├── routes.ts                   # flatRoutes 設定
 ├── routes/                     # ルーティング専用。薄く保つ（ファイル名 = URL slug）
-│   ├── _index.tsx              #   / （ホーム）
+│   ├── _app.tsx                #   機能ページ以外の共通レイアウト（共通ヘッダー）
+│   ├── _app._index.tsx         #   / （ホーム）
+│   ├── _app.features.tsx       #   /features（機能一覧）
+│   ├── _app.faq.tsx            #   /faq
+│   ├── _app.settings.tsx       #   /settings（ユーザー設定）
 │   ├── news.tsx                #   /news
-│   ├── faq.tsx                 #   /faq
 │   ├── ad-inquiry.tsx          #   /ad-inquiry（広告問い合わせ）
+│   ├── circle-info.tsx         #   circle-info 機能の共通レイアウト
+│   ├── circle-info._index.tsx  #   /circle-info（機能ホーム）
+│   ├── circle-info.search.tsx  #   /circle-info/search（探す）
+│   ├── circle-info.favorites.tsx # /circle-info/favorites（気になる）
+│   ├── circle-info.$circleId.tsx # /circle-info/:circleId（サークル詳細）
 │   └── kakunin.tsx             #   /kakunin（開発用の確認ページ）
 ├── components/
 │   ├── ui/                     # 複数画面で使う共通UI（Button, Input, Modal 等）
-│   ├── layout/                 # アプリ全体の chrome（footer, ad-banner）。CSSは同居
-│   └── features/               # 画面固有のコンポーネント（news 等）
+│   ├── layout/                 # アプリ全体の chrome（bottom-nav, ad-banner）
+│   └── features/               # 画面固有のコンポーネント（news, circle-info 等）
 ├── data/                       # 静的データ（faq-list, demo-news）
 ├── services/                   # データ取得・ドメインロジック（UIから分離）
 ├── types/                      # 横断的な型定義
