@@ -430,23 +430,23 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 
 ## 6. 実装フェーズ分割
 
-`docs/development-guidelines.md` §5.4（タスク分割の目安）・§8.2（PRの大きさ）に従い、1フェーズ＝1 Issue＝1 PRとする。ブランチ名は同§6.3の形式（`作業種別/Issue番号-作業内容`）に従い、Issue番号は起票時に確定する（以下は例として`##`と表記）。
+`docs/development-guidelines.md` §5.4（タスク分割の目安）に従い、1フェーズ＝1 Issueとする。ブランチ運用は同§6.6に従い、フェーズごとに新しいブランチは切らず、機能全体で1本の作業ブランチを使う。各フェーズはそのブランチへのコミット（およびpush）として積み重ね、`main`へのマージは機能全体の完成時に1回行う。
 
-| # | 優先度 | Issue名（ブランチ名例） | 依存 | 概要 | 対象ファイル（§1参照） |
-|---|---|---|---|---|---|
-| 0 | 必須・前提 | `feature/##-chatbot-color-tokens`（デザイントークン定義） | なし | `@theme`にブランドカラートークンを追加 | `app/styles/app.css`（変更） |
-| 1 | 必須 | `feature/##-chatbot-db-foundation`（DB基盤） | 0 | DDL適用、Supabaseクライアント、スナップショット読込・フォールバック、`.env.example` | 1-2 (`supabase-client.server.ts`, `snapshot-service.server.ts`)、1-6、1-7 |
-| 2 | 必須 | `feature/##-chatbot-circle-data`（サークルデータ層） | 1 | 3状態判定ロジック、フォーム回答CSVの取り込みスクリプト（§9参照） | `circle-service.server.ts`、`app/types/circle.ts`、`scripts/sync-circles.ts`、`app/services/circles/column-map.ts`、`app/services/circles/name-overrides.ts` |
-| 3 | 必須 | `feature/##-chatbot-risk-c-block`（C層ブロック） | 1 | C層キーワードリスト作成、判定ロジック | `risk-filter.server.ts`、`app/data/risk-c-keywords.ts` |
-| 4 | 高 | `feature/##-chatbot-preset-faq`（事前生成FAQ） | 1 | FAQ20件データ作成、一致判定 | `faq-service.server.ts`、`app/data/chatbot-faq.ts` |
-| 5 | 必須 | `feature/##-chatbot-llm-failover`（LLMフェイルオーバー） | 1 | `LLMProvider`実装、Gemini/Cerebrasアダプタ、縮退モード | 1-2の`llm/`配下一式、`app/types/llm.ts` |
-| 6 | 必須 | `feature/##-chatbot-api-route`（チャットAPI結線） | 1, 2, 3, 4, 5 | `/api/chat`でカスケード1〜4段＋5b（キーワード検索のみ）＋LLM生成をストリーミングで結線 | `app/routes/api.chat.ts`、`search-service.server.ts`、`app/types/search.ts`、`app/types/chatbot.ts` |
-| 7 | 必須 | `feature/##-chatbot-ui`（チャットUI・βバナー） | 6 | チャット画面、サジェスト、βバナー、ガードレール文言、フッター導線追加 | `app/routes/chat.tsx`、1-5一式、`beta-banner.tsx`、`footer.tsx`（変更）、`root.tsx`（変更） |
-| 8 | 高 | `feature/##-chatbot-qa-cache`（応答キャッシュ・埋め込み） | 6 | `qa_cache`完全一致／意味的一致、埋め込みサービス | `qa-cache-service.server.ts`、`embedding-service.server.ts` |
-| 9 | 高 | `feature/##-chatbot-logging-ratelimit`（QAログ・レート制限） | 6 | `qa_logs`書き込み、フィードバックAPI、IPレート制限 | `qa-log-service.server.ts`、`rate-limit-service.server.ts`、`app/routes/api.chat.feedback.ts`、`feedback-buttons.tsx` |
-| 10 | 中 | `feature/##-chatbot-recommend`（レコメンド機能） | 2, 7 | 構造化抽出、レコメンドカードUI | `recommend-service.server.ts`、`circle-recommend-card.tsx` |
-| 11 | 中 | `feature/##-chatbot-circle-match-tuning`（サークル検索精度向上） | 2, 8 | かな正規化・別名対応の強一致検索、タグフィルタ、雰囲気タグ | `circle-service.server.ts`（拡張） |
-| 12 | 低 | `feature/##-chatbot-vector-search`（ベクトル検索） | 8 | pgvectorによる類似検索本実装、RRF融合 | `search-service.server.ts`（拡張） |
+| # | 優先度 | 依存 | 概要 | 対象ファイル（§1参照） |
+|---|---|---|---|---|
+| 0 | 必須・前提 | なし | `@theme`にブランドカラートークンを追加 | `app/styles/app.css`（変更） |
+| 1 | 必須 | 0 | DDL適用、Supabaseクライアント、スナップショット読込・フォールバック、`.env.example` | 1-2 (`supabase-client.server.ts`, `snapshot-service.server.ts`)、1-6、1-7 |
+| 2 | 必須 | 1 | 3状態判定ロジック、フォーム回答CSVの取り込みスクリプト（§9参照） | `circle-service.server.ts`、`app/types/circle.ts`、`scripts/sync-circles.ts`、`app/services/circles/column-map.ts`、`app/services/circles/name-overrides.ts` |
+| 3 | 必須 | 1 | C層キーワードリスト作成、判定ロジック | `risk-filter.server.ts`、`app/data/risk-c-keywords.ts` |
+| 4 | 高 | 1 | FAQ20件データ作成、一致判定 | `faq-service.server.ts`、`app/data/chatbot-faq.ts` |
+| 5 | 必須 | 1 | `LLMProvider`実装、Gemini/Cerebrasアダプタ、縮退モード | 1-2の`llm/`配下一式、`app/types/llm.ts` |
+| 6 | 必須 | 1, 2, 3, 4, 5 | `/api/chat`でカスケード1〜4段＋5b（キーワード検索のみ）＋LLM生成をストリーミングで結線 | `app/routes/api.chat.ts`、`search-service.server.ts`、`app/types/search.ts`、`app/types/chatbot.ts` |
+| 7 | 必須 | 6 | チャット画面、サジェスト、βバナー、ガードレール文言、フッター導線追加 | `app/routes/chat.tsx`、1-5一式、`beta-banner.tsx`、`footer.tsx`（変更）、`root.tsx`（変更） |
+| 8 | 高 | 6 | `qa_cache`完全一致／意味的一致、埋め込みサービス | `qa-cache-service.server.ts`、`embedding-service.server.ts` |
+| 9 | 高 | 6 | `qa_logs`書き込み、フィードバックAPI、IPレート制限 | `qa-log-service.server.ts`、`rate-limit-service.server.ts`、`app/routes/api.chat.feedback.ts`、`feedback-buttons.tsx` |
+| 10 | 中 | 2, 7 | 構造化抽出、レコメンドカードUI | `recommend-service.server.ts`、`circle-recommend-card.tsx` |
+| 11 | 中 | 2, 8 | かな正規化・別名対応の強一致検索、タグフィルタ、雰囲気タグ | `circle-service.server.ts`（拡張） |
+| 12 | 低 | 8 | pgvectorによる類似検索本実装、RRF融合 | `search-service.server.ts`（拡張） |
 
 `docs/chatbot-decisions.md` §16の「絶対に落とさないもの」（3状態分岐/C層ブロック/縮退モード/βバナーと非公式表記）はフェーズ0〜7に含まれる。「落とす順序」（ベクトル検索→レコメンド→応答キャッシュ）と対応させ、応答キャッシュ（8）→レコメンド（10）→ベクトル検索（12）の順で後方に配置している。
 
