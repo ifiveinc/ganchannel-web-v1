@@ -35,7 +35,7 @@
 |---|---|
 | `app/services/supabase-client.server.ts` | Supabaseクライアント生成（`service_role`キー使用） |
 | `app/services/snapshot-service.server.ts` | `data/snapshot.json` の読み込み、DB接続失敗時のフォールバック判定 |
-| `app/services/circle-service.server.ts` | サークル3状態判定、名前・かな・別名の強一致検索 |
+| `app/services/circle-service.server.ts` | サークル3状態判定、名前・かな・別名の強一致検索（`circle_registry.kana`が`null`の場合は名前のみで判定、§10-2） |
 | `app/services/risk-filter.server.ts` | C層キーワード照合によるブロック判定 |
 | `app/services/faq-service.server.ts` | 事前生成FAQとの一致判定 |
 | `app/services/qa-cache-service.server.ts` | `qa_cache` の完全一致・意味的一致の検索と書き込み |
@@ -150,7 +150,7 @@ export type CircleStatus = "detailed" | "registered" | "unknown";
 export interface CircleRegistryEntry {
   id: string;
   name: string;
-  kana: string;
+  kana: string | null;
   category: string;
 }
 
@@ -298,7 +298,7 @@ create extension if not exists vector;
 create table circle_registry (
   id          uuid primary key default gen_random_uuid(),
   name        text not null,
-  kana        text not null,
+  kana        text,
   category    text not null,
   created_at  timestamptz not null default now()
 );
@@ -495,12 +495,12 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 | 9 | 全体 | `docs/chatbot-decisions.md` §17に記載の未確定事項（LLMモデルのGA確認、Cerebrasモデル選定、商用利用可否確認など）は本書の対象外。該当フェーズ（5, 8）の着手前に別途解消すること |
 | 10 | §9-4 | `circles.circle_registry_id`は`NOT NULL`かつ`circle_registry`への外部キー。`sync-circles.ts`が団体名を`circle_registry`と突合できなかった場合（§9-4の4番目の分岐）、正規化名のスラッグを警告に使うことは決定済みだが、この団体を`circles`へupsertする手段が現行DDLには無い（FK制約に抵触する）。`circle_registry`側に暫定行を自動作成するか、upsert自体をスキップして警告のみ出すか、着手前に確定させること |
 | 11 | §1-6 | `scripts/sync-photos.ts`の実行方法（npm scriptにするか、手動実行のみか、実行タイミング）が未定 |
-| 12 | §9-5a / §10-2 | `category`は「団体の形態」列（部活／サークル／同好会／学内カンパニー／学生委員会／NEXTSTEP工房／その他学生有志団体の7種）を採用と決定した。一方`circle_registry`（クラブ紹介ページ由来）の分類は学生委員会／体育系／文化系／同好会の4種で、軸が異なることが判明した（§10-2参照）。`category`同士を突合・整合させる必要があるか、別軸のまま許容するかを確認すること |
+| 12 | §9-5a / §10-2 | `category`は「団体の形態」列（部活／サークル／同好会／学内カンパニー／学生委員会／NEXTSTEP工房／その他学生有志団体の7種）を採用済み。`circle_registry`側の分類（学生委員会/体育系/文化系/同好会の4種）とは軸が異なるが、**別軸のまま許容する（対応済み、item 17参照）**。「種別」列との比較は不要（category採用元は「団体の形態」で確定） |
 | 13 | §9-5a | `photoUrls`（#7・#8の統合）と`snsLinks`（#20・#21の統合）について、2列をどう1つのフィールドへ統合するか（順序、件数上限、重複排除、`snsLinks`のキー命名規則）が未定 |
 | 14 | §9-5a / §9-7 | 「ふりがな」「略称・別名」の質問はフォームに追加済みとされているが、スプレッドシートの列に反映されていない可能性がある。反映を確認し、`Circle.kana`/`aliases`の実際の取り込み元を確定させること |
 | 15 | §10 | `circle_registry`の集約方針（データソース、取り込み方法、実行スクリプト）は§10で確定した。`scripts/sync-registry.ts`（§10-5）の具体的な実装（クラブ紹介ページのHTMLパース処理）はまだ書いていない |
-| 16 | §10-2 / §10-3 | `circle_registry.kana`は現行DDL（§3）で`not null`だが、クラブ紹介ページ（§10-2）にふりがなの記載が無く、画像からの手動書き起こし（§10-3）もふりがなの有無が未確認。データソース側にかなが無い場合の埋め方（DDLを緩めるか、別途かな辞書を用意するか）を着手前に確定させること |
-| 17 | §10-2 | `circle_registry.category`（クラブ紹介ページ由来、学生委員会/体育系/文化系/同好会の4種）と`circles.category`（フォーム由来、団体の形態7種）は軸が異なることが判明した。両者を突合・整合させる設計にするか、別軸のまま許容するかを確認すること（item 12と同一の論点） |
+| 16 | §10-2 / §10-3 | **対応済み。** `circle_registry.kana`は`null`許容に変更した（§3, §2）。ふりがなはフォーム回答済みの団体（`circles.kana`）のみが持つ情報として扱い、名簿にしか無い団体（`circle_registry`のみ）はかな無しを許容する |
+| 17 | §10-2 | **対応済み。** `circle_registry.category`（4種）と`circles.category`（7種）は別軸のまま許容する。将来的に全団体がフォーム回答するようになれば名簿（`circle_registry`）の利用は縮小していく想定のため、今の時点で軸を揃える設計コストはかけない |
 | 18 | §10-4 | 「その他学生有志団体」は`circle_registry`への投入元が無い。フォーム回答（`circles`）があっても`circle_registry`に対応行が作れないため、item 10のFK制約問題がこの団体形態で常に発生する。この団体形態を許容するかどうか確認すること |
 
 ---
@@ -614,9 +614,9 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 
 `https://www.iwate-u.ac.jp/campus/activity/club.html`は、学生委員会（6団体）／体育系（約50団体）／文化系（約40団体）／同好会（約60団体以上）の4分類に分かれた単純な`ul`/`li`のリストで、約7〜8割の団体は個別紹介PDFへのリンクを持つ（本書作成時点での実地確認結果）。
 
-- **団体名以外の情報がほぼ無い。ふりがな（かな）の記載が無い。** `circle_registry.kana`は現行DDL（§3）で`not null`だが、この情報源からはかなを取得できない。かなを別途どう埋めるか（空文字を許容するようDDLを変更するか、別途かな辞書を用意するか等）は§8 item 16を参照。実装着手前に確定させること
+- **団体名以外の情報がほぼ無い。ふりがな（かな）の記載が無い。** `circle_registry.kana`は`null`許容（§3）とし、この情報源からはかなを取得しない。ふりがなはフォーム回答済みの団体（`circles.kana`）のみが持つ情報として扱う（§8 item 16、対応済み）
 - 個別紹介PDFの内容は転載しない（著作権のため、`docs/chatbot-decisions.md` §9と同じ方針）。取得するのは団体名と分類（学生委員会/体育系/文化系/同好会）のみ
-- ページの分類（学生委員会/体育系/文化系/同好会の4分類）と、フォームの「団体の形態」（7分類、§9-5a）は軸が異なる。`circle_registry.category`にはこのページの4分類がそのまま入る想定で、`circles.category`（団体の形態、7分類）とは値が一致しない場合がある点に注意（§8 item 17参照）
+- ページの分類（学生委員会/体育系/文化系/同好会の4分類）と、フォームの「団体の形態」（7分類、§9-5a）は軸が異なるが、揃えない設計とする。`circle_registry.category`にはこのページの4分類がそのまま入り、`circles.category`（団体の形態、7分類）とは別軸として扱う（§8 item 17、対応済み）
 - スクレイピングの実行方法（`scripts/sync-registry.ts`として`sync-circles.ts`と同様に手動実行する想定。§10-5）、および対象ページのHTML構造が変わった場合の検知方法は未定
 
 ### 10-3. 学内カンパニー・NEXTSTEP工房（手動書き起こし）
@@ -629,7 +629,7 @@ Tailwind v4は`--color-*`をテーマトークンとして自動的にユーテ�
 // app/data/circle-registry-manual.ts
 export interface ManualRegistryEntry {
   name: string;
-  kana: string;
+  kana: string | null;
   category: "学内カンパニー" | "NEXTSTEP工房";
 }
 
@@ -640,7 +640,7 @@ export const MANUAL_REGISTRY_ENTRIES: ManualRegistryEntry[] = [
 
 CSVではなくTypeScriptファイルを選んだ理由：`npm run typecheck`で入力ミス（フィールド抜け、`category`の値の誤記等）を機械的に検出できるため。CSVだとこの安全網が無い。
 
-- 画像に**ふりがな（かな）の記載があるかどうかは未確認**。無い場合、`kana`欄をどう埋めるか（担当者が読みを推測して入力するか、別の対応にするか）は§8 item 16と合わせて確認すること
+- 画像にふりがなの記載が無ければ`kana`は`null`のままでよい（§8 item 16、対応済み）。判明している範囲でのみ入力し、無理に推測しない
 - このファイルは`circles`テーブルとは無関係（`circle_registry`専用）。§9の`circles`取り込みと混同しないこと
 
 ### 10-4. その他学生有志団体（名簿ソースなし）
