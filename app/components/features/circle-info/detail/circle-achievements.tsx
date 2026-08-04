@@ -1,5 +1,6 @@
 import { MdEmojiEvents } from "react-icons/md";
 import type { CircleAchievement } from "~/types/circle";
+import styles from "./circle-achievements.module.css";
 
 type CircleAchievementsProps = {
   achievements: CircleAchievement[];
@@ -12,35 +13,28 @@ export default function CircleAchievements({
   if (achievements.length === 0) return null;
 
   return (
-    <section className="rounded-card border border-border bg-surface-card p-3">
-      <h3 className="flex items-center gap-2 text-base font-bold leading-snug">
-        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+    <section className={styles.card}>
+      <h3 className={styles.title}>
+        <span className={styles.titleIcon}>
           <MdEmojiEvents size={16} aria-hidden />
         </span>
         実績・活動内容
       </h3>
 
-      <ul className="mt-3 flex flex-col gap-2">
+      <ul className={styles.list}>
         {achievements.map((achievement) => (
           <li
             key={`${achievement.year}-${achievement.content}`}
-            className="flex gap-2"
+            className={styles.item}
           >
-            <span
-              aria-hidden
-              className="mt-2 size-2 shrink-0 rounded-full border border-primary"
-            />
-            <div className="flex min-w-0 flex-col gap-0.5">
+            <span aria-hidden className={styles.marker} />
+            <div className={styles.itemBody}>
               {/* フォーム由来のデータは年が空のことがある。空欄の行を作らない */}
               {achievement.year !== "" && (
-                <span className="text-sm text-ink-muted">
-                  {achievement.year}
-                </span>
+                <span className={styles.year}>{achievement.year}</span>
               )}
-              {/* 自由記述で改行を含むため、そのまま反映する */}
-              <span className="text-base leading-normal whitespace-pre-line">
-                {achievement.content}
-              </span>
+              {/* 自由記述で改行を含むため、そのまま反映する（.content が pre-line） */}
+              <span className={styles.content}>{achievement.content}</span>
             </div>
           </li>
         ))}

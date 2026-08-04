@@ -1,0 +1,50 @@
+/* 詳細画面の情報カードで共通する枠と見出し。
+   circle-detail-section / circle-achievements / circle-contact が composes で取り込む。 */
+
+.card {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-card);
+  padding: 0.75rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+}
+
+/* 見出し左の丸アイコン */
+.titleIcon {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* 見出しの下に置く本体 */
+.body {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rowLabel {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  color: var(--color-ink-muted);
+}
+
+.rowValue {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}

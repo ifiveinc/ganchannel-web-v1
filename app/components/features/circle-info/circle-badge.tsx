@@ -1,3 +1,5 @@
+import styles from "./circle-badge.module.css";
+
 type CircleBadgeProps = {
   children: React.ReactNode;
   /** tag: 分類・属性、strong: 状態の強調（デザイン規約 §17.1） */
@@ -9,14 +11,9 @@ export default function CircleBadge({
   children,
   variant = "tag",
 }: CircleBadgeProps) {
-  const style =
-    variant === "strong"
-      ? "bg-primary text-white"
-      : "bg-primary-subtle text-primary";
-
   return (
     <span
-      className={`inline-block max-w-full truncate rounded-full px-2 py-0.5 text-xs ${style}`}
+      className={`${styles.badge} ${variant === "strong" ? styles.strong : styles.tag}`}
     >
       {children}
     </span>

@@ -1,0 +1,32 @@
+/* 左端に縦バーが付くセクション見出し。 */
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+}
+
+.bar {
+  height: 1.25rem;
+  width: 0.25rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

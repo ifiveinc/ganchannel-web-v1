@@ -1,0 +1,102 @@
+/* SNS・連絡先。代表者・連絡先と外部リンクをまとめて表示する。 */
+
+.card {
+  composes: card from "./detail-card.module.css";
+}
+
+.title {
+  composes: title from "./detail-card.module.css";
+}
+
+.titleIcon {
+  composes: titleIcon from "./detail-card.module.css";
+}
+
+.body {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.label {
+  composes: rowLabel from "./detail-card.module.css";
+}
+
+/* メールアドレスやURLが長くても折り返す */
+.value {
+  composes: rowValue from "./detail-card.module.css";
+  word-break: break-all;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+}
+
+.link {
+  display: inline-flex;
+  height: 2.75rem;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-surface);
+  padding-inline: 0.75rem;
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  color: var(--color-primary);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    background-color: var(--color-primary-subtle);
+  }
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.linkLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.linkIcon {
+  flex-shrink: 0;
+}
+
+/* 画面には出さず、読み上げにのみ伝える補足 */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}

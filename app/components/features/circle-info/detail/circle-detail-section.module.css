@@ -1,0 +1,39 @@
+/* 詳細画面の情報カード（活動情報・費用・メンバー構成）。 */
+
+.card {
+  composes: card from "./detail-card.module.css";
+}
+
+.title {
+  composes: title from "./detail-card.module.css";
+}
+
+.titleIcon {
+  composes: titleIcon from "./detail-card.module.css";
+}
+
+.rows {
+  composes: body from "./detail-card.module.css";
+}
+
+/* 2行目以降に区切り線を入れる */
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.5rem;
+}
+
+.row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.label {
+  composes: rowLabel from "./detail-card.module.css";
+}
+
+.value {
+  composes: rowValue from "./detail-card.module.css";
+}

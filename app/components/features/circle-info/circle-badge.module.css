@@ -1,0 +1,27 @@
+/* 分類・状態を示すバッジ（デザイン規約 §17）。
+   色・角丸・影は app/styles/app.css の @theme で定義したトークンを var() で参照する
+   （規約 §26.1「他の場所で色・角丸・影を定義しない」）。 */
+
+.badge {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+}
+
+/* 分類・属性 */
+.tag {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+/* 状態の強調 */
+.strong {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}

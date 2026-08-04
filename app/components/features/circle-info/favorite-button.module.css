@@ -1,0 +1,34 @@
+/* 「気になる」のトグルボタン。タップ領域は 44px を確保する（デザイン規約 §12）。 */
+
+.button {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-ink-muted);
+}
+
+/* タッチ端末で hover が固着しないよう、ポインタがある環境に限定する */
+@media (hover: hover) {
+  .button:hover {
+    background-color: var(--color-surface-card);
+  }
+}
+
+.button:focus-visible {
+  outline: none;
+  /* 内側の 2px は背景色で縁取り、外側 2px がフォーカスリング（ring-offset 相当） */
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+/* 選択済みのハートの色 */
+.activeIcon {
+  color: var(--color-primary);
+}

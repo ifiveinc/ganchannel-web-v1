@@ -1,0 +1,12 @@
+/* 一覧の2列グリッド（デザイン規約 §6.3）。 */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* カードの高さを揃えるため、li 自身も flex にする */
+.item {
+  display: flex;
+}
