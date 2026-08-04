@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { MdForum, MdSend } from "react-icons/md";
+import { MdClose, MdForum, MdSend } from "react-icons/md";
 import ChatMessage, { type ChatMessageData } from "~/components/features/chat/chat-message";
 import SuggestedQuestions from "~/components/features/chat/suggested-questions";
 import BackToTopLink from "~/components/ui/back-to-top-link";
@@ -59,6 +59,9 @@ export default function ChatWindow() {
   const [messages, setMessages] = useState<ChatMessageData[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  // localStorage/sessionStorageは使わない方針のため、閉じた状態はstateのみで保持する
+  // （再読み込み・新規訪問時は必ずまた表示される）。
+  const [isNoticeVisible, setIsNoticeVisible] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -170,9 +173,21 @@ export default function ChatWindow() {
       </div>
 
       <div className="sticky bottom-0 z-10 border-t border-border bg-surface px-4 pt-2 pb-4">
-        <p className="pb-2 text-xs text-ink-muted">
-          入力内容は生成AIの提供元に送信されます。個人情報は入力しないでください。
-        </p>
+        {isNoticeVisible && (
+          <div className="flex items-start gap-2 pb-2">
+            <p className="flex-1 text-xs text-ink-muted">
+              入力内容は生成AIの提供元に送信されます。個人情報は入力しないでください。
+            </p>
+            <button
+              type="button"
+              aria-label="この注意書きを閉じる"
+              onClick={() => setIsNoticeVisible(false)}
+              className="inline-flex size-5 shrink-0 items-center justify-center rounded-full text-ink-muted hover:bg-surface-card"
+            >
+              <MdClose size={14} aria-hidden />
+            </button>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <label htmlFor="chat-input" className="sr-only">
             メッセージを入力
