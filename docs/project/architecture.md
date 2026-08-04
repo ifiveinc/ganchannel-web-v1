@@ -12,13 +12,13 @@
 | パスエイリアス | `~/*` → `app/*` |
 
 MVP公開後、カンパニー全体の方針に従いNext.jsへ移行する予定がある。
-移行時に影響する箇所は [decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md) を参照。
+移行時に影響する箇所は [decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md) を参照。
 
 ## ディレクトリ構成
 
 ```
 app/
-├── root.tsx                    # 全ページ共通のレイアウト（Footer・広告バナーを含む）
+├── root.tsx                    # 全ページ共通のレイアウト（βバナー・広告バナー・共通ナビ）
 ├── routes.ts                   # flatRoutes 設定
 ├── routes/                     # ルーティング専用。薄く保つ（ファイル名 = URL slug）
 │   ├── _app.tsx                #   機能ページ以外の共通レイアウト（共通ヘッダー）
@@ -35,18 +35,54 @@ app/
 │   ├── circle-info.$circleId.tsx # /circle-info/:circleId（サークル詳細）
 │   └── kakunin.tsx             #   /kakunin（開発用の確認ページ）
 ├── components/
-│   ├── ui/                     # 複数画面で使う共通UI（Button, Input, Modal 等）
-│   ├── layout/                 # アプリ全体の chrome（bottom-nav, ad-banner）
-│   └── features/               # 画面固有のコンポーネント（news, circle-info 等）
-├── data/                       # 静的データ（faq-list, demo-news）
+│   ├── ui/                     # 複数画面で使う共通UI（empty-state, loading-spinner 等）
+│   ├── layout/                 # アプリ全体の chrome（bottom-nav, ad-banner, header）
+│   └── features/<機能>/        # 画面固有のコンポーネント（circle-info, chat, news 等）
 ├── services/                   # データ取得・ドメインロジック（UIから分離）
-├── types/                      # 横断的な型定義
+│   ├── circle-info/            #   circle-service, column-map, image/name-overrides
+│   ├── chatbot/                #   search, qa-cache, rate-limit, llm/ など
+│   └── news/                   #   news-service
+├── data/                       # 静的データ
+│   ├── circle-info/            #   circles
+│   ├── chatbot/                #   chatbot-faq, circle-registry, snapshot.json など
+│   ├── news/                   #   demo-news
+│   └── faq/                    #   faq-list
+├── types/                      # 型定義
+│   ├── circle-info/            #   circle
+│   ├── chatbot/                #   chatbot, chunk, llm, qa, search, circle-registry
+│   └── news/                   #   news
+├── lib/                        # 純粋関数のユーティリティ
+│   ├── circle-info/            #   filter-circles, favorites-storage
+│   └── chatbot/                #   text-similarity, embedding-common-words
 ├── constants/                  # 定数（APIのURL・カテゴリ一覧 等）
 ├── hooks/                      # カスタムフック（use-xxx.ts）
-├── lib/                        # 純粋関数のユーティリティ
 ├── styles/                     # グローバルCSS（app.css）
 └── assets/                     # 共有画像などのアセット
 ```
+
+### 層の中の分け方
+
+機能が増えて `services` / `data` / `types` / `lib` に複数機能のファイルが混在したため、
+**各層の中を機能名のディレクトリで分ける**方針をとる（2026-08-05）。
+`components/features/<機能>/` と粒度が揃い、機能ごとに触る範囲が分かれる。
+
+- 新しいファイルは、担当機能のディレクトリに置く
+- 複数機能で共有するものだけ、層の直下に置いてよい
+  （例: `types/circle-info/circle.ts` は chatbot からも参照する。
+  所有は circle-info 側にあるため circle-info 配下に置いている）
+- `routes/` は flatRoutes がファイル名からURLを決めるため、フラットのまま変えない
+
+### データファイルを移動するときの注意
+
+`scripts/` の生成スクリプトは、出力先のパスと**生成するファイルの中身に書く import 文**を
+文字列として持っている。移動時は両方の追随が必要（片方だけだと次回実行で壊れる）。
+
+| スクリプト | 出力先 |
+| --- | --- |
+| `sync-circles.ts` | `app/data/circle-info/circles.ts` |
+| `sync-registry.ts` | `app/data/chatbot/circle-registry.ts` |
+| `generate-circle-embeddings.ts` | `app/data/chatbot/circle-embeddings.json` |
+| `generate-snapshot.ts` | `app/data/chatbot/snapshot.json` |
 
 ## 命名規約
 

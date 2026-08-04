@@ -11,7 +11,7 @@
 
 - 本仕様書が対象とするのは `docs/chatbot-decisions.md` に記載された学内QAチャットボット機能のみ
 - 既存の `app/routes/`（`_app.tsx` / `_app._index.tsx` / `_app.faq.tsx` / `_app.features.tsx` / `_app.settings.tsx` / `news.tsx` / `ad-inquiry.tsx` / `kakunin.tsx`）とその配下のコンポーネント・データは変更しない。ナビへの追加のみ既存ファイルを変更する（§4参照）
-- ディレクトリ構成・命名規則は `docs/architecture.md` および `docs/development-guidelines.md` §10.2 に従う（ファイル: kebab-case / コンポーネント・型: PascalCase / 変数・関数: camelCase / 定数: UPPER_SNAKE_CASE）
+- ディレクトリ構成・命名規則は `docs/project/architecture.md` および `docs/project/development-guidelines.md` §10.2 に従う（ファイル: kebab-case / コンポーネント・型: PascalCase / 変数・関数: camelCase / 定数: UPPER_SNAKE_CASE）
 - **本書で「サークル」と呼ぶ対象は、フォームの「団体の形態」列（§9-5a）で管理される7つの団体形態（部活／サークル／同好会／学内カンパニー／学生委員会／NEXTSTEP工房〈学内カンパニーの派生〉／その他学生有志団体）の総称である**
 - **【2026-08-04追記・重要】`develop`に既存の`circle-info`機能（`docs/circle-info/`配下に要件定義・仕様書あり）と、データモデル・データソースを可能な限り一本化する。** `circle-info`は本書と同じ学生団体データ（同じGoogleフォームが情報源、`docs/circle-info/input-sheet.md` Q3-1・Q3-6で確認済み）を扱う独立機能で、`app/types/circle.ts`の`Circle`型・`app/data/circles.ts`（静的データ）・`app/services/circle-service.ts`がすでに実装済み。本書は**新たに`Circle`型やSupabaseテーブルを作らず、`circle-info`の型・データを拡張して再利用する**方針に変更する（詳細は§2・§9・§10）。`circle-info`側の型・コンポーネント・ルートは、拡張以外は変更しない
 
@@ -383,7 +383,7 @@ alter table qa_logs enable row level security;
 
 ## 5. Tailwind CSS v4 実装方針
 
-**【2026-08-04変更】カラートークンはすでに`app/styles/app.css`に実装済み。** `circle-info`機能とあわせてデザイントークン体系（`docs/design-guidelines.md` §2・§26）が先行実装され、`develop`にマージされた。本書がフェーズ0として計画していたトークン追加作業は不要になった（§6参照）。
+**【2026-08-04変更】カラートークンはすでに`app/styles/app.css`に実装済み。** `circle-info`機能とあわせてデザイントークン体系（`docs/project/design-guidelines.md` §2・§26）が先行実装され、`develop`にマージされた。本書がフェーズ0として計画していたトークン追加作業は不要になった（§6参照）。
 
 ### 5-1. カラートークン（既存、参照のみ）
 
@@ -395,16 +395,16 @@ alter table qa_logs enable row level security;
 | `border` / `border-strong` | `border-border` `border-border-strong` | 区切り線・枠線 |
 | `danger` / `danger-subtle` | `text-danger` `bg-danger` `bg-danger-subtle` | エラー表示 |
 
-チャット機能固有の色（β バナー等）も、新規トークンを追加せずこの一覧から選ぶ（`docs/design-guidelines.md` §2.2「独断でトークン外の色を使わない」）。
+チャット機能固有の色（β バナー等）も、新規トークンを追加せずこの一覧から選ぶ（`docs/project/design-guidelines.md` §2.2「独断でトークン外の色を使わない」）。
 
 ### 5-2. クラス命名・CSS管理方針
 
-- 本機能の新規コンポーネントは**Tailwindユーティリティクラスを主に**使用する。CSS Modulesは`docs/design-guidelines.md` §26.3の例外規定（複雑なキーフレームアニメーション等、理由をPRに記載）に該当する場合のみ使う
-- 色は5-1のトークンを使う。`bg-[#004400]`のような任意値記法や、Tailwind標準パレット（`gray-500`等）は使わない（`docs/design-guidelines.md` §2.2）
+- 本機能の新規コンポーネントは**Tailwindユーティリティクラスを主に**使用する。CSS Modulesは`docs/project/design-guidelines.md` §26.3の例外規定（複雑なキーフレームアニメーション等、理由をPRに記載）に該当する場合のみ使う
+- 色は5-1のトークンを使う。`bg-[#004400]`のような任意値記法や、Tailwind標準パレット（`gray-500`等）は使わない（`docs/project/design-guidelines.md` §2.2）
 
 ### 5-3. レイアウト・ブレークポイント
 
-`docs/design-guidelines.md` §6・§7に従う。
+`docs/project/design-guidelines.md` §6・§7に従う。
 
 - カスタムブレークポイントは定義しない（Tailwind v4のデフォルトをそのまま使う）
 - **本体は`max-w-lg`（512px）の単一カラムで、PCでも列数を増やさない。** `chat-window.tsx`のルート要素に`mx-auto w-full max-w-lg px-4`を適用する（既存の`_app.tsx`配下の画面・`circle-info.tsx`と同じパターン）
@@ -414,7 +414,7 @@ alter table qa_logs enable row level security;
 
 ## 6. 実装フェーズ分割
 
-`docs/development-guidelines.md` §5.4（タスク分割の目安）に従い、1フェーズ＝1 Issueとする。ブランチ運用は同§6.6に従い、フェーズごとに新しいブランチは切らず、機能全体で1本の作業ブランチを使う。各フェーズはそのブランチへのコミット（およびpush）として積み重ね、`main`へのマージは機能全体の完成時に1回行う。
+`docs/project/development-guidelines.md` §5.4（タスク分割の目安）に従い、1フェーズ＝1 Issueとする。ブランチ運用は同§6.6に従い、フェーズごとに新しいブランチは切らず、機能全体で1本の作業ブランチを使う。各フェーズはそのブランチへのコミット（およびpush）として積み重ね、`main`へのマージは機能全体の完成時に1回行う。
 
 | # | 優先度 | 依存 | 概要 | 対象ファイル（§1参照） |
 |---|---|---|---|---|
@@ -434,7 +434,7 @@ alter table qa_logs enable row level security;
 
 `docs/chatbot-decisions.md` §16の「絶対に落とさないもの」（3状態分岐/C層ブロック/縮退モード/βバナーと非公式表記）はフェーズ0〜7に含まれる。「落とす順序」（ベクトル検索→レコメンド→応答キャッシュ）と対応させ、応答キャッシュ（8）→レコメンド（10）→ベクトル検索（12）の順で後方に配置している。
 
-各フェーズはSupabaseへのマイグレーション適用・環境変数設定など**コード変更以外の準備作業を伴う場合がある**。PR本文にその旨と実施済みかどうかを明記する（`docs/development-guidelines.md` §8.3のPRテンプレートに従う）。
+各フェーズはSupabaseへのマイグレーション適用・環境変数設定など**コード変更以外の準備作業を伴う場合がある**。PR本文にその旨と実施済みかどうかを明記する（`docs/project/development-guidelines.md` §8.3のPRテンプレートに従う）。
 
 ---
 

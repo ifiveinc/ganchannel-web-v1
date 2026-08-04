@@ -25,7 +25,7 @@
 
 ## 関連ファイル
 
-実装の配置は [../architecture.md](../architecture.md) のディレクトリ構成に従う。
+実装の配置は [architecture.md](../project/architecture.md) のディレクトリ構成に従う。
 MVPでのファイル構成は [spec.md](./spec.md) §8 を参照。
 
 ## 運用ルール

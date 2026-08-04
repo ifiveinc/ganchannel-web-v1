@@ -14,7 +14,7 @@
 
 ## 決定
 
-`app/` を役割ごとの層に再編した。詳細は [../architecture.md](../architecture.md) を参照。
+`app/` を役割ごとの層に再編した。詳細は [architecture.md](../project/architecture.md) を参照。
 
 - `routes/` はルーティング専用に絞る
 - `components/` を `ui` / `layout` / `features` に分ける

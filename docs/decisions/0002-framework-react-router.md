@@ -5,10 +5,10 @@
 
 ## 背景
 
-要件定義書（[../design-guidelines-input.md](../design-guidelines-input.md) §0「使用予定の技術」）と開発規約 §2 には、使用技術として `Next.js` と記載されていた。
+要件定義書（[design-guidelines-input.md](../project/design-guidelines-input.md) §0「使用予定の技術」）と開発規約 §2 には、使用技術として `Next.js` と記載されていた。
 一方でリポジトリの実態は **React Router v7（フレームワークモード・SSR有効）** であり、Next.js の依存は一切入っていない。
 
-この食い違いは [../hearing-points.md](../hearing-points.md) §1 に確認事項として記録し、代表への確認を行った。
+この食い違いは [hearing-points.md](../project/hearing-points.md) §1 に確認事項として記録し、代表への確認を行った。
 
 ## 決定
 

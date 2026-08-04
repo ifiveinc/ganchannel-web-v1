@@ -38,8 +38,8 @@
 
 | 項目 | 要件定義書の記載 | 本規約での扱い | 状態 |
 | --- | --- | --- | --- |
-| フレームワーク | Next.js | **React Router v7** | 決定済み（[decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)）。MVP公開後にNext.jsへ移行予定 |
-| CSS管理方法 | CSS Modules（§15-2） | **Tailwind CSS v4 を主、CSS Modulesは例外** | 確認中（[hearing-points.md](./hearing-points.md) §2） |
+| フレームワーク | Next.js | **React Router v7** | 決定済み（[decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md)）。MVP公開後にNext.jsへ移行予定 |
+| CSS管理方法 | CSS Modules（§15-2） | **CSS Modules を主、Tailwindはトークン定義基盤** | 決定済み（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md)）。要件定義書の指定に合わせた |
 
 決定後、開発規約 §19.2 に従い `docs/decisions/` にADRとして残すこと。
 
@@ -1148,13 +1148,20 @@ Variant：  Type=Primary, Size=md, State=Default
 
 ---
 
-## 26. CSS変数 / Tailwind CSS設定
+## 26. CSS管理方法 / デザイントークン
 
-### 26.1 方針（必須）
+### 26.1 方針（必須／CSS Modulesの全体適用は2026/08/06以降）
 
-- **スタイルは Tailwind CSS v4 のユーティリティクラスで書く**
-- デザイントークンは `app/styles/app.css` の `@theme` に**一元的に定義する**。他の場所で色や角丸を定義しない
-- トークンは必要最低限に保つ（要件定義書 §15-3）。文字サイズ・余白・ブレークポイントはTailwind標準スケールをそのまま使い、独自定義しない
+> **適用時期**：CSS Modules への統一はMVP公開（2026/08/06）以降に進める。
+> それまでは各担当者が選んだ進め方を優先し、Tailwindのユーティリティクラスで書かれた機能があっても
+> 規約違反として扱わない（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md)）。
+> **デザイントークンの参照ルール（下記2〜4項）は、どちらの書き方でも適用時期を問わず守る。**
+
+- **コンポーネントのスタイルは CSS Modules（`*.module.css`）に書く**
+- デザイントークンは `app/styles/app.css` の `@theme` に**一元的に定義する**。他の場所で色・角丸・影を定義しない
+- CSS Modules からは `var(--color-primary)` のようにトークンを参照する。**HEXを直書きしない**
+- トークンは必要最低限に保つ（要件定義書 §15-3）。文字サイズ・余白・ブレークポイントは独自定義せず、
+  Tailwind標準スケール相当の値（`--text-base` / `0.25rem` 刻み）を使う
 
 ### 26.2 トークン定義
 
@@ -1206,17 +1213,52 @@ Tailwind v4 では `@theme` に定義した変数から自動的にユーティ�
 
 ### 26.3 CSSファイルの扱い（必須）
 
-- **コンポーネント単位のグローバルCSSファイルを新規に作らない**。クラス名が全体で衝突する
-- 現在の `app/components/layout/footer/footer.css`（`.page-button`）はグローバルCSSであり、Tailwindのクラスに置き換える（§27）
-- 例外的に素のCSSが必要な場合（複雑なキーフレームアニメーション等）は、**CSS Modules（`*.module.css`）**を使い、理由をPull Requestに記載する
+- スタイルは **CSS Modules**（`*.module.css`）に書く。コンポーネントと同じディレクトリに、
+  同じ名前で置く（例: `circle-card.tsx` ↔ `circle-card.module.css`）
+- **グローバルCSSファイルを新規に作らない**。クラス名が全体で衝突する
+  （旧 `app/components/layout/footer/footer.css` の `.page-button` がこの問題を起こしていた）
+- クラス名は camelCase。JSから `styles.tagButton` の形で参照できるようにする
+- 複数コンポーネントで同じ指定を繰り返す場合は、共通の `*.module.css` を作って `composes` で取り込む
+
+```css
+/* circle-detail-section.module.css */
+.card {
+  composes: card from "./detail-card.module.css";
+}
+```
+
+#### Tailwind ユーティリティクラスの扱い
+
+Tailwind CSS v4 は**デザイントークンの定義基盤として引き続き使う**（§26.2）。
+ユーティリティクラスは以下に限って使用してよい。
+
+- すでに Tailwind で書かれている既存コンポーネント（chat / news / layout / ui）の維持・小改修
+- 1〜2クラスで済む軽微な指定
+
+新規コンポーネントと、大きく作り替えるコンポーネントは CSS Modules で書く。
+
+**2026/08/06 より前**は上記に関わらず、担当者が選んだ書き方でよい（§26.1 の適用時期）。
+その場合も、色・角丸・影はトークンを参照する（§26.4）。
 
 ### 26.4 禁止（必須）
 
+- **CSS Modules 内での色・角丸・影の直書き**（`#004400` `border-radius: 12px` 等）。
+  必ず `var(--color-primary)` `var(--radius-card)` の形でトークンを参照する
 - 任意値の乱用（`bg-[#004400]` `p-[13px]` `text-[15px]`）。トークンとスケールの範囲で表現する
-  - 例外：`pb-[env(safe-area-inset-bottom)]` のようなCSS環境変数
+  - 例外：`padding-bottom: env(safe-area-inset-bottom)` のようなCSS環境変数
 - インラインの `style` 属性でのスタイル指定（動的な値を除く）
-- `!important` / `!` 修飾子の使用
+- `!important` の使用
 - `@apply` の多用。共通化したい見た目は、CSSではなくReactコンポーネントとして共通化する（§27.1）
+
+### 26.5 Tailwind の挙動を再現するときの注意
+
+ユーティリティクラスから CSS Modules へ移す際、以下は素直に書くと挙動が変わる。
+
+| ユーティリティ | CSS Modules での書き方 | 理由 |
+| --- | --- | --- |
+| `hover:*` | `@media (hover: hover) { .x:hover { … } }` | タッチ端末で hover が固着するのを防ぐ（Tailwindの既定挙動） |
+| `focus-visible:ring-2 ring-offset-2` | `box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-primary);` | 内側2pxを背景色で縁取る ring-offset の再現 |
+| `bg-surface/95` | `color-mix(in oklab, var(--color-surface) 95%, transparent)` | 透明度指定 |
 
 ---
 
@@ -1307,22 +1349,24 @@ Pull Request作成前に確認する（開発規約 §17.1 の「画面変更が
 
 本規約の制定時点で、規約に適合していない箇所。順次Issueを作成して対応する。
 
-| # | 対象 | 内容 | 該当する規約 | 優先度 |
-| --- | --- | --- | --- | --- |
-| 1 | `app/root.tsx:31` | `<html lang="en">` を `lang="ja"` にする | §24.1 | 高 |
-| 2 | `app/root.tsx:15-26` | `Inter`（ラテン専用）を `Noto Sans JP` に差し替える | §4.1 | 高 |
-| 3 | `app/styles/app.css` | `@theme` にトークンを定義する。`dark:bg-gray-950` を削除する | §26.2、§2.4 | 高 |
-| 4 | `app/components/features/news/news-card.tsx:24,33,37` | `#999999` / `#bccec2` / `#004400` の直書きをトークンに置き換える。グラデーション背景を廃止する | §2.2、§10.2 | 高 |
-| 5 | `app/components/layout/footer/footer.tsx` | 高さ96px→64px、アイコン40px→24px、文字ラベルを併記、`aria-current` を付ける、`max-w-lg mx-auto` を適用 | §19.2 | 高 |
-| 6 | `app/components/layout/footer/footer.tsx` | **`md:hidden` を追加する**（PCでは上部ナビが担当するため）。ディレクトリ名も役割に合わせ `layout/bottom-nav/` への改名を検討する | §19.0、§19.2 | 高 |
-| 7 | `app/components/layout/footer/footer.tsx` | アイコンファミリーを `react-icons/md` に統一する | §11.1 | 中 |
-| 8 | `app/components/layout/footer/footer.css` | グローバルCSSを廃止し、`NavLink` のクラス関数で状態を表現する | §26.3 | 中 |
-| 9 | `app/components/layout/ad-banner/ad-banner.tsx` | `max-w-lg mx-auto` を適用、`img` に `alt` を付ける、`🔘` を `react-icons` に置き換える | §6.1、§12.2、§13.4 | 中 |
-| 10 | 全ページ | ヘッダー（`components/layout/header/`）が未実装。**`md:` 以上の上部ナビを含む** | §19.1 | 中 |
-| 11 | 全ページ | ハンバーガーメニュー（`components/layout/menu-drawer/`）が未実装 | §19.3 | 中 |
-| 12 | 全ページ | 下部固定要素ぶんの `pb-36 md:pb-24` が未適用 | §5.3 | 中 |
-| 13 | `app/components/features/news/news-card.tsx:24` | `block` と `flex` が同一要素に指定されている（`display` の重複） | — | 低 |
-| 14 | `package.json` | `@tailwindcss/line-clamp` は Tailwind v4 では不要のため削除する | §4.4 | 低 |
+対応済みの項目は「状態」欄に記録する。
+
+| # | 対象 | 内容 | 該当する規約 | 優先度 | 状態 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `app/root.tsx:31` | `<html lang="en">` を `lang="ja"` にする | §24.1 | 高 | 対応済み（2026-08-02） |
+| 2 | `app/root.tsx:15-26` | `Inter`（ラテン専用）を `Noto Sans JP` に差し替える | §4.1 | 高 | 対応済み（2026-08-02） |
+| 3 | `app/styles/app.css` | `@theme` にトークンを定義する。`dark:bg-gray-950` を削除する | §26.2、§2.4 | 高 | 対応済み（2026-08-02） |
+| 4 | `app/components/features/news/news-card.tsx:24,33,37` | `#999999` / `#bccec2` / `#004400` の直書きをトークンに置き換える。グラデーション背景を廃止する | §2.2、§10.2 | 高 | 未対応 |
+| 5 | `app/components/layout/footer/footer.tsx` | 高さ96px→64px、アイコン40px→24px、文字ラベルを併記、`aria-current` を付ける、`max-w-lg mx-auto` を適用 | §19.2 | 高 | 対応済み（2026-08-02、`layout/bottom-nav/` として作り直し） |
+| 6 | `app/components/layout/footer/footer.tsx` | **`md:hidden` を追加する**（PCでは上部ナビが担当するため）。ディレクトリ名も役割に合わせ `layout/bottom-nav/` への改名を検討する | §19.0、§19.2 | 高 | 対応不要（`layout/bottom-nav/` へ改名済み。circle-info はヘッダーの対となる下部固定フッターとして画面幅によらず表示する方針に変更したため、`md:hidden` は適用しない） |
+| 7 | `app/components/layout/footer/footer.tsx` | アイコンファミリーを `react-icons/md` に統一する | §11.1 | 中 | 対応済み（2026-08-02） |
+| 8 | `app/components/layout/footer/footer.css` | グローバルCSSを廃止し、`NavLink` のクラス関数で状態を表現する | §26.3 | 中 | 対応済み（2026-08-03、`footer.css` ごと廃止） |
+| 9 | `app/components/layout/ad-banner/ad-banner.tsx` | `max-w-lg mx-auto` を適用、`img` に `alt` を付ける、`🔘` を `react-icons` に置き換える | §6.1、§12.2、§13.4 | 中 | 対応済み（2026-08-04） |
+| 10 | 全ページ | ヘッダー（`components/layout/header/`）が未実装。**`md:` 以上の上部ナビを含む** | §19.1 | 中 | 一部対応（共通ヘッダーは実装済み。上部ナビは未実装） |
+| 11 | 全ページ | ハンバーガーメニュー（`components/layout/menu-drawer/`）が未実装 | §19.3 | 中 | 未対応 |
+| 12 | 全ページ | 下部固定要素ぶんの `pb-36 md:pb-24` が未適用 | §5.3 | 中 | 対応済み（2026-08-04） |
+| 13 | `app/components/features/news/news-card.tsx:24` | `block` と `flex` が同一要素に指定されている（`display` の重複） | — | 低 | 未対応 |
+| 14 | `package.json` | `@tailwindcss/line-clamp` は Tailwind v4 では不要のため削除する | §4.4 | 低 | 未対応 |
 
 ---
 

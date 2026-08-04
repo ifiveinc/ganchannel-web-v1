@@ -7,8 +7,8 @@
 
 | # | 確認事項 | 状態 | 確認先 |
 | --- | --- | --- | --- |
-| 1 | フレームワーク（Next.js か React Router v7 か） | **決定済み**（[decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)） | 代表 |
-| 2 | CSS管理方法（CSS Modules か Tailwind CSS か） | **未確認** | 代表 |
+| 1 | フレームワーク（Next.js か React Router v7 か） | **決定済み**（[decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md)） | 代表 |
+| 2 | CSS管理方法（CSS Modules か Tailwind CSS か） | **決定済み**（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md)） | 代表 |
 | 3 | ナビゲーション方式 | 決定済み | — |
 
 ---
@@ -50,7 +50,7 @@
 決定者　：代表
 ```
 
-ADR: [decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)
+ADR: [decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md)
 
 ---
 
@@ -85,10 +85,18 @@ ADR: [decisions/0002-framework-react-router.md](./decisions/0002-framework-react
 ### 決定欄
 
 ```text
-決定内容：
-決定日　：
-決定者　：
+決定内容：要件定義書 §15-2 の指定どおり CSS Modules を主とする。
+　　　　　Tailwind CSS は @theme によるデザイントークンの定義基盤として残し、
+　　　　　CSS Modules からは var(--color-primary) の形で参照する。
+　　　　　既存の Tailwind 実装は遡及的には移行せず、新規・大改修時に寄せる。
+決定日　：2026-08-05
+決定者　：代表
 ```
+
+ADR: [decisions/0003-css-modules-and-feature-directories.md](../decisions/0003-css-modules-and-feature-directories.md)
+
+上記の「推奨理由（A）」は Tailwind を主とする案に対するものだが、
+要件定義書の指定を優先し、トークンの一元管理は `@theme` を残すことで両立させた。
 
 ---
 

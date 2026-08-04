@@ -336,7 +336,7 @@ app/
 
 ## 9. デザイン
 
-[../design-guidelines.md](../design-guidelines.md) に準拠する。
+[design-guidelines.md](../project/design-guidelines.md) に準拠する。
 
 **前提作業（2026-08-02 決定）:** デザイン規約 §2.1 のカラートークン（`primary` `ink` `surface`
 `border` 等）を `app/styles/app.css` の `@theme` に定義してから実装する。
