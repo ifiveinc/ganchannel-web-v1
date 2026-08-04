@@ -42,4 +42,9 @@ export const CIRCLE_GENRES = [
 // 募集ステータス
 export const RECRUITMENT_STATUSES = ["募集中", "募集停止"] as const;
 
+// 「おすすめのサークル」枠に出す上限。ホーム（/circle-info）と
+// 「探す」の条件未指定時（/circle-info/search）で同じ件数に揃える。
+// 掲載数がこれより少ない場合は、あるだけ表示される
+export const RECOMMENDED_CIRCLE_LIMIT = 10;
+
 // タグは自由入力のため定数にしない。「探す」画面の選択肢は掲載データから動的に生成する

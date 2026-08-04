@@ -31,8 +31,14 @@ export default function CircleAchievements({
               className="mt-2 size-2 shrink-0 rounded-full border border-primary"
             />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-sm text-ink-muted">{achievement.year}</span>
-              <span className="text-base leading-normal">
+              {/* フォーム由来のデータは年が空のことがある。空欄の行を作らない */}
+              {achievement.year !== "" && (
+                <span className="text-sm text-ink-muted">
+                  {achievement.year}
+                </span>
+              )}
+              {/* 自由記述で改行を含むため、そのまま反映する */}
+              <span className="text-base leading-normal whitespace-pre-line">
                 {achievement.content}
               </span>
             </div>

@@ -4,8 +4,7 @@ import { fetchRecommendedCircles } from "~/services/circle-service";
 import BackToTopLink from "~/components/features/circle-info/back-to-top-link";
 import SectionHeading from "~/components/features/circle-info/section-heading";
 import CircleCardGrid from "~/components/features/circle-info/circle-card-grid";
-
-const RECOMMENDED_LIMIT = 4;
+import { RECOMMENDED_CIRCLE_LIMIT } from "~/constants";
 
 export function meta() {
   return [
@@ -18,7 +17,7 @@ export function meta() {
 }
 
 export async function loader() {
-  const recommended = await fetchRecommendedCircles(RECOMMENDED_LIMIT);
+  const recommended = await fetchRecommendedCircles(RECOMMENDED_CIRCLE_LIMIT);
   return { recommended };
 }
 

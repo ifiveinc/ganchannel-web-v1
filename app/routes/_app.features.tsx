@@ -14,7 +14,7 @@ export function meta() {
 export default function Features() {
   return (
     // 下部固定要素（ナビ65px＋余白15px＋広告バナー約105px）に隠れないよう下余白を確保する（規約 §5.3）
-    <main className="mx-auto w-full max-w-lg px-4 pt-4 pb-48">
+    <main className="mx-auto w-full max-w-lg px-4 pt-4 pb-36">
       <h1 className="text-2xl font-bold leading-snug">機能一覧</h1>
 
       <ul className="mt-6 grid grid-cols-2 gap-3">

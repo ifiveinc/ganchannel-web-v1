@@ -4,6 +4,7 @@ import { fetchCircles } from "~/services/circle-service";
 import CircleSearchForm from "~/components/features/circle-info/circle-search-form";
 import CircleCardGrid from "~/components/features/circle-info/circle-card-grid";
 import SectionHeading from "~/components/features/circle-info/section-heading";
+import { RECOMMENDED_CIRCLE_LIMIT } from "~/constants";
 import {
   EMPTY_CIRCLE_FILTER,
   collectTags,
@@ -38,7 +39,13 @@ export default function CircleInfoSearch() {
   );
 
   const noConditions = isFilterEmpty(filter);
-  const recommended = circles.filter((circle) => circle.isRecommended);
+  const recommended = useMemo(
+    () =>
+      circles
+        .filter((circle) => circle.isRecommended)
+        .slice(0, RECOMMENDED_CIRCLE_LIMIT),
+    [circles]
+  );
 
   return (
     <div className="flex flex-col gap-8 pt-4">
