@@ -17,17 +17,21 @@ import {
   EMBEDDING_NORMALIZED,
   generateQueryEmbedding,
 } from "../app/services/embedding-service.server";
+import { stripCircleEmbeddingCommonWords } from "../app/lib/circle-embedding-text";
 import type { Circle } from "../app/types/circle";
 
 const OUTPUT_PATH = fileURLToPath(
   new URL("../app/data/circle-embeddings.json", import.meta.url)
 );
 
-// 検索対象のテキスト。名前・ジャンル・タグ・紹介文をまとめて埋め込む
+// 検索対象のテキスト。名前・ジャンル・タグ・紹介文をまとめて埋め込む。
+// 大学名・団体形態など全団体に共通しがちな語は誤検知の原因になるため除去する
+// （app/lib/circle-embedding-text.ts参照）。
 function buildSearchableText(circle: Circle): string {
-  return [circle.name, ...circle.genres, ...circle.tags, circle.summary, circle.description]
+  const raw = [circle.name, ...circle.genres, ...circle.tags, circle.summary, circle.description]
     .filter(Boolean)
     .join(" ");
+  return stripCircleEmbeddingCommonWords(raw);
 }
 
 async function main() {
