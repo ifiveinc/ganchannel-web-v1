@@ -11,6 +11,7 @@
 
 import { getSupabaseClient } from "../app/services/supabase-client.server";
 import { generateQueryEmbedding } from "../app/services/embedding-service.server";
+import { stripSearchCommonWords } from "../app/lib/embedding-common-words";
 import type { RiskLevel } from "../app/types/chunk";
 
 interface SeedChunk {
@@ -91,7 +92,10 @@ async function main() {
   }
 
   for (const seed of SEED_CHUNKS) {
-    const embedding = await generateQueryEmbedding(`${seed.title}\n${seed.content}`);
+    // 大学名等の共通語は埋め込み生成前に除去する（誤検知対策、app/lib/embedding-common-words.ts参照）。
+    // title/contentそのもの（LLMへ渡す文脈、B層の定型文タイトル）は元のまま保存する
+    const embeddingText = stripSearchCommonWords(`${seed.title}\n${seed.content}`);
+    const embedding = await generateQueryEmbedding(embeddingText);
     const { error } = await client.from("chunks").insert({
       url: seed.url,
       title: seed.title,

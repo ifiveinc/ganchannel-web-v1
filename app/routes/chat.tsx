@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { MdMenu } from "react-icons/md";
 import iFiveIcon from "~/assets/ifive-icon.png";
 import ChatWindow from "~/components/features/chat/chat-window";
+import ChatbotInfoDialog from "~/components/features/chat/chatbot-info-dialog";
 
 export function meta() {
   return [
@@ -31,6 +32,8 @@ export default function Chat() {
           <h1 className="min-w-0 flex-1 truncate text-center text-base font-bold text-primary">
             学内QAチャットボット
           </h1>
+
+          <ChatbotInfoDialog />
 
           {/* TODO: メニューの中身は未定。決まるまで無効状態で置く（circle-header.tsxと同じ扱い） */}
           <button
