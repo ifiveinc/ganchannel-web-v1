@@ -4,3 +4,6 @@
 # React Router
 /.react-router/
 /build/
+
+# Claude Code（ローカル設定）
+/.claude/settings.local.json
