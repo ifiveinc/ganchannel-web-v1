@@ -4,18 +4,21 @@ export type CircleFilter = {
   keyword: string;
   /** 空文字は「指定なし」 */
   genre: Genre | "";
-  tag: string;
+  /** 空配列は「指定なし」。複数選んだ場合はすべてを持つ団体に絞り込む */
+  tags: string[];
 };
 
 export const EMPTY_CIRCLE_FILTER: CircleFilter = {
   keyword: "",
   genre: "",
-  tag: "",
+  tags: [],
 };
 
 export function isFilterEmpty(filter: CircleFilter): boolean {
   return (
-    filter.keyword.trim() === "" && filter.genre === "" && filter.tag === ""
+    filter.keyword.trim() === "" &&
+    filter.genre === "" &&
+    filter.tags.length === 0
   );
 }
 
@@ -48,6 +51,7 @@ function matchesKeyword(circle: Circle, keyword: string): boolean {
 }
 
 // 3つの条件は AND で結合する（spec.md §3.2）。
+// タグを複数選んだ場合も AND とし、選んだタグをすべて持つ団体だけを残す。
 export function filterCircles(
   circles: Circle[],
   filter: CircleFilter
@@ -56,6 +60,6 @@ export function filterCircles(
     (circle) =>
       matchesKeyword(circle, filter.keyword) &&
       (filter.genre === "" || circle.genres.includes(filter.genre)) &&
-      (filter.tag === "" || circle.tags.includes(filter.tag))
+      filter.tags.every((tag) => circle.tags.includes(tag))
   );
 }

@@ -70,6 +70,9 @@ export default function CircleInfoDetail() {
 
         <div className="flex flex-wrap items-center gap-2">
           <CircleBadge>{circle.organizationType}</CircleBadge>
+          {circle.isOfficial !== null && (
+            <CircleBadge>{circle.isOfficial ? "公認" : "非公認"}</CircleBadge>
+          )}
           {circle.genres.map((genre) => (
             <CircleBadge key={genre}>{genre}</CircleBadge>
           ))}
@@ -77,8 +80,11 @@ export default function CircleInfoDetail() {
         </div>
       </div>
 
+      {/* 紹介文はフォームの自由記述で改行を含むため、そのまま反映する */}
       {circle.description !== "" && (
-        <p className="text-base leading-relaxed">{circle.description}</p>
+        <p className="text-base leading-relaxed whitespace-pre-line">
+          {circle.description}
+        </p>
       )}
 
       {circle.recommendedFor.length > 0 && (
