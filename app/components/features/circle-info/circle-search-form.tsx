@@ -1,7 +1,8 @@
 import { MdSearch, MdExpandMore, MdCheck, MdClose } from "react-icons/md";
 import { CIRCLE_GENRES } from "~/constants";
-import type { Genre } from "~/types/circle";
-import type { CircleFilter } from "~/lib/filter-circles";
+import type { Genre } from "~/types/circle-info/circle";
+import type { CircleFilter } from "~/lib/circle-info/filter-circles";
+import styles from "./circle-search-form.module.css";
 
 type CircleSearchFormProps = {
   filter: CircleFilter;
@@ -24,9 +25,9 @@ export default function CircleSearchForm({
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className={styles.root}>
       <SearchPanel htmlFor="circle-keyword" label="キーワードで探す">
-        <div className="relative">
+        <div className={styles.field}>
           <input
             id="circle-keyword"
             type="search"
@@ -35,13 +36,9 @@ export default function CircleSearchForm({
               onChange({ ...filter, keyword: event.target.value })
             }
             placeholder="例：軽音楽"
-            className="h-12 w-full rounded-full border border-border-strong bg-surface pr-12 pl-4 text-base focus-visible:ring-2 focus-visible:ring-primary"
+            className={styles.input}
           />
-          <MdSearch
-            size={20}
-            aria-hidden
-            className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-primary"
-          />
+          <MdSearch size={20} aria-hidden className={styles.fieldIcon} />
         </div>
       </SearchPanel>
 
@@ -57,26 +54,24 @@ export default function CircleSearchForm({
 
       {/* タグは複数選択。選んだタグをすべて持つ団体に絞り込まれる */}
       <SearchPanel labelId="circle-tag-label" label="タグで探す">
-        <p className="text-sm text-ink-muted">
+        <p className={styles.tagHint}>
           複数選ぶとタグをすべて持つ団体に絞り込まれます。
           （横にスクロールできます）
         </p>
 
-        {/* タグが増えても縦に伸びないよう、折り返さず横1列にして溢れた分をスクロールさせる。
-            はみ出しはこの中だけで起き、ページ全体は横スクロールしない */}
-        <ul className="-mx-3 mt-2 flex gap-2 overflow-x-auto px-3 pb-1">
+        <ul className={styles.tagList}>
           {tagOptions.map((tag) => {
             const isSelected = filter.tags.includes(tag);
             return (
-              <li key={tag} className="shrink-0">
+              <li key={tag} className={styles.tagItem}>
                 <button
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => toggleTag(tag)}
-                  className={`inline-flex min-h-11 items-center gap-1 rounded-full border px-3 text-sm whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                  className={`${styles.tagButton} ${
                     isSelected
-                      ? "border-primary bg-primary font-bold text-white"
-                      : "border-border-strong bg-surface text-ink hover:border-primary"
+                      ? styles.tagButtonSelected
+                      : styles.tagButtonDefault
                   }`}
                 >
                   {/* 選択状態を色だけで示さない（デザイン規約 §3.2） */}
@@ -91,8 +86,8 @@ export default function CircleSearchForm({
         {/* 選択中のタグ。上の一覧は横スクロールで隠れることがあるため、
             いま何で絞り込んでいるかをここで一覧できるようにする */}
         {filter.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <span className="text-xs text-ink-muted">
+          <div className={styles.selected}>
+            <span className={styles.selectedCount}>
               選択中（{filter.tags.length}件）
             </span>
 
@@ -102,7 +97,7 @@ export default function CircleSearchForm({
                 type="button"
                 onClick={() => toggleTag(tag)}
                 aria-label={`「${tag}」の選択を解除`}
-                className="inline-flex items-center gap-0.5 rounded-full border border-primary bg-primary-subtle py-1 pr-1.5 pl-2 text-xs text-primary hover:bg-surface focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className={styles.selectedChip}
               >
                 {tag}
                 <MdClose size={14} aria-hidden />
@@ -112,7 +107,7 @@ export default function CircleSearchForm({
             <button
               type="button"
               onClick={() => onChange({ ...filter, tags: [] })}
-              className="ml-1 text-xs text-primary underline"
+              className={styles.clearButton}
             >
               すべて解除
             </button>
@@ -140,35 +135,29 @@ function SearchPanel({
 }: SearchPanelProps) {
   const heading = (
     <>
-      <span aria-hidden className="h-4 w-1 shrink-0 rounded-full bg-primary" />
+      <span aria-hidden className={styles.panelBar} />
       {label}
     </>
   );
-  const headingClassName =
-    "flex items-center gap-2 text-base font-bold text-ink";
 
   // タグのように選択肢が複数ある場合は、label ではなくグループとして読み上げさせる
   if (htmlFor === undefined) {
     return (
-      <div
-        role="group"
-        aria-labelledby={labelId}
-        className="rounded-card bg-surface-card p-3"
-      >
-        <p id={labelId} className={headingClassName}>
+      <div role="group" aria-labelledby={labelId} className={styles.panel}>
+        <p id={labelId} className={styles.panelLabel}>
           {heading}
         </p>
-        <div className="mt-2">{children}</div>
+        <div className={styles.panelBody}>{children}</div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-card bg-surface-card p-3">
-      <label htmlFor={htmlFor} className={headingClassName}>
+    <div className={styles.panel}>
+      <label htmlFor={htmlFor} className={styles.panelLabel}>
         {heading}
       </label>
-      <div className="mt-2">{children}</div>
+      <div className={styles.panelBody}>{children}</div>
     </div>
   );
 }
@@ -189,12 +178,12 @@ function SelectField({
   options,
 }: SelectFieldProps) {
   return (
-    <div className="relative">
+    <div className={styles.field}>
       <select
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 w-full appearance-none rounded-full border border-border-strong bg-surface pr-12 pl-4 text-base focus-visible:ring-2 focus-visible:ring-primary"
+        className={styles.select}
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
@@ -203,11 +192,7 @@ function SelectField({
           </option>
         ))}
       </select>
-      <MdExpandMore
-        size={20}
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-primary"
-      />
+      <MdExpandMore size={20} aria-hidden className={styles.fieldIcon} />
     </div>
   );
 }

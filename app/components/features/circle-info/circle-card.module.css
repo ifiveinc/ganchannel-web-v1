@@ -1,0 +1,100 @@
+/* 一覧カード（デザイン規約 §6.3・§16）。 */
+
+.card {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-card);
+  padding: 0.75rem;
+  transition-property: color, background-color, border-color;
+  transition-duration: 150ms;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.thumbnail {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background-color: var(--color-surface);
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+}
+
+/* 写真がある場合は切り抜き、無い場合はプレースホルダを余白付きで収める */
+.imageCover {
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  object-fit: contain;
+  padding: 0.5rem;
+}
+
+/* リンクの入れ子を避けるため、ルートは div のまま疑似要素でカード全体を当たり判定にする */
+.name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.name::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+}
+
+.name:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-muted);
+}
+
+/* 要素の有無にかかわらず下端を揃える（規約 §16.2） */
+.footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.badgeArea {
+  min-width: 0;
+}
+
+/* カード全体に広がる .name::after より前面に出し、ボタンとして押せるようにする */
+.favorite {
+  position: relative;
+  z-index: 10;
+}

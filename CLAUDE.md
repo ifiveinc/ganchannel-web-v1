@@ -36,12 +36,12 @@ app/
 └── assets/           # 画像等
 ```
 
-詳細は [docs/architecture.md](docs/architecture.md) を参照。
+詳細は [docs/project/architecture.md](docs/project/architecture.md) を参照。
 
 ## 規約
 
-- 開発規約: [docs/development-guidelines.md](docs/development-guidelines.md)
-- デザイン規約: [docs/design-guidelines.md](docs/design-guidelines.md)（**新規に作成するコンポーネントにのみ適用**。既存画面への遡及適用は不要）
+- 開発規約: [docs/project/development-guidelines.md](docs/project/development-guidelines.md)
+- デザイン規約: [docs/project/design-guidelines.md](docs/project/design-guidelines.md)（**新規に作成するコンポーネントにのみ適用**。既存画面への遡及適用は不要）
 - 重要な意思決定（ADR）: [docs/decisions/](docs/decisions/)
 
 ## 注意

@@ -1,4 +1,5 @@
 import type { IconType } from "react-icons";
+import styles from "./circle-detail-section.module.css";
 
 export type DetailRow = {
   label: string;
@@ -23,22 +24,19 @@ export default function CircleDetailSection({
   if (filled.length === 0) return null;
 
   return (
-    <section className="rounded-card border border-border bg-surface-card p-3">
-      <h3 className="flex items-center gap-2 text-base font-bold leading-snug">
-        <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+    <section className={styles.card}>
+      <h3 className={styles.title}>
+        <span className={styles.titleIcon}>
           <Icon size={16} aria-hidden />
         </span>
         {title}
       </h3>
 
-      <dl className="mt-3 flex flex-col gap-2">
+      <dl className={styles.rows}>
         {filled.map((row) => (
-          <div
-            key={row.label}
-            className="flex flex-col gap-0.5 border-t border-border pt-2 first:border-t-0 first:pt-0"
-          >
-            <dt className="text-sm text-ink-muted">{row.label}</dt>
-            <dd className="text-base leading-normal">{row.value}</dd>
+          <div key={row.label} className={styles.row}>
+            <dt className={styles.label}>{row.label}</dt>
+            <dd className={styles.value}>{row.value}</dd>
           </div>
         ))}
       </dl>

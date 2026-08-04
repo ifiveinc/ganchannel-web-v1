@@ -15,7 +15,7 @@ export function meta() {
 }
 
 // /chat 専用レイアウト。共通ヘッダー・共通ボトムナビは出さない
-// （circle-info.tsxと同じパターン、docs/chatbot-spec.md §1-1）。
+// （circle-info.tsxと同じパターン、docs/chatbot/spec.md §1-1）。
 export default function Chat() {
   return (
     <div className="flex min-h-dvh flex-col">

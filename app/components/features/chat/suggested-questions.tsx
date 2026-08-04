@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CHATBOT_FAQ_ITEMS, type ChatbotFaqCategory } from "~/data/chatbot-faq";
+import { CHATBOT_FAQ_ITEMS, type ChatbotFaqCategory } from "~/data/chatbot/chatbot-faq";
 
 const CATEGORIES: ChatbotFaqCategory[] = [
   "サークル",

@@ -1,0 +1,119 @@
+# ヒアリング事項
+
+デザイン規約（[design-guidelines.md](./design-guidelines.md)）を作成する過程で判明した、**要件定義書の記載とリポジトリの実態が食い違っている箇所**をまとめる。
+代表・開発リーダーへの確認が必要な事項を記録し、決定後は開発規約 §19.2 に従い `decisions/` にADRとして残す。
+
+## 一覧
+
+| # | 確認事項 | 状態 | 確認先 |
+| --- | --- | --- | --- |
+| 1 | フレームワーク（Next.js か React Router v7 か） | **決定済み**（[decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md)） | 代表 |
+| 2 | CSS管理方法（CSS Modules か Tailwind CSS か） | **決定済み**（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md)） | 代表 |
+| 3 | ナビゲーション方式 | 決定済み | — |
+
+---
+
+## 1. フレームワーク：Next.js か React Router v7 か
+
+### 現状
+
+| | 内容 |
+| --- | --- |
+| **要件定義書の記載** | [design-guidelines-input.md](./design-guidelines-input.md) §0「使用予定の技術」に `React, Next.js`。開発規約 §2 の「バックエンド」も `Next.js` |
+| **リポジトリの実態** | **React Router v7（フレームワークモード、SSR有効）**。`react-router.config.ts` / `package.json` の `@react-router/*` / `app/routes.ts` がすべてReact Router構成。Next.jsの依存は入っていない |
+
+### 選択肢
+
+| 案 | 内容 | 影響 |
+| --- | --- | --- |
+| **A（推奨）** | React Router v7 のまま進め、要件定義書・開発規約の記載を修正する | ドキュメント2ファイルの記載修正のみ。コードへの影響なし |
+| B | Next.js へ移行する | ルーティング・SSR・ビルド設定・既存4ページを全面的に書き換える必要がある。デザイン規約もパス表記の見直しが必要 |
+
+### 推奨理由（A）
+
+- すでに動作するコードがReact Router v7で書かれており、型チェック・本番ビルドの成功も確認済み（`decisions/0001-folder-structure.md`）
+- MVP版の公開が **2026/08/06**、デザインにかけられる期間が **7日間**（要件定義書 §16-1、§16-2）。この時点でのフレームワーク移行は現実的でない
+- 現時点でNext.js固有機能（App Router固有のAPI、Image最適化、Vercel前提の機能など）に依存した実装はない
+
+### 確認したいこと
+
+- **Next.js を指定した意図があるか**（デプロイ先の想定、将来的な機能要件など）
+- ある場合、それは React Router v7 + 別のホスティングで代替可能か
+
+### 決定欄
+
+```text
+決定内容：MVP版（2026/08/06）までは React Router v7 のまま進める。
+　　　　　Next.js への移行はカンパニー全体の意向として維持し、
+　　　　　MVP公開後、開発が落ち着いた段階で移行作業に着手する。
+決定日　：2026-08-04
+決定者　：代表
+```
+
+ADR: [decisions/0002-framework-react-router.md](../decisions/0002-framework-react-router.md)
+
+---
+
+## 2. CSS管理方法：CSS Modules か Tailwind CSS か
+
+### 現状
+
+| | 内容 |
+| --- | --- |
+| **要件定義書の記載** | §15-2「CSSの管理方法」に **CSS Modules**。一方で同 §0 では「CSS/UIライブラリ：なし（**Tailwind CSS**を使用）」とあり、要件定義書の中でも記載が食い違っている |
+| **リポジトリの実態** | **Tailwind CSS v4**。`app/styles/app.css` で読み込み、全コンポーネントがユーティリティクラスで書かれている。例外は `app/components/layout/footer/footer.css` の1ファイルのみで、これはCSS Modulesではなく**グローバルCSS**（クラス名がアプリ全体で衝突しうる状態） |
+
+### 選択肢
+
+| 案 | 内容 | 影響 |
+| --- | --- | --- |
+| **A（推奨）** | Tailwind CSS を主とし、CSS Modules は例外時のみ使う | 既存コードの方針を追認。`footer.css` のみTailwindへ置き換え |
+| B | CSS Modules を主とする | 全コンポーネントの書き換えが必要。デザイントークン（色・角丸・影）をTailwindの `@theme` とCSS Modulesの両方で持つ二重管理になる |
+| C | 両方を自由に併用する | **非推奨**。同じ見た目が2通りの書き方で存在し、統一感（要件定義書 §16-4）が崩れる |
+
+### 推奨理由（A）
+
+- デザイン規約 §2・§26 のデザイントークン設計は、Tailwind v4 の `@theme` に一元定義する前提で組んである。トークンを1か所で管理できるため、将来のダークモード対応（要件定義書 §5-5）が色定義の差し替えだけで済む
+- Bを選ぶと、色や角丸の定義がTailwindとCSS Modulesに分散し、変更漏れが起きやすくなる
+- 実装速度（要件定義書 §16-4 第2位）の面でもユーティリティクラスが有利
+
+### 確認したいこと
+
+- **CSS Modules を指定した意図があるか**（過去プロジェクトでの慣習、メンバーの習熟度など）
+- メンバーにTailwindの経験差がある場合、規約の記述だけで吸収できるか
+
+### 決定欄
+
+```text
+決定内容：要件定義書 §15-2 の指定どおり CSS Modules を主とする。
+　　　　　Tailwind CSS は @theme によるデザイントークンの定義基盤として残し、
+　　　　　CSS Modules からは var(--color-primary) の形で参照する。
+　　　　　既存の Tailwind 実装は遡及的には移行せず、新規・大改修時に寄せる。
+決定日　：2026-08-05
+決定者　：代表
+```
+
+ADR: [decisions/0003-css-modules-and-feature-directories.md](../decisions/0003-css-modules-and-feature-directories.md)
+
+上記の「推奨理由（A）」は Tailwind を主とする案に対するものだが、
+要件定義書の指定を優先し、トークンの一元管理は `@theme` を残すことで両立させた。
+
+---
+
+## 3. ナビゲーション方式（決定済み・確認不要）
+
+### 決定内容
+
+- **Web（タブレット・PC / `md:` 以上）**：上部ナビゲーション ＋ ハンバーガーメニュー
+- **スマートフォン（`md:` 未満）**：下部固定ナビゲーション ＋ ハンバーガーメニュー
+
+### 経緯
+
+要件定義書 §8-2 は「上部ナビゲーション／スマートフォン表示時はハンバーガーメニュー」とあるが、既存実装（`app/components/layout/footer/`）は下部固定ナビである。
+スマートフォン最優先（要件定義書 §21）の方針から、スマートフォンでは親指の届く下部にナビを置き、Webでは上部ナビを使う形に決定した。
+
+デザイン規約 [design-guidelines.md](./design-guidelines.md) §19 に反映済み。
+
+---
+
+最終更新日：2026-08-04

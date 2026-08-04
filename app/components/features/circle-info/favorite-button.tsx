@@ -1,5 +1,6 @@
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useFavorites } from "~/hooks/use-favorites";
+import styles from "./favorite-button.module.css";
 
 type FavoriteButtonProps = {
   circleId: string;
@@ -27,10 +28,10 @@ export default function FavoriteButton({
           ? `${circleName}を気になるから外す`
           : `${circleName}を気になるに追加`
       }
-      className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-ink-muted hover:bg-surface-card focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
+      className={`${styles.button} ${className}`}
     >
       {active ? (
-        <MdFavorite size={20} aria-hidden className="text-primary" />
+        <MdFavorite size={20} aria-hidden className={styles.activeIcon} />
       ) : (
         <MdFavoriteBorder size={20} aria-hidden />
       )}

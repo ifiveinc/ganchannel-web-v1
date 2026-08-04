@@ -1,7 +1,7 @@
 import ganChanIcon from "~/assets/gan-chan.png";
 import FeedbackButtons from "~/components/features/chat/feedback-buttons";
 import CircleRecommendCard from "~/components/features/chat/circle-recommend-card";
-import type { RecommendCard } from "~/types/circle-registry";
+import type { RecommendCard } from "~/types/chatbot/circle-registry";
 
 export interface ChatMessageData {
   id: string;

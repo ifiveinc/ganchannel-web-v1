@@ -1,17 +1,17 @@
 // Supabaseの chunks / qa_cache テーブルの内容を app/data/snapshot.json へ書き出す。
 // 開発者が `npm run generate:snapshot` で手動実行する（Renderのビルド時には実行しない、
-// docs/chatbot-spec.md §8 item7）。生成物は差分を確認してコミットする。
+// docs/chatbot/spec.md §8 item7）。生成物は差分を確認してコミットする。
 
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { getSupabaseClient } from "../app/services/supabase-client.server";
-import { EMBEDDING_DIMENSIONS, EMBEDDING_NORMALIZED } from "../app/services/embedding-service.server";
-import type { Chunk } from "../app/types/chunk";
-import type { QaCacheEntry } from "../app/types/qa";
-import type { Snapshot } from "../app/services/snapshot-service.server";
+import { getSupabaseClient } from "../app/services/chatbot/supabase-client.server";
+import { EMBEDDING_DIMENSIONS, EMBEDDING_NORMALIZED } from "../app/services/chatbot/embedding-service.server";
+import type { Chunk } from "../app/types/chatbot/chunk";
+import type { QaCacheEntry } from "../app/types/chatbot/qa";
+import type { Snapshot } from "../app/services/chatbot/snapshot-service.server";
 
 const SNAPSHOT_PATH = fileURLToPath(
-  new URL("../app/data/snapshot.json", import.meta.url)
+  new URL("../app/data/chatbot/snapshot.json", import.meta.url)
 );
 
 // SupabaseはPostgresのvector型を "[0.1,0.2,...]" 形式の文字列として返す

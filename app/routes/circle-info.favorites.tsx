@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "react-router";
-import { fetchCircles } from "~/services/circle-service";
+import { fetchCircles } from "~/services/circle-info/circle-service";
 import { useFavorites } from "~/hooks/use-favorites";
 import CircleCardGrid from "~/components/features/circle-info/circle-card-grid";
 

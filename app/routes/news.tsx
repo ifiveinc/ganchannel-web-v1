@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router";
 import { NEWS_CATEGORIES } from "~/constants";
-import { fetchNews } from "~/services/news-service";
-import type { NewsData } from "~/types/news";
+import { fetchNews } from "~/services/news/news-service";
+import type { NewsData } from "~/types/news/news";
 import NewsCard from "~/components/features/news/news-card";
 
 

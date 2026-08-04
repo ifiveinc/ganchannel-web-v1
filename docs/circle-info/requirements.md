@@ -94,7 +94,7 @@
 | 対応端末 | **スマートフォン中心**。PCでも破綻しないこと |
 | 掲載団体数 | MVP時点 10〜15団体 → 最終的に 30〜50団体 |
 | 表示速度 | 上記件数では全件をクライアントに渡して問題ない規模。ページングは不要 |
-| デザイン | [../design-guidelines.md](../design-guidelines.md) に準拠 |
+| デザイン | [design-guidelines.md](../project/design-guidelines.md) に準拠 |
 | アクセシビリティ | 同上（コントラスト確保、タップ領域の確保） |
 | SEO | MVPでは考慮しない |
 
