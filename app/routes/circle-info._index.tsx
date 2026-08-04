@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from "react-router";
 import { MdSearch } from "react-icons/md";
 import { fetchRecommendedCircles } from "~/services/circle-service";
-import BackToTopLink from "~/components/features/circle-info/back-to-top-link";
+import BackToTopLink from "~/components/ui/back-to-top-link";
 import SectionHeading from "~/components/features/circle-info/section-heading";
 import CircleCardGrid from "~/components/features/circle-info/circle-card-grid";
 import { RECOMMENDED_CIRCLE_LIMIT } from "~/constants";
