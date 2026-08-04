@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { MdForum, MdSend } from "react-icons/md";
 import ChatMessage, { type ChatMessageData } from "~/components/features/chat/chat-message";
 import SuggestedQuestions from "~/components/features/chat/suggested-questions";
+import BackToTopLink from "~/components/ui/back-to-top-link";
 import EmptyState from "~/components/ui/empty-state";
 import type { ChatRequestBody, ChatStreamChunk } from "~/types/chatbot";
 
@@ -145,6 +146,10 @@ export default function ChatWindow() {
   return (
     <>
       <div className="flex-1 px-4 py-4">
+        <div className="mb-4">
+          <BackToTopLink />
+        </div>
+
         {messages.length === 0 ? (
           <div className="flex flex-col gap-6">
             <EmptyState
