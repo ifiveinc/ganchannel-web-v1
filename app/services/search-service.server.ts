@@ -12,6 +12,7 @@ import {
   writeCacheEntry,
 } from "~/services/qa-cache-service.server";
 import { findSimilarCircles } from "~/services/circle-embedding-service";
+import { stripCircleEmbeddingCommonWords } from "~/lib/circle-embedding-text";
 import type { Chunk } from "~/types/chunk";
 import type { Circle } from "~/types/circle";
 import type { CircleResolution, RecommendCard } from "~/types/circle-registry";
@@ -59,11 +60,20 @@ function getSearchScoreThreshold(): number {
 
 // 【要確認】サークルのベクトル検索の閾値。実際の埋め込みで簡易検証した暫定値
 // （無関係な質問は0.50〜0.53程度、明確に関連する質問は0.68〜0.76程度だったため、
-// その間の0.60を採用。継続的な調整が前提）
+// その間の0.60を採用。継続的な調整が前提）。
+// 2026-08-05: 「岩大付近のおいしいラーメン屋教えて」等、大学名を含む無関係な質問が
+// 0.6を超えてしまう問題が見つかったため、埋め込み対象から大学名等の共通語を除去する
+// 対処（app/lib/circle-embedding-text.ts）を追加した。除去後は無関係な質問が
+// 0.55程度まで下がることを確認済み（下記CIRCLE_RECOMMEND_MIN_TOP_SCOREと合わせて対処）
 const CIRCLE_VECTOR_MATCH_THRESHOLD = 0.6;
 // 1位と2位のスコア差がこれ以上なら「1団体に絞り込めた」とみなし詳細回答にする。
 // 差が小さければ複数候補が拮抗しているとみなしレコメンドカードにする
 const CIRCLE_VECTOR_CONFIDENCE_GAP = 0.05;
+// 【要確認】拮抗判定に入る前に、1位のスコア自体がこれ以上無いと「そもそも自信が無い」
+// とみなしレコメンドを出さない（暫定値。実測では無関係な質問の1位は0.6前後、
+// 「文化系でゆるいところ」のような曖昧だが実在する条件の1位は0.63程度だったため、
+// 間を取って設定。継続的な調整が前提）
+const CIRCLE_RECOMMEND_MIN_TOP_SCORE = 0.62;
 const CIRCLE_RECOMMEND_MAX = 5;
 
 // 【要確認】chunksのベクトル検索の閾値。CIRCLE_VECTOR_MATCH_THRESHOLDと同様に実際の埋め込みで
@@ -466,11 +476,29 @@ export async function* runCascade(
 // サークルのベクトル検索。1団体に絞り込めればLLM合成の詳細回答、
 // 複数団体が拮抗していればレコメンドカードを返す。該当が無ければnullを返し、
 // 呼び出し元は通常のカスケード（5b）へ進む。
+//
+// クエリ埋め込みはqa_cache・chunksと共有せず、ここだけ別に生成し直す
+// （app/lib/circle-embedding-text.tsで大学名等の共通語を除去したテキストを埋め込む
+// ため、共有すると意味が変わってしまう）。qa_cacheへの書き込みには元のqueryEmbedding
+// （呼び出し元から渡されたもの）を使い、読み込み側（5a）と一貫させる。
 async function* tryCircleVectorMatch(
   question: string,
   queryEmbedding: number[]
 ): AsyncGenerator<ChatStreamChunk, CascadeResult | null, undefined> {
-  const circleMatches = await findSimilarCircles(queryEmbedding);
+  let circleQueryEmbedding: number[];
+  try {
+    circleQueryEmbedding = await generateQueryEmbedding(
+      stripCircleEmbeddingCommonWords(question)
+    );
+  } catch (error) {
+    console.warn(
+      "[警告] サークル検索用の埋め込み生成に失敗しました。サークルのベクトル検索をスキップします:",
+      error
+    );
+    return null;
+  }
+
+  const circleMatches = await findSimilarCircles(circleQueryEmbedding);
   const [top, second] = circleMatches;
 
   if (!top || top.score < CIRCLE_VECTOR_MATCH_THRESHOLD) {
@@ -484,6 +512,15 @@ async function* tryCircleVectorMatch(
 
   if (isConfidentSingleMatch) {
     return yield* respondToDetailedCircle(top.circle, question, queryEmbedding);
+  }
+
+  // 1位のスコア自体がそこまで高くない場合、複数団体が「拮抗」しているのではなく
+  // そもそもどれも自信が無い（無関係な質問がたまたま似た低スコアで並んだだけ）と
+  // みなし、レコメンドは出さない（実例：「岩大付近のおいしいラーメン屋教えて」で
+  // 無関係な団体が並んで拮抗判定されてしまう不具合への対処、2026-08-05）。
+  // 【要確認】暫定値。実際の質問ログを見ながら調整する前提
+  if (top.score < CIRCLE_RECOMMEND_MIN_TOP_SCORE) {
+    return null;
   }
 
   const candidates = circleMatches
