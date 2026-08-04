@@ -2,7 +2,7 @@
 
 > 本規約は、UIの見た目と実装方法をチーム内で統一するための共通ルールである。
 > 開発規約（[development-guidelines.md](./development-guidelines.md)）§1.2 の「画面の色、余白、フォント、コンポーネントの見た目」に相当する部分を、本規約が担当する。
-> インプットとなった要件は [design-requirements.md](./design-requirements.md) を参照。ディレクトリ構成は [architecture.md](./architecture.md) に従う。
+> インプットとなった要件は [design-guidelines-input.md](./design-guidelines-input.md) を参照。ディレクトリ構成は [architecture.md](./architecture.md) に従う。
 
 ---
 
@@ -34,12 +34,12 @@
 
 ### 0.4 要件定義書との差異（要確認事項）
 
-要件定義書の記載と、実際のリポジトリ構成が食い違っている箇所がある。本規約では**リポジトリの実態を正**として記述している。以下は代表への確認中であり、確認内容と選択肢は [hearing_point.md](./hearing_point.md) にまとめてある。
+要件定義書の記載と、実際のリポジトリ構成が食い違っている箇所がある。本規約では**リポジトリの実態を正**として記述している。確認内容と選択肢は [hearing-points.md](./hearing-points.md) にまとめてある。
 
 | 項目 | 要件定義書の記載 | 本規約での扱い | 状態 |
 | --- | --- | --- | --- |
-| フレームワーク | Next.js | **React Router v7** | 確認中（[hearing_point.md](./hearing_point.md) §1） |
-| CSS管理方法 | CSS Modules（§15-2） | **Tailwind CSS v4 を主、CSS Modulesは例外** | 確認中（[hearing_point.md](./hearing_point.md) §2） |
+| フレームワーク | Next.js | **React Router v7** | 決定済み（[decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)）。MVP公開後にNext.jsへ移行予定 |
+| CSS管理方法 | CSS Modules（§15-2） | **Tailwind CSS v4 を主、CSS Modulesは例外** | 確認中（[hearing-points.md](./hearing-points.md) §2） |
 
 決定後、開発規約 §19.2 に従い `docs/decisions/` にADRとして残すこと。
 
@@ -1351,7 +1351,7 @@ Pull Request作成前に確認する（開発規約 §17.1 の「画面変更が
 
 ### 30.3 未決事項
 
-- §0.4 の2項目（フレームワーク / CSS管理方法）の代表への確認 → [hearing_point.md](./hearing_point.md)
+- §0.4 のCSS管理方法の代表への確認 → [hearing-points.md](./hearing-points.md) §2
 - ハンバーガーメニューに載せる機能項目の確定（要件定義書 §1-3 の7機能のうち、どこまでをMVPで出すか）
 - ダークモードの対応時期
 - トップページの「機能一覧」ボタンの具体的な配置（要件定義書 §1-4）

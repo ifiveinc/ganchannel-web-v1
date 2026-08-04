@@ -5,6 +5,9 @@
 /.react-router/
 /build/
 
+# Claude Code（ローカル設定）
+/.claude/settings.local.json
+
 # ローカル開発用の証明書
 *.crt
 *.key

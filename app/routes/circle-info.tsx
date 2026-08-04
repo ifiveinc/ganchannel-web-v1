@@ -24,12 +24,8 @@ export default function CircleInfoLayout() {
         <Outlet />
       </main>
 
-      {/* md:以上ではヘッダーの上部ナビが同じ項目を担当するため隠す（規約 §19.0） */}
-      <BottomNav
-        items={CIRCLE_NAV_ITEMS}
-        ariaLabel="サークル情報メニュー"
-        hideOnDesktop
-      />
+      {/* 機能内ナビ。ヘッダーの対となる下部固定フッターとして、画面幅によらず常に表示する */}
+      <BottomNav items={CIRCLE_NAV_ITEMS} ariaLabel="サークル情報メニュー" />
     </>
   );
 }
