@@ -195,7 +195,10 @@ export default function ChatWindow() {
           <input
             id="chat-input"
             type="text"
-            autoComplete="off"
+            // Chromeは通常のテキスト欄でautoComplete="off"を無視して過去の入力履歴を
+            // サジェストし続けることがある。"new-password"はパスワードマネージャー避けの
+            // 値だが、Chromeが確実に履歴サジェストを止める数少ない指定のため代用する。
+            autoComplete="new-password"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="メッセージを入力してください..."
