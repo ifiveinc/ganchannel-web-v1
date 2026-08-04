@@ -1,5 +1,5 @@
 // 大学公式サイトのクラブ紹介ページのスクレイピングと circle-registry-manual.ts を統合し、
-// app/data/circle-registry.ts を生成・上書きする（docs/chatbot-spec.md §10-5）。
+// app/data/circle-registry.ts を生成・上書きする（docs/chatbot/spec.md §10-5）。
 // `npm run sync:registry` で開発者が手動実行する。生成物は差分を確認してコミットする。
 //
 // 実行順序: circles.ts の名寄せ（sync-circles.ts）が最新の名簿を前提とするため、
@@ -7,13 +7,13 @@
 
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { MANUAL_REGISTRY_ENTRIES } from "../app/data/circle-registry-manual";
-import type { CircleRegistryEntry } from "../app/types/circle-registry";
+import { MANUAL_REGISTRY_ENTRIES } from "../app/data/chatbot/circle-registry-manual";
+import type { CircleRegistryEntry } from "../app/types/chatbot/circle-registry";
 
 const CLUB_PAGE_URL = "https://www.iwate-u.ac.jp/campus/activity/club.html";
 
 const REGISTRY_PATH = fileURLToPath(
-  new URL("../app/data/circle-registry.ts", import.meta.url)
+  new URL("../app/data/chatbot/circle-registry.ts", import.meta.url)
 );
 
 // クラブ紹介ページの見出しID → circle_registry の分類（§10-2）。
@@ -94,9 +94,9 @@ async function main() {
 
   const fileContent = `// scripts/sync-registry.ts の生成物。手動編集しないこと。
 // クラブ紹介ページのスクレイピング結果と circle-registry-manual.ts を統合したもの
-// （docs/chatbot-spec.md §10-5）。生成日時: ${new Date().toISOString()}
+// （docs/chatbot/spec.md §10-5）。生成日時: ${new Date().toISOString()}
 
-import type { CircleRegistryEntry } from "~/types/circle-registry";
+import type { CircleRegistryEntry } from "~/types/chatbot/circle-registry";
 
 export const circleRegistry: CircleRegistryEntry[] = ${JSON.stringify(registry, null, 2)};
 `;

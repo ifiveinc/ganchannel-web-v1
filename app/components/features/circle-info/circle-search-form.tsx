@@ -1,7 +1,7 @@
 import { MdSearch, MdExpandMore, MdCheck, MdClose } from "react-icons/md";
 import { CIRCLE_GENRES } from "~/constants";
-import type { Genre } from "~/types/circle";
-import type { CircleFilter } from "~/lib/filter-circles";
+import type { Genre } from "~/types/circle-info/circle";
+import type { CircleFilter } from "~/lib/circle-info/filter-circles";
 import styles from "./circle-search-form.module.css";
 
 type CircleSearchFormProps = {

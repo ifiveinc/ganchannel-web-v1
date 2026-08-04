@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { MdGroups } from "react-icons/md";
-import type { RecommendCard } from "~/types/circle-registry";
+import type { RecommendCard } from "~/types/chatbot/circle-registry";
 
 type CircleRecommendCardProps = {
   card: RecommendCard;

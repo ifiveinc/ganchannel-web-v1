@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useLoaderData } from "react-router";
-import { fetchCircles } from "~/services/circle-service";
+import { fetchCircles } from "~/services/circle-info/circle-service";
 import CircleSearchForm from "~/components/features/circle-info/circle-search-form";
 import CircleCardGrid from "~/components/features/circle-info/circle-card-grid";
 import SectionHeading from "~/components/features/circle-info/section-heading";
@@ -10,7 +10,7 @@ import {
   collectTags,
   filterCircles,
   isFilterEmpty,
-} from "~/lib/filter-circles";
+} from "~/lib/circle-info/filter-circles";
 
 export function meta() {
   return [

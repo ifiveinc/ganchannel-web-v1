@@ -9,10 +9,10 @@
 // 再実行時は投入対象のurlに一致する既存行を削除してから入れ直す（冪等）。
 // 実行後は `npm run generate:snapshot` も忘れずに再実行し、snapshot.jsonへ反映すること。
 
-import { getSupabaseClient } from "../app/services/supabase-client.server";
-import { generateQueryEmbedding } from "../app/services/embedding-service.server";
-import { stripSearchCommonWords } from "../app/lib/embedding-common-words";
-import type { RiskLevel } from "../app/types/chunk";
+import { getSupabaseClient } from "../app/services/chatbot/supabase-client.server";
+import { generateQueryEmbedding } from "../app/services/chatbot/embedding-service.server";
+import { stripSearchCommonWords } from "../app/lib/chatbot/embedding-common-words";
+import type { RiskLevel } from "../app/types/chatbot/chunk";
 
 interface SeedChunk {
   url: string;

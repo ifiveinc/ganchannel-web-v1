@@ -1,12 +1,12 @@
 import type { Route } from "./+types/api.chat";
-import { runCascade, NO_ANSWER_MESSAGE } from "~/services/search-service.server";
-import { writeQaLog } from "~/services/qa-log-service.server";
+import { runCascade, NO_ANSWER_MESSAGE } from "~/services/chatbot/search-service.server";
+import { writeQaLog } from "~/services/chatbot/qa-log-service.server";
 import {
   consumeRateLimit,
   getClientId,
   RATE_LIMIT_MESSAGE,
-} from "~/services/rate-limit-service.server";
-import type { ChatRequestBody, ChatStreamChunk } from "~/types/chatbot";
+} from "~/services/chatbot/rate-limit-service.server";
+import type { ChatRequestBody, ChatStreamChunk } from "~/types/chatbot/chatbot";
 
 // リソースルート（action のみ、default export なし）。
 // レスポンスはNDJSON（1行1 ChatStreamChunk）でストリーミングする。

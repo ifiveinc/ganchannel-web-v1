@@ -5,7 +5,7 @@ import ChatMessage, { type ChatMessageData } from "~/components/features/chat/ch
 import SuggestedQuestions from "~/components/features/chat/suggested-questions";
 import BackToTopLink from "~/components/ui/back-to-top-link";
 import EmptyState from "~/components/ui/empty-state";
-import type { ChatRequestBody, ChatStreamChunk } from "~/types/chatbot";
+import type { ChatRequestBody, ChatStreamChunk } from "~/types/chatbot/chatbot";
 
 function formatTimestamp(date: Date): string {
   return date.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" });

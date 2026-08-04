@@ -7,7 +7,7 @@ import {
   MdPerson,
 } from "react-icons/md";
 import iFiveIcon from "~/assets/ifive-icon.png";
-import { fetchCircleById } from "~/services/circle-service";
+import { fetchCircleById } from "~/services/circle-info/circle-service";
 import CircleBadge from "~/components/features/circle-info/circle-badge";
 import FavoriteButton from "~/components/features/circle-info/favorite-button";
 import CircleDetailSection from "~/components/features/circle-info/detail/circle-detail-section";

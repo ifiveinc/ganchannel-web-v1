@@ -1,4 +1,4 @@
-import type { Circle } from "~/types/circle";
+import type { Circle } from "~/types/circle-info/circle";
 import CircleCard from "./circle-card";
 import styles from "./circle-card-grid.module.css";
 

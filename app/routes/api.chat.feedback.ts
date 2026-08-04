@@ -1,5 +1,5 @@
 import type { Route } from "./+types/api.chat.feedback";
-import { updateQaLogFeedback } from "~/services/qa-log-service.server";
+import { updateQaLogFeedback } from "~/services/chatbot/qa-log-service.server";
 
 interface FeedbackRequestBody {
   logId: number;

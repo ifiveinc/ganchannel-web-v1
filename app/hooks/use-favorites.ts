@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { readFavorites, writeFavorites } from "~/lib/favorites-storage";
+import { readFavorites, writeFavorites } from "~/lib/circle-info/favorites-storage";
 
 // お気に入りの読み書き。
 // SSRとクライアントで初期描画を一致させるため、初期stateは必ず空配列にして

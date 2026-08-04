@@ -1,5 +1,5 @@
 import { MdSend, MdOpenInNew } from "react-icons/md";
-import type { CircleContact as CircleContactType } from "~/types/circle";
+import type { CircleContact as CircleContactType } from "~/types/circle-info/circle";
 import styles from "./circle-contact.module.css";
 
 type CircleContactProps = {

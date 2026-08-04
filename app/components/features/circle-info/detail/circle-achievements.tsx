@@ -1,5 +1,5 @@
 import { MdEmojiEvents } from "react-icons/md";
-import type { CircleAchievement } from "~/types/circle";
+import type { CircleAchievement } from "~/types/circle-info/circle";
 import styles from "./circle-achievements.module.css";
 
 type CircleAchievementsProps = {

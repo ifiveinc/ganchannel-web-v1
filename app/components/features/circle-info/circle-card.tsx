@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import iFiveIcon from "~/assets/ifive-icon.png";
-import type { Circle } from "~/types/circle";
+import type { Circle } from "~/types/circle-info/circle";
 import CircleBadge from "./circle-badge";
 import FavoriteButton from "./favorite-button";
 import styles from "./circle-card.module.css";

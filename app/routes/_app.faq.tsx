@@ -1,7 +1,7 @@
 import { useState } from "react";
 import iFiveIcon from "~/assets/ifive-icon.png";
 
-import { faqList } from "~/data/faq-list";
+import { faqList } from "~/data/faq/faq-list";
 
 
 export default function Faq() {

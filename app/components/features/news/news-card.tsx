@@ -1,4 +1,4 @@
-import type { NewsData } from "~/types/news";
+import type { NewsData } from "~/types/news/news";
 import iFiveIcon from "~/assets/ifive-icon.png";
 
 type NewsCardProps = {

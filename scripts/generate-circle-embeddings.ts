@@ -1,27 +1,27 @@
-// app/data/circles.ts の各団体の紹介文をあらかじめ埋め込みベクトル化し、
+// app/data/circle-info/circles.ts の各団体の紹介文をあらかじめ埋め込みベクトル化し、
 // app/data/circle-embeddings.json へ書き出す。
 //
 // サークルデータはSupabaseテーブルを持たない静的ファイル方式のため
-// （docs/chatbot-spec.md §9）、埋め込みも同様に静的ファイルとして持つ。
+// （docs/chatbot/spec.md §9）、埋め込みも同様に静的ファイルとして持つ。
 // 実行時はクエリ側だけをその場で埋め込み、ここで作った値と比較する
 // （docs/chatbot-decisions.md §6「実行時に埋め込むのはクエリ1件のみ」の精神に合わせる）。
 //
-// `npm run sync:circles` で app/data/circles.ts を更新した後、
+// `npm run sync:circles` で app/data/circle-info/circles.ts を更新した後、
 // このスクリプト（`npm run generate:circle-embeddings`）も忘れずに再実行すること。
 
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { circles } from "../app/data/circles";
+import { circles } from "../app/data/circle-info/circles";
 import {
   EMBEDDING_DIMENSIONS,
   EMBEDDING_NORMALIZED,
   generateQueryEmbedding,
-} from "../app/services/embedding-service.server";
-import { stripSearchCommonWords } from "../app/lib/embedding-common-words";
-import type { Circle } from "../app/types/circle";
+} from "../app/services/chatbot/embedding-service.server";
+import { stripSearchCommonWords } from "../app/lib/chatbot/embedding-common-words";
+import type { Circle } from "../app/types/circle-info/circle";
 
 const OUTPUT_PATH = fileURLToPath(
-  new URL("../app/data/circle-embeddings.json", import.meta.url)
+  new URL("../app/data/chatbot/circle-embeddings.json", import.meta.url)
 );
 
 // 検索対象のテキスト。名前・ジャンル・タグ・紹介文をまとめて埋め込む。
