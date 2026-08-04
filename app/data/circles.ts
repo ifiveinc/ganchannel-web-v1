@@ -62,14 +62,22 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "ボランティア",
+      "学術系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "岩手大学にボランティアセンターを作ることを目指すNEXT STEP工房公認団体。防災や地域支援を学びながら、現地でのボランティアにも参加しています。",
+    "recommendedFor": [
+      "ボランティアに興味はあるが、何から始めればいいか分からない人",
+      "防災や災害支援について学びたい人",
+      "大学に新しい仕組みをつくる活動に関わってみたい人",
+      "経験がなくても、まずは活動を見てみたい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
-    "isOfficial": null,
+    "isOfficial": true,
     "updatedAt": "2026-08-04"
   },
   {
@@ -130,11 +138,18 @@ export const circles: Circle[] = [
       "email": "h0224075@iwate-u.ac.jp",
       "links": []
     },
-    "genres": [],
+    "genres": [
+      "運動系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "フリスビーを使ったチームスポーツ「アルティメット」の同好会。大学から始めたメンバーがほとんどで、大会出場も目指しています。",
+    "recommendedFor": [
+      "大学から新しいスポーツを始めてみたい人",
+      "チームで体を動かして運動不足を解消したい人",
+      "大会に出て本気で競技に打ち込みたい人",
+      "週2回以上しっかり活動したい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -200,11 +215,18 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "学術系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "「学生の声を企業や社会に届ける」をテーマに、アンケートやインタビューをもとに企業との共同プロジェクトやイベントを企画する学内カンパニー。",
+    "recommendedFor": [
+      "企業と関わる実践的な活動を経験したい人",
+      "学生の視点から新しい企画を立ててみたい人",
+      "調査やインタビューに興味がある人",
+      "まずは見学から始めたい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -257,11 +279,18 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "文化系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "写真・動画・アルバム制作を学生団体や広報向けに提供する学内カンパニー。撮影から編集までを実際の依頼を通して経験できます。",
+    "recommendedFor": [
+      "写真や動画の撮影・編集をやってみたい人",
+      "作ったものを実際の依頼として世に出したい人",
+      "機材や編集ソフトの使い方を実践で覚えたい人",
+      "週1回以下のペースで無理なく続けたい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -320,11 +349,18 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "文化系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "デザインの力で学内外の依頼に応える学内カンパニー。制作を通じて、表現の手法やさまざまな視点を実践的に学べます。",
+    "recommendedFor": [
+      "デザインを実際の依頼を通して学びたい人",
+      "未経験からデザインを始めたい人",
+      "ものづくりや表現に興味がある人",
+      "まずは見学や体験から参加したい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -398,11 +434,18 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "学術系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "「最高の滑りを道具から支える」を理念に、スピードスケートの研磨道具を製作・開発・販売する学内カンパニー。技術部と経営部の2部門で運営しています。",
+    "recommendedFor": [
+      "ものづくりを企画から販売まで一通り経験したい人",
+      "技術開発と経営のどちらかに関わってみたい人",
+      "未経験からでも手を動かして学びたい人",
+      "ゆるめのペースで活動したい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -458,11 +501,18 @@ export const circles: Circle[] = [
       "email": "iwate.u.beer@gmail.com",
       "links": []
     },
-    "genres": [],
+    "genres": [
+      "学術系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "クラフトビール×ソーシャルデザインをテーマに、県内の醸造所や農業法人と連携し、地域資源を活かした仕組みづくりに取り組む学内カンパニー。",
+    "recommendedFor": [
+      "地域づくりやソーシャルデザインに関心がある人",
+      "マーケティングやIT開発など、自分の専門を活かしたい人",
+      "企業や地域と連携した本格的な活動に挑戦したい人",
+      "まずは見学・体験から参加したい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
@@ -528,259 +578,22 @@ export const circles: Circle[] = [
         }
       ]
     },
-    "genres": [],
+    "genres": [
+      "運動系",
+      "文化系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "hiphop・lock・pop・girls・houseの5ジャンル84名で活動するストリートダンスサークル。JDCでは3年連続でファイナルに出場しています。",
+    "recommendedFor": [
+      "大学からダンスを始めたい人",
+      "学祭や外部イベントのステージに立ちたい人",
+      "大会で上を目指したい人",
+      "他大学の学生と一緒に活動したい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
     "updatedAt": "2026-08-04"
-  },
-  {
-    "id": "sample-company",
-    "name": "サンプル学内カンパニー",
-    "organizationType": "学内カンパニー",
-    "genres": [
-      "学術系"
-    ],
-    "tags": [
-      "プログラミング",
-      "ものづくり",
-      "就活に役立つ",
-      "見学OK",
-      "初心者歓迎",
-      "週1以下"
-    ],
-    "recruitmentStatus": "募集中",
-    "isRecommended": true,
-    "summary": "Webサービスやアプリを開発する学内カンパニーです。",
-    "description": "私たちは、Webサービスやアプリを開発する学内カンパニーです。実践的なプロジェクトに取り組みながら、企画・設計・開発まで幅広く学べます。",
-    "recommendedFor": [
-      "Webサービスやアプリ開発に興味がある人",
-      "チームでものづくりを楽しみたい人",
-      "企画から設計・開発まで幅広く学びたい人",
-      "初心者でも挑戦してみたい人"
-    ],
-    "logo": null,
-    "images": [],
-    "activity": {
-      "place": "学生センター 2F / オンライン",
-      "schedule": "毎週火曜 18:00〜20:00 / 週1回",
-      "recruitmentPeriod": "通年募集"
-    },
-    "fee": {
-      "admission": "なし",
-      "annual": "3,000円",
-      "other": "イベント時に実費負担あり"
-    },
-    "members": {
-      "total": "28名",
-      "genderRatio": "6:4",
-      "beginnerRatio": "初心者多め"
-    },
-    "achievements": [
-      {
-        "year": "2023年",
-        "content": "学内向けWebアプリ開発を開始"
-      },
-      {
-        "year": "2024年",
-        "content": "学内プロジェクトを複数実施"
-      },
-      {
-        "year": "2025年",
-        "content": "LT会を定期開催"
-      }
-    ],
-    "contact": {
-      "representative": "サンプル 太郎",
-      "email": null,
-      "links": []
-    },
-    "restriction": null,
-    "newcomerEvent": null,
-    "isOfficial": null,
-    "updatedAt": "2026-08-02"
-  },
-  {
-    "id": "sample-basketball",
-    "name": "サンプルバスケットボール部",
-    "organizationType": "部活",
-    "genres": [
-      "運動系"
-    ],
-    "tags": [
-      "初心者歓迎",
-      "エンジョイ",
-      "週2回"
-    ],
-    "recruitmentStatus": "募集中",
-    "isRecommended": true,
-    "summary": "初心者も経験者も大歓迎！一緒に汗を流しましょう！",
-    "description": "",
-    "recommendedFor": [],
-    "logo": null,
-    "images": [],
-    "activity": {
-      "place": "第2体育館",
-      "schedule": "週2回（火・金）",
-      "recruitmentPeriod": null
-    },
-    "fee": {
-      "admission": null,
-      "annual": null,
-      "other": null
-    },
-    "members": {
-      "total": null,
-      "genderRatio": null,
-      "beginnerRatio": null
-    },
-    "achievements": [],
-    "contact": {
-      "representative": null,
-      "email": null,
-      "links": []
-    },
-    "restriction": null,
-    "newcomerEvent": null,
-    "isOfficial": null,
-    "updatedAt": "2026-08-02"
-  },
-  {
-    "id": "sample-photo",
-    "name": "サンプル写真部",
-    "organizationType": "サークル",
-    "genres": [
-      "文化系"
-    ],
-    "tags": [
-      "エンジョイ",
-      "見学OK",
-      "週1以下"
-    ],
-    "recruitmentStatus": "募集中",
-    "isRecommended": true,
-    "summary": "写真を撮るのが好きな人、集まれ！",
-    "description": "",
-    "recommendedFor": [],
-    "logo": null,
-    "images": [],
-    "activity": {
-      "place": null,
-      "schedule": "月2回",
-      "recruitmentPeriod": null
-    },
-    "fee": {
-      "admission": null,
-      "annual": null,
-      "other": null
-    },
-    "members": {
-      "total": null,
-      "genderRatio": null,
-      "beginnerRatio": null
-    },
-    "achievements": [],
-    "contact": {
-      "representative": null,
-      "email": null,
-      "links": []
-    },
-    "restriction": null,
-    "newcomerEvent": null,
-    "isOfficial": null,
-    "updatedAt": "2026-08-02"
-  },
-  {
-    "id": "sample-music",
-    "name": "サンプル軽音楽部",
-    "organizationType": "部活",
-    "genres": [
-      "音楽系",
-      "文化系"
-    ],
-    "tags": [
-      "ガチ",
-      "週2回以上"
-    ],
-    "recruitmentStatus": "募集中",
-    "isRecommended": true,
-    "summary": "バンド活動を通して音楽を楽しもう！",
-    "description": "",
-    "recommendedFor": [],
-    "logo": null,
-    "images": [],
-    "activity": {
-      "place": "サークル棟 3F",
-      "schedule": "週1回（水）",
-      "recruitmentPeriod": null
-    },
-    "fee": {
-      "admission": null,
-      "annual": null,
-      "other": null
-    },
-    "members": {
-      "total": null,
-      "genderRatio": null,
-      "beginnerRatio": null
-    },
-    "achievements": [],
-    "contact": {
-      "representative": null,
-      "email": null,
-      "links": []
-    },
-    "restriction": null,
-    "newcomerEvent": null,
-    "isOfficial": null,
-    "updatedAt": "2026-08-02"
-  },
-  {
-    "id": "sample-volunteer",
-    "name": "サンプルボランティアサークル",
-    "organizationType": "その他学生有志団体",
-    "genres": [
-      "ボランティア"
-    ],
-    "tags": [
-      "エンジョイ",
-      "初心者歓迎"
-    ],
-    "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "地域や社会のために、できることをしよう！",
-    "description": "",
-    "recommendedFor": [],
-    "logo": null,
-    "images": [],
-    "activity": {
-      "place": null,
-      "schedule": "月2回",
-      "recruitmentPeriod": null
-    },
-    "fee": {
-      "admission": null,
-      "annual": null,
-      "other": null
-    },
-    "members": {
-      "total": null,
-      "genderRatio": null,
-      "beginnerRatio": null
-    },
-    "achievements": [],
-    "contact": {
-      "representative": null,
-      "email": null,
-      "links": []
-    },
-    "restriction": null,
-    "newcomerEvent": null,
-    "isOfficial": null,
-    "updatedAt": "2026-08-02"
   }
 ];

@@ -19,8 +19,8 @@ export default function CircleInfoLayout() {
     <>
       <CircleHeader title={resolveTitle(pathname)} />
 
-      {/* 下部固定要素（ナビ65px＋余白15px＋広告バナー約105px）に隠れないよう下余白を確保する（規約 §5.3） */}
-      <main className="mx-auto w-full max-w-lg px-4 pb-48">
+      {/* 下部固定要素（ナビ65px＋余白15px＋広告バナー約46px）に隠れないよう下余白を確保する（規約 §5.3） */}
+      <main className="mx-auto w-full max-w-lg px-4 pb-36">
         <Outlet />
       </main>
 

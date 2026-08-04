@@ -41,16 +41,34 @@ export default function Root() {
   const hideAd = pathname.startsWith("/chat");
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    if (!("serviceWorker" in navigator)) return;
+
+    // 開発中はサービスワーカーを使わない。
+    // Viteが配信するモジュールをキャッシュしてしまうと、コードを直しても
+    // 古いJSが返り続け、画面遷移が壊れる（原因の切り分けも難しくなる）。
+    // すでに登録済みの環境を元に戻すため、解除とキャッシュ削除も行う。
+    if (import.meta.env.DEV) {
       navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-          console.log("SW registered:", registration.scope);
-        })
+        .getRegistrations()
+        .then((registrations) =>
+          Promise.all(registrations.map((r) => r.unregister()))
+        )
+        .then(() => caches?.keys())
+        .then((keys) => Promise.all((keys ?? []).map((k) => caches.delete(k))))
         .catch((error) => {
-          console.error("SW registration failed:", error);
+          console.error("SW unregister failed:", error);
         });
+      return;
     }
+
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => {
+        console.log("SW registered:", registration.scope);
+      })
+      .catch((error) => {
+        console.error("SW registration failed:", error);
+      });
   }, []);
 
   return (
