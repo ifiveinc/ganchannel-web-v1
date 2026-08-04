@@ -1,4 +1,4 @@
-import { MdArticle, MdHelpOutline, MdGroups } from "react-icons/md";
+import { MdArticle, MdHelpOutline, MdGroups, MdChatBubbleOutline } from "react-icons/md";
 import type { IconType } from "react-icons";
 
 export type AppFeature = {
@@ -29,5 +29,11 @@ export const APP_FEATURES: AppFeature[] = [
     description: "学内のサークル・部活・学内カンパニーを探せます。",
     to: "/circle-info",
     icon: MdGroups,
+  },
+  {
+    name: "学内QAチャットボット",
+    description: "学内のよくある質問にAIチャットボットが答えます。",
+    to: "/chat",
+    icon: MdChatBubbleOutline,
   },
 ];

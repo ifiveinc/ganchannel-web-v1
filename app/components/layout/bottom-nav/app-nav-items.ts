@@ -1,6 +1,7 @@
 import {
   MdHome,
   MdGridView,
+  MdChatBubbleOutline,
   MdHelpOutline,
   MdPersonOutline,
 } from "react-icons/md";
@@ -11,6 +12,7 @@ import type { BottomNavItem } from "./bottom-nav";
 export const APP_NAV_ITEMS: BottomNavItem[] = [
   { label: "ホーム", to: "/", end: true, icon: MdHome },
   { label: "機能一覧", to: "/features", end: false, icon: MdGridView },
+  { label: "チャット", to: "/chat", end: false, icon: MdChatBubbleOutline },
   { label: "Q&A", to: "/faq", end: false, icon: MdHelpOutline },
   { label: "設定", to: "/settings", end: false, icon: MdPersonOutline },
 ];

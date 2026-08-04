@@ -409,6 +409,66 @@ export const circles: Circle[] = [
     "updatedAt": "2026-08-04"
   },
   {
+    "id": "circle-d1e360dd",
+    "name": "岩手大学クラフトビール部",
+    "organizationType": "学内カンパニー",
+    "kana": "いわてだいがくくらふとびーるぶ",
+    "aliases": [],
+    "description": "当団体はクラフトビール×ソーシャルデザインをテーマにした学内カンパニーです。岩手県内でのビール産地形成をはじめ、ベアレン醸造所や農業法人などと連携し、地域資源を活かした持続的な仕組みづくりに取り組んでいます。現在は、マーケティングや認証制度、IT開発なども組み合わせ、「ビールを飲むことで地域が発展する社会」の実現を目指しています🍻",
+    "activity": {
+      "place": "学内カンパニー共同部室（B棟309号室）",
+      "schedule": "毎週火曜日・木曜日5コマ以降（その他、臨時のイベント参加や農作業もあります）",
+      "recruitmentPeriod": "常時メンバー募集中"
+    },
+    "fee": {
+      "admission": null,
+      "annual": "2,000～3,000円",
+      "other": "なし（活動に必要な旅費・資材費などは学内予算を活用）"
+    },
+    "members": {
+      "total": "13名",
+      "genderRatio": "男子6名/女子7名",
+      "beginnerRatio": "不明（活動内容と専攻が合致していることが望ましい）"
+    },
+    "achievements": [
+      {
+        "year": "",
+        "content": "サントリーシン・みらいチャレンジプログラム採択（2023年～2026年度）、デジコン岩手2025年度最優秀賞、未来事業イノベーションアワード最優秀賞（2024年度）など多数"
+      }
+    ],
+    "images": [
+      "https://drive.google.com/open?id=1GUBvZ0X_cfxiZaxaab6eNKuUGP66Q5ZZ",
+      "https://drive.google.com/open?id=1tHgktmTIhRyUcofoK4evfMxaDYiTMEWJ",
+      "https://drive.google.com/open?id=1web9_01CQUS_TtHQKZ16_UQP2EaI4KcM",
+      "https://drive.google.com/open?id=13UGmx5f1ww-rw-vzBPCFj4TRb9AyuSGn"
+    ],
+    "logo": "https://drive.google.com/open?id=1SaaVEdG5FBVBP6lgqK98c6frpTmo74Xl",
+    "tags": [
+      "2年生以降も歓迎",
+      "経験者向け",
+      "見学OK",
+      "体験参加OK",
+      "ガチめ",
+      "テスト期間中は活動なし",
+      "長期休暇中も活動",
+      "週2以上"
+    ],
+    "contact": {
+      "representative": null,
+      "email": "iwate.u.beer@gmail.com",
+      "links": []
+    },
+    "genres": [],
+    "recruitmentStatus": "募集中",
+    "isRecommended": false,
+    "summary": "",
+    "recommendedFor": [],
+    "restriction": null,
+    "newcomerEvent": null,
+    "isOfficial": null,
+    "updatedAt": "2026-08-04"
+  },
+  {
     "id": "circle-b704e315",
     "name": "Have a break！〜しどろもどろシンドローム",
     "organizationType": "サークル",

@@ -95,4 +95,9 @@ export type Circle = {
 
   /** "YYYY-MM-DD" */
   updatedAt: string;
+
+  /** チャットボットのサークル名検索用。circle-infoの画面表示では使わない */
+  kana?: string | null;
+  /** チャットボットのサークル名検索用。circle-infoの画面表示では使わない */
+  aliases?: string[];
 };

@@ -9,5 +9,9 @@
 *.crt
 *.key
 
+# 環境変数（秘密情報を含む。.env.example はテンプレートとしてコミット対象）
+.env
+.env.local
+
 # チャットボット検討メモ（管理対象外）
 docs/chatbot-decisions.md

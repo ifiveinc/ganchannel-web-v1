@@ -13,6 +13,7 @@ import "./styles/app.css";
 import BottomNav from "~/components/layout/bottom-nav/bottom-nav";
 import { APP_NAV_ITEMS } from "~/components/layout/bottom-nav/app-nav-items";
 import Ad from "~/components/layout/ad-banner/ad-banner";
+import BetaBanner from "~/components/layout/beta-banner/beta-banner";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,10 +31,13 @@ export const links: Route.LinksFunction = () => [
 
 
 export default function Root() {
-  // circle-info は機能内に専用のボトムナビを持つため、共通ナビと下部で衝突する。
-  // 配下では共通ナビを描画せず、機能内ナビに任せる（docs/circle-info/spec.md §7.2）。
+  // circle-info・chat は機能内に専用のUI（circle-infoはボトムナビ、chatは入力欄）を持つため、
+  // 共通ナビと下部で衝突する。配下では共通ナビを描画しない
+  // （docs/circle-info/spec.md §7.2、docs/chatbot-spec.md §1-8）。
   const { pathname } = useLocation();
-  const hasOwnBottomNav = pathname.startsWith("/circle-info");
+  const hasOwnBottomNav = pathname.startsWith("/circle-info") || pathname.startsWith("/chat");
+  // chatは画面最下部が常に入力欄で、広告バナー（fixed bottom-20）と競合するため非表示にする
+  const hideAd = pathname.startsWith("/chat");
 
   return (
     <html lang="ja">
@@ -44,13 +48,16 @@ export default function Root() {
         <Links />
       </head>
       <body>
+        {/* βバナー・非公式表記は全ページ共通で常時表示する（docs/chatbot-spec.md §1-8） */}
+        <BetaBanner />
+
         {/* ここに各ページコンポーネントが表示される */}
         <Outlet />
 
         <ScrollRestoration />
         <Scripts />
         {/* 広告バナーは全ページ共通。下部固定ナビ（64px）の上に載せる */}
-        <Ad />
+        {!hideAd && <Ad />}
         {!hasOwnBottomNav && (
           // TODO: 共通ヘッダーの上部ナビ（規約 §29-10）が未実装のため、md:以上でも
           //       このナビを表示している。ヘッダー実装時に hideOnDesktop を付ける
