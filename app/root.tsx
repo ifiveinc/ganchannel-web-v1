@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -39,11 +40,27 @@ export default function Root() {
   // chatは画面最下部が常に入力欄で、広告バナー（fixed bottom-20）と競合するため非表示にする
   const hideAd = pathname.startsWith("/chat");
 
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("SW registered:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("SW registration failed:", error);
+        });
+    }
+  }, []);
+
   return (
     <html lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#166534" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <Meta />
         <Links />
       </head>
