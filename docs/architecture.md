@@ -11,6 +11,9 @@
 | ビルド | Vite |
 | パスエイリアス | `~/*` → `app/*` |
 
+MVP公開後、カンパニー全体の方針に従いNext.jsへ移行する予定がある。
+移行時に影響する箇所は [decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md) を参照。
+
 ## ディレクトリ構成
 
 ```

@@ -7,7 +7,7 @@
 
 | # | 確認事項 | 状態 | 確認先 |
 | --- | --- | --- | --- |
-| 1 | フレームワーク（Next.js か React Router v7 か） | **未確認** | 代表 |
+| 1 | フレームワーク（Next.js か React Router v7 か） | **決定済み**（[decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)） | 代表 |
 | 2 | CSS管理方法（CSS Modules か Tailwind CSS か） | **未確認** | 代表 |
 | 3 | ナビゲーション方式 | 決定済み | — |
 
@@ -19,7 +19,7 @@
 
 | | 内容 |
 | --- | --- |
-| **要件定義書の記載** | デザイン規約要件定義書 §0「使用予定の技術」に `React, Next.js`。開発規約 §2 の「バックエンド」も `Next.js` |
+| **要件定義書の記載** | [design-guidelines-input.md](./design-guidelines-input.md) §0「使用予定の技術」に `React, Next.js`。開発規約 §2 の「バックエンド」も `Next.js` |
 | **リポジトリの実態** | **React Router v7（フレームワークモード、SSR有効）**。`react-router.config.ts` / `package.json` の `@react-router/*` / `app/routes.ts` がすべてReact Router構成。Next.jsの依存は入っていない |
 
 ### 選択肢
@@ -43,10 +43,14 @@
 ### 決定欄
 
 ```text
-決定内容：
-決定日　：
-決定者　：
+決定内容：MVP版（2026/08/06）までは React Router v7 のまま進める。
+　　　　　Next.js への移行はカンパニー全体の意向として維持し、
+　　　　　MVP公開後、開発が落ち着いた段階で移行作業に着手する。
+決定日　：2026-08-04
+決定者　：代表
 ```
+
+ADR: [decisions/0002-framework-react-router.md](./decisions/0002-framework-react-router.md)
 
 ---
 
@@ -104,4 +108,4 @@
 
 ---
 
-最終更新日：2026-08-02
+最終更新日：2026-08-04
