@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { MdMoreVert } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import iFiveIcon from "~/assets/ifive-icon.png";
 import ChatWindow from "~/components/features/chat/chat-window";
 
@@ -39,7 +39,7 @@ export default function Chat() {
             aria-label="メニュー（準備中）"
             className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <MdMoreVert size={24} aria-hidden />
+            <MdMenu size={24} aria-hidden />
           </button>
         </div>
       </header>
