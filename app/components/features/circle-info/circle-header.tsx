@@ -1,14 +1,13 @@
-import { Link, NavLink } from "react-router";
+import { Link } from "react-router";
 import { MdMenu } from "react-icons/md";
 import iFiveIcon from "~/assets/ifive-icon.png";
-import { CIRCLE_NAV_ITEMS } from "./circle-nav-items";
 
 type CircleHeaderProps = {
   title: string;
 };
 
 // 機能内の上部固定ヘッダー（デザイン規約 §19.1）。
-// md:以上では上部ナビを表示し、下部固定ナビとは排他にする。
+// 機能内ナビは画面幅によらず下部固定フッターが担当するため、ここには置かない。
 export default function CircleHeader({ title }: CircleHeaderProps) {
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-surface/95 backdrop-blur-sm">
@@ -26,27 +25,6 @@ export default function CircleHeader({ title }: CircleHeaderProps) {
         <p className="min-w-0 flex-1 truncate text-center text-base font-bold text-primary">
           {title}
         </p>
-
-        {/* 上部ナビ：md以上でのみ表示（下部固定ナビと同じ項目・同じ並び順） */}
-        <nav
-          aria-label="サークル情報メニュー"
-          className="hidden md:flex md:items-center md:gap-1"
-        >
-          {CIRCLE_NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) =>
-                `inline-flex min-h-11 items-center rounded-control px-2 text-sm ${
-                  isActive ? "font-bold text-primary" : "text-ink-muted"
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
 
         {/* TODO: ハンバーガーメニューは未実装（デザイン規約 §29-11）。
             中身が決まるまで無効状態で置く */}
