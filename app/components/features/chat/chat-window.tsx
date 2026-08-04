@@ -175,6 +175,7 @@ export default function ChatWindow() {
           <input
             id="chat-input"
             type="text"
+            autoComplete="off"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="メッセージを入力してください..."
