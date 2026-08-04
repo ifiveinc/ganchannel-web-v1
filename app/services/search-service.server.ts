@@ -12,7 +12,7 @@ import {
   writeCacheEntry,
 } from "~/services/qa-cache-service.server";
 import { findSimilarCircles } from "~/services/circle-embedding-service";
-import { stripCircleEmbeddingCommonWords } from "~/lib/circle-embedding-text";
+import { stripSearchCommonWords } from "~/lib/embedding-common-words";
 import type { Chunk } from "~/types/chunk";
 import type { Circle } from "~/types/circle";
 import type { CircleResolution, RecommendCard } from "~/types/circle-registry";
@@ -79,9 +79,18 @@ const CIRCLE_RECOMMEND_MAX = 5;
 // 【要確認】chunksのベクトル検索の閾値。CIRCLE_VECTOR_MATCH_THRESHOLDと同様に実際の埋め込みで
 // 簡易検証した暫定値。無関係な質問は0.47〜0.50程度、話題が合う質問（言い換え含む）は
 // 0.67〜0.76程度だったため、間の0.55を採用。
-// 【注意】質問文に大学名など全chunk共通の語が入ると無関係でも0.6台まで上がりうる
-// （コーパスが大学関連の話題に偏っているため）。本物のchunksが揃った段階で再検証すること
+// 2026-08-05: 質問文に大学名等が入ると無関係でも0.6台まで上がる問題が見つかったため、
+// BM25・ベクトルともに検索対象・質問の両方から共通語を除去する対処を追加した
+// （app/lib/embedding-common-words.ts）。除去後の値で下記CHUNK_WINNER_MIN_*と合わせて再検証。
+// 本物のchunksが揃った段階で改めて再検証すること
 const CHUNK_VECTOR_MATCH_THRESHOLD = 0.55;
+
+// 【要確認】RRF融合で1位になったchunk自身が、採用に値するだけの根拠（生スコア）を
+// 持っているかの下限。共通語除去後に実測（無関係な質問の勝者候補は最大0.64、
+// 話題が合う質問の最低値は0.73だったため間の0.68を採用）。
+// BM25側は上記getSearchScoreThreshold()と同じ基準で十分と判断した（無関係な質問の
+// 勝者候補は最大1.66、話題が合う質問の最低値は2.39で、既存の2.0がちょうど間にある）
+const CHUNK_WINNER_MIN_VECTOR_SCORE = 0.68;
 
 // --- キーワード検索（5b: BM25） ----------------------------------------------------------
 // 日本語は分かち書きが無いため、形態素解析の代わりに文字bigramを「単語」として扱う
@@ -109,11 +118,14 @@ function countTerms(tokens: string[]): Map<string, number> {
 
 // chunksをBM25スコアの降順で返す（コーパス全体をその場で走査する簡易実装。
 // 数百件規模までは十分な速度、docs/chatbot-decisions.md §4の逐次スキャン方針と同じ考え方）。
+// 大学名等の共通語は除去してからトークン化する（誤検知対策、app/lib/embedding-common-words.ts参照）。
 function rankChunksByBm25(question: string, chunks: Chunk[]): { chunk: Chunk; score: number }[] {
   if (chunks.length === 0) return [];
 
-  const queryTerms = new Set(toBigramTokens(question));
-  const docs = chunks.map((chunk) => toBigramTokens(`${chunk.title}\n${chunk.content}`));
+  const queryTerms = new Set(toBigramTokens(stripSearchCommonWords(question)));
+  const docs = chunks.map((chunk) =>
+    toBigramTokens(stripSearchCommonWords(`${chunk.title}\n${chunk.content}`))
+  );
   const docLengths = docs.map((doc) => doc.length);
   const avgDocLength = docLengths.reduce((sum, length) => sum + length, 0) / docs.length;
 
@@ -477,27 +489,14 @@ export async function* runCascade(
 // 複数団体が拮抗していればレコメンドカードを返す。該当が無ければnullを返し、
 // 呼び出し元は通常のカスケード（5b）へ進む。
 //
-// クエリ埋め込みはqa_cache・chunksと共有せず、ここだけ別に生成し直す
-// （app/lib/circle-embedding-text.tsで大学名等の共通語を除去したテキストを埋め込む
-// ため、共有すると意味が変わってしまう）。qa_cacheへの書き込みには元のqueryEmbedding
-// （呼び出し元から渡されたもの）を使い、読み込み側（5a）と一貫させる。
+// circleQueryEmbeddingは大学名等の共通語を除去したテキストの埋め込み（呼び出し元の
+// runEmbeddingStageでchunksの検索と共通で1回だけ生成する）。qa_cacheへの書き込みには
+// 元のqueryEmbedding（除去前）を使い、読み込み側（5a）と一貫させる。
 async function* tryCircleVectorMatch(
   question: string,
-  queryEmbedding: number[]
+  queryEmbedding: number[] | null,
+  circleQueryEmbedding: number[]
 ): AsyncGenerator<ChatStreamChunk, CascadeResult | null, undefined> {
-  let circleQueryEmbedding: number[];
-  try {
-    circleQueryEmbedding = await generateQueryEmbedding(
-      stripCircleEmbeddingCommonWords(question)
-    );
-  } catch (error) {
-    console.warn(
-      "[警告] サークル検索用の埋め込み生成に失敗しました。サークルのベクトル検索をスキップします:",
-      error
-    );
-    return null;
-  }
-
   const circleMatches = await findSimilarCircles(circleQueryEmbedding);
   const [top, second] = circleMatches;
 
@@ -576,23 +575,38 @@ async function* runEmbeddingStage(
         recommendCards: semanticMatch.recommendCards,
       };
     }
+  }
 
-    // サークルのベクトル検索（第4段の強一致で見つからなかった場合の第2の網。
-    // qa_cache意味的一致と同じ埋め込みを使い回し、埋め込みAPIを二重に呼ばない）
-    const circleResult = yield* tryCircleVectorMatch(question, queryEmbedding);
+  // サークル・chunksのベクトル検索専用に、大学名等の共通語を除去したテキストで
+  // 別の埋め込みを1回だけ生成する（qa_cacheの埋め込みとは目的が異なるため共有しない、
+  // app/lib/embedding-common-words.ts参照）
+  let vectorSearchEmbedding: number[] | null = null;
+  try {
+    vectorSearchEmbedding = await generateQueryEmbedding(stripSearchCommonWords(question));
+  } catch (error) {
+    console.warn(
+      "[警告] サークル・chunks検索用の埋め込み生成に失敗しました。BM25のみで応答します:",
+      error
+    );
+  }
+
+  if (vectorSearchEmbedding) {
+    // サークルのベクトル検索（第4段の強一致で見つからなかった場合の第2の網）
+    const circleResult = yield* tryCircleVectorMatch(question, queryEmbedding, vectorSearchEmbedding);
     if (circleResult) return circleResult;
   }
 
-  return yield* runHybridGeneration(question, queryEmbedding);
+  return yield* runHybridGeneration(question, queryEmbedding, vectorSearchEmbedding);
 }
 
 async function* runHybridGeneration(
   question: string,
-  queryEmbedding: number[] | null
+  queryEmbedding: number[] | null,
+  vectorSearchEmbedding: number[] | null
 ): AsyncGenerator<ChatStreamChunk, CascadeResult, undefined> {
   const chunks = await getChunks();
   const bm25Ranked = rankChunksByBm25(question, chunks);
-  const vectorRanked = queryEmbedding ? rankChunksByVector(chunks, queryEmbedding) : [];
+  const vectorRanked = vectorSearchEmbedding ? rankChunksByVector(chunks, vectorSearchEmbedding) : [];
 
   const bestBm25Score = bm25Ranked[0]?.score ?? 0;
   const bestVectorScore = vectorRanked[0]?.score ?? 0;
@@ -621,9 +635,34 @@ async function* runHybridGeneration(
       .map((ranking) => ranking.map(({ chunk }) => chunk))
   );
   const top = fused.slice(0, TOP_K_CHUNKS);
+  const topChunk = top[0].chunk;
+
+  // RRF融合の1位（topChunk）自身の生スコアを個別に確認する。上のbestBm25Score/
+  // bestVectorScoreはコーパス全体での最高値であり、topChunkと同じchunkの値とは限らない
+  // （BM25の1位とベクトルの1位が別々のchunkということがあり得るため）。topChunk自身が
+  // どちらの指標でも根拠を持たない場合は、RRFの順位だけで採用せず「わかりません」に倒す。
+  // 特にB層は定型文をLLM無しで断定的に返すため、誤ったchunkが僅差で1位になった場合の
+  // 影響が大きい（実例：「岩手大学の近くのうまいラーメン屋」で無関係なB層chunkが
+  // 僅差の1位になり誤った案内が出た不具合への対処、2026-08-05）
+  const topChunkBm25Score = bm25Ranked.find((r) => r.chunk.id === topChunk.id)?.score ?? 0;
+  const topChunkVectorScore = vectorRanked.find((r) => r.chunk.id === topChunk.id)?.score ?? 0;
+  if (
+    topChunkBm25Score < getSearchScoreThreshold() &&
+    topChunkVectorScore < CHUNK_WINNER_MIN_VECTOR_SCORE
+  ) {
+    yield { type: "text", text: NO_ANSWER_MESSAGE };
+    yield { type: "done" };
+    return {
+      stage: "hybrid_generation",
+      answer: NO_ANSWER_MESSAGE,
+      sourceUrls: [],
+      providerUsed: null,
+      searchScore: bestScore,
+      recommendCards: null,
+    };
+  }
 
   // B層: 本文をLLMに渡さず、コード側で定型の誘導文を組み立てる（§10）
-  const topChunk = top[0].chunk;
   if (topChunk.riskLevel === "B") {
     const answer = buildBLayerRedirect(topChunk);
     yield { type: "text", text: answer };

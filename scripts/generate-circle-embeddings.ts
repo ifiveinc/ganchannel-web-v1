@@ -17,7 +17,7 @@ import {
   EMBEDDING_NORMALIZED,
   generateQueryEmbedding,
 } from "../app/services/embedding-service.server";
-import { stripCircleEmbeddingCommonWords } from "../app/lib/circle-embedding-text";
+import { stripSearchCommonWords } from "../app/lib/embedding-common-words";
 import type { Circle } from "../app/types/circle";
 
 const OUTPUT_PATH = fileURLToPath(
@@ -26,12 +26,12 @@ const OUTPUT_PATH = fileURLToPath(
 
 // 検索対象のテキスト。名前・ジャンル・タグ・紹介文をまとめて埋め込む。
 // 大学名・団体形態など全団体に共通しがちな語は誤検知の原因になるため除去する
-// （app/lib/circle-embedding-text.ts参照）。
+// （app/lib/embedding-common-words.ts参照）。
 function buildSearchableText(circle: Circle): string {
   const raw = [circle.name, ...circle.genres, ...circle.tags, circle.summary, circle.description]
     .filter(Boolean)
     .join(" ");
-  return stripCircleEmbeddingCommonWords(raw);
+  return stripSearchCommonWords(raw);
 }
 
 async function main() {

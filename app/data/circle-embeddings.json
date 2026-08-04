@@ -2,7 +2,7 @@
   "embeddingModel": "gemini-embedding-001",
   "dimensions": 768,
   "normalized": true,
-  "builtAt": "2026-08-04T15:46:42.343Z",
+  "builtAt": "2026-08-04T16:05:40.598Z",
   "entries": [
     {
       "circleId": "circle-d178a0af",
