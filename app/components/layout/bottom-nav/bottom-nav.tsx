@@ -27,7 +27,7 @@ export default function BottomNav({
   return (
     <nav
       aria-label={ariaLabel}
-      className={`fixed inset-x-0 bottom-0 z-10 border-t border-border bg-surface ${
+      className={`fixed inset-x-0 bottom-0 z-10 border-t border-border bg-surface md:hidden ${
         hideOnDesktop ? "md:hidden" : ""
       }`}
     >

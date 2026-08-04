@@ -9,7 +9,7 @@ export default function Ad()
         //下部固定ナビ（h-16 + border-t = 65px）の上に、余白を空けて載せる。
         //高さは固定せず中身に合わせる（固定するとテキストがはみ出してナビに重なる）
         //スクロール中も常に表示する（以前は下スクロールで非表示にしていた）
-       <div className="fixed bottom-20 z-20 bg-white w-full ring-1 ring-gray-300 text-black">
+       <div className="fixed bottom-20 z-20 bg-white w-full ring-1 ring-gray-300 text-black md:hidden">
        <NavLink to="/ad-inquiry" className="flex gap-3 w-full">
         <img className="bg-white w-18 self-stretch object-contain ring-1 ring-gray-300" src={adIFiveIcon} alt="" />
         <div className="flex-col text-sm md:text-base py-1 pr-2">
