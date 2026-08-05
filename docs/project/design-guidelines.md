@@ -1357,8 +1357,8 @@ Pull Request作成前に確認する（開発規約 §17.1 の「画面変更が
 | 2 | `app/root.tsx:15-26` | `Inter`（ラテン専用）を `Noto Sans JP` に差し替える | §4.1 | 高 | 対応済み（2026-08-02） |
 | 3 | `app/styles/app.css` | `@theme` にトークンを定義する。`dark:bg-gray-950` を削除する | §26.2、§2.4 | 高 | 対応済み（2026-08-02） |
 | 4 | `app/components/features/news/news-card.tsx:24,33,37` | `#999999` / `#bccec2` / `#004400` の直書きをトークンに置き換える。グラデーション背景を廃止する | §2.2、§10.2 | 高 | 未対応 |
-| 5 | `app/components/layout/footer/footer.tsx` | 高さ96px→64px、アイコン40px→24px、文字ラベルを併記、`aria-current` を付ける、`max-w-lg mx-auto` を適用 | §19.2 | 高 | 対応済み（2026-08-02、`layout/bottom-nav/` として作り直し） |
-| 6 | `app/components/layout/footer/footer.tsx` | **`md:hidden` を追加する**（PCでは上部ナビが担当するため）。ディレクトリ名も役割に合わせ `layout/bottom-nav/` への改名を検討する | §19.0、§19.2 | 高 | 対応不要（`layout/bottom-nav/` へ改名済み。circle-info はヘッダーの対となる下部固定フッターとして画面幅によらず表示する方針に変更したため、`md:hidden` は適用しない） |
+| 5 | `app/components/layout/footer/footer.tsx` | 高さ96px→64px、アイコン40px→24px、文字ラベルを併記、`aria-current` を付ける、`max-w-lg mx-auto` を適用 | §19.2 | 高 | 対応済み（2026-08-02、`layout/nav-items/` として作り直し） |
+| 6 | `app/components/layout/footer/footer.tsx` | **`md:hidden` を追加する**（PCでは上部ナビが担当するため）。ディレクトリ名も役割に合わせ `layout/nav-items/` への改名を検討する | §19.0、§19.2 | 高 | 対応不要（`layout/nav-items/` へ改名済み。circle-info はヘッダーの対となる下部固定フッターとして画面幅によらず表示する方針に変更したため、`md:hidden` は適用しない） |
 | 7 | `app/components/layout/footer/footer.tsx` | アイコンファミリーを `react-icons/md` に統一する | §11.1 | 中 | 対応済み（2026-08-02） |
 | 8 | `app/components/layout/footer/footer.css` | グローバルCSSを廃止し、`NavLink` のクラス関数で状態を表現する | §26.3 | 中 | 対応済み（2026-08-03、`footer.css` ごと廃止） |
 | 9 | `app/components/layout/ad-banner/ad-banner.tsx` | `max-w-lg mx-auto` を適用、`img` に `alt` を付ける、`🔘` を `react-icons` に置き換える | §6.1、§12.2、§13.4 | 中 | 対応済み（2026-08-04） |

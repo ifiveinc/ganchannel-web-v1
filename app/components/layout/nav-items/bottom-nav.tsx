@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import type { IconType } from "react-icons";
 
-export type BottomNavItem = {
+export type NavItem = {
   label: string;
   to: string;
   /** 前方一致ではなく完全一致でアクティブ判定するか */
@@ -10,7 +10,7 @@ export type BottomNavItem = {
 };
 
 type BottomNavProps = {
-  items: BottomNavItem[];
+  items: NavItem[];
   /** 複数のナビが同一ページに存在しても区別できるようにする */
   ariaLabel: string;
   /** md:以上で隠すか（上部ナビが同じ項目を担当する画面で true） */

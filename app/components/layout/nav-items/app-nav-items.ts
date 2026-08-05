@@ -5,11 +5,11 @@ import {
   MdHelpOutline,
   MdPersonOutline,
 } from "react-icons/md";
-import type { BottomNavItem } from "./bottom-nav";
+import type { NavItem } from "./bottom-nav";
 
 // アプリ全体の下部固定ナビの項目。
 // アイコンファミリーは Material Design に統一する（デザイン規約 §11.1）。
-export const APP_NAV_ITEMS: BottomNavItem[] = [
+export const APP_NAV_ITEMS: NavItem[] = [
   { label: "ホーム", to: "/", end: true, icon: MdHome },
   { label: "機能一覧", to: "/features", end: false, icon: MdGridView },
   { label: "チャット", to: "/chat", end: false, icon: MdChatBubbleOutline },

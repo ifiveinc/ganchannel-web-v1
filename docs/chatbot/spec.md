@@ -141,7 +141,7 @@ CIRCLE_FORM_CSV_URL=
 | ファイル | 変更内容 |
 |---|---|
 | `app/root.tsx` | `/chat`配下でも共通`BottomNav`を隠す条件分岐を追加（`/circle-info`と同じパターン）。`BetaBanner`は`Ad`と同様に常時マウント |
-| `app/components/layout/bottom-nav/app-nav-items.ts` | `APP_NAV_ITEMS`に「チャット」項目を1件追加（既存4項目と同じ書き方） |
+| `app/components/layout/nav-items/app-nav-items.ts` | `APP_NAV_ITEMS`に「チャット」項目を1件追加（既存4項目と同じ書き方） |
 | `app/components/features/feature-list/feature-items.ts` | `APP_FEATURES`に「学内QAチャットボット」を1件追加 |
 | `package.json` | `generate:snapshot`／`sync:circles`／`sync:registry` スクリプトを追加。`sync:circles`は`scripts/sync-circles.ts`を実行し`--dry-run`オプションを受け付ける。`sync:registry`は`scripts/sync-registry.ts`を実行する（§10-5）。`sync-photos.ts`のnpm scriptは実行方法未定のため保留（§8参照） |
 
@@ -364,7 +364,7 @@ alter table qa_logs enable row level security;
 
 | # | 既存のもの | パス | 扱い |
 |---|---|---|---|
-| 1 | 共通ボトムナビの`NavLink`パターン | `app/components/layout/bottom-nav/app-nav-items.ts` | **既存ファイルを変更**。`APP_NAV_ITEMS`に「チャット」を1件追加する（§1-8） |
+| 1 | 共通ボトムナビの`NavLink`パターン | `app/components/layout/nav-items/app-nav-items.ts` | **既存ファイルを変更**。`APP_NAV_ITEMS`に「チャット」を1件追加する（§1-8） |
 | 2 | 機能一覧カードのデータ | `app/components/features/feature-list/feature-items.ts` | **既存ファイルを変更**。`APP_FEATURES`に1件追加する（§1-8） |
 | 3 | 問い合わせ導線（mailtoリンク） | `app/routes/ad-inquiry.tsx` | **参照のみ、新規作成なし**。「わかりません」時の問い合わせ導線として、`chat-message.tsx`内に同じ`mailto:developer.iFive@gmail.com`リンクを直接埋め込む |
 | 4 | サークル関連FAQ2件 | `app/data/faq-list.ts` (`categoryId: "category4"`) | **内容を参照し、`app/data/chatbot-faq.ts`へ新規に書き起こす**。`faq-list.ts`自体は変更しない（対象読者が異なるため別データとして管理） |

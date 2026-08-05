@@ -11,8 +11,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./styles/app.css";
-import BottomNav from "~/components/layout/bottom-nav/bottom-nav";
-import { APP_NAV_ITEMS } from "~/components/layout/bottom-nav/app-nav-items";
+import BottomNav from "~/components/layout/nav-items/bottom-nav";
+import SideNav from "~/components/layout/nav-items/side-nav";
+import { APP_NAV_ITEMS } from "~/components/layout/nav-items/app-nav-items";
 import Ad from "~/components/layout/ad-banner/ad-banner";
 import BetaBanner from "~/components/layout/beta-banner/beta-banner";
 
@@ -85,6 +86,9 @@ export default function Root() {
       <body>
         {/* βバナー・非公式表記は全ページ共通で常時表示する（docs/chatbot/spec.md §1-8） */}
         <BetaBanner />
+
+        {/* PCサイズではサイド固定ナビを表示する。md:未満では非表示（hidden） */}
+        <SideNav items={APP_NAV_ITEMS} ariaLabel="メインメニュー" />
 
         {/* ここに各ページコンポーネントが表示される */}
         <Outlet />

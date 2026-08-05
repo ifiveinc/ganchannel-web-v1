@@ -1,12 +1,10 @@
 import { useState } from "react";
 import iFiveIcon from "~/assets/ifive-icon.png";
-
 import { faqList } from "~/data/faq/faq-list";
-
 
 export default function Faq() {
   //検索フォームに入力された文字をUseStateで保持
-  const[Search, setSearch] = useState("");
+  const [Search, setSearch] = useState("");
 
   // 【追加】faqList.tsのフラットなデータを、元の2階層構造（カテゴリーごとの配列）に変換
   const groupedFaqList = Object.values(
@@ -29,20 +27,13 @@ export default function Faq() {
   );
 
   //データをキーワードで絞り込む作業
-  //mapの第1引数(section)は配列の中身{}を順に取り出している
   const filteredFaqList = groupedFaqList.map(section => {
     //itemsをfilter
     const filteredItems = section.items.filter(item => {
-
-    //questionとkeywordsを合体、空文字""を加えることで文字が合体するのを阻止
-    //item.keywords ||(OR) "" でkeywordsが未設定の場合undifinedとなりエラーが出るのを防ぐ
-    //toLowerCaseで小文字に統一する
-    const targetText = (item.question + "" + (item.keywords || "")).toLowerCase();
-
-    //includesでSearch内にtargetTextが含まれるならtureを、ないならfalseを返す
-    //戻り値ture,falseを文字として配列に返さないのはfilterメゾットの場合、
-    //データとして保存せずに真偽判定として使うから（元データの加工ができない）
-    return targetText.includes(Search.toLocaleLowerCase())
+      //questionとkeywordsを合体、空文字""を加えることで文字が合体するのを阻止
+      const targetText = (item.question + "" + (item.keywords || "")).toLowerCase();
+      //includesでSearch内にtargetTextが含まれるならtureを、ないならfalseを返す
+      return targetText.includes(Search.toLocaleLowerCase())
     });
 
     //真偽判定後のitemsの配列の戻り値を作成
@@ -51,11 +42,14 @@ export default function Faq() {
       category: section.category,
       items: filteredItems
       //検索結果が0のときはカテゴリーごと取り除く
-    };}).filter(section => section.items.length > 0);
+    };
+  }).filter(section => section.items.length > 0);
   
   
   return (
-    <div>
+    // 【変更箇所】一番外側のdivに md:ml-20 を追加
+    // PCサイズ（md以上）のときだけ左側にサイドバーと同じ幅（w-20）のマージンを空ける
+    <div className="md:ml-20">
       {/*relativeは座標系の親要素absoluteは子要素*/}
       <div className="relative font-serif h-20 bg-green-800 text-6xl items-center flex justify-center">
        <a href="/" className="absolute left-4 ml-4">
@@ -76,14 +70,13 @@ export default function Faq() {
         />
       </div>
 
-
-
       {/*pは要素の内側に余白 mは外側に余白 outsideで改行位置を揃える*/}
       <div className="bg-white text-black p-4 min-h-screen">
         {/* mapとidを使って各カテゴリーのリンクを作成 */}
         <div className="flex">
-        {filteredFaqList.map((section) =>(
-          <div className="mb-2 mx-2 text-sm md:text-lg text-center font-mono bg-green-200 p-1 w-35 rounded-md ring-2 ring-gray-500">
+        {filteredFaqList.map((section, idx) =>(
+          // ※ Reactの警告を防ぐため key={idx} を追加しています
+          <div key={idx} className="mb-2 mx-2 text-sm md:text-lg text-center font-mono bg-green-200 p-1 w-35 rounded-md ring-2 ring-gray-500">
             <a href={`#${section.id}`}>
               {section.category}
             </a>
@@ -92,10 +85,6 @@ export default function Faq() {
         </div>
 
         {/* 2重構造のmapで配列のデータを表示 */}
-        {/* reactでmapを使うにはkeyの定義が必須 */}
-        {/* mb-10でカテゴリーごとの間隔をあける */}
-        {/* 参考演算子を使う(条件式 ? 条件がtrueの場合の処理 : 条件がfalseの場合の処理) */}
- 
         {filteredFaqList.length > 0 ? (
           filteredFaqList.map((section, sectionIndex) => (
           <div id={section.id} key={sectionIndex} className="mb-10 scroll-mt-1"> 
@@ -105,7 +94,7 @@ export default function Faq() {
             ・{section.category}
             </div>
 
-            {/* 2層目のmap: そのカテゴリーの中のQ&Aを取り出す */}         
+            {/* 2層目のmap: そのカテゴリーの中のQ&Aを取り出す */}        
             {section.items.map((item, itemIndex) => (
               <div key={itemIndex} className="mb-6 bg-green-50 p-2 rounded-md ring-1 ring-gray-300">
                 <details>
@@ -113,11 +102,11 @@ export default function Faq() {
                     {item.question}
                   </summary>
                   <div className="text-xl ml-5 mt-2 font-arial">
-                    {/* 【変更】answerTextは配列なので、mapを使って改行（pタグ）として表示 */}
+                    {/* answerTextは配列なので、mapを使って改行（pタグ）として表示 */}
                     {item.answer.map((text: string, i: number) => (
                       <p key={i} className="mb-1">{text}</p>
                     ))}
-                    {/* 【追加】linkUrlが存在する場合のみリンクを表示する */}
+                    {/* linkUrlが存在する場合のみリンクを表示する */}
                     {item.linkUrl && (
                       <a href={item.linkUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all mt-2 inline-block">
                         {item.linkUrl}
