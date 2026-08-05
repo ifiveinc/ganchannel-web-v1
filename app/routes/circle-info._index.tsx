@@ -25,7 +25,7 @@ export default function CircleInfoIndex() {
   const { recommended } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col gap-8 pt-4">
+    <div className="flex flex-col gap-8 pt-4 pb-20 md:pb-8">
       {/* 画面イメージ上はヘッダーのタイトルが見出しを兼ねるため、視覚的には出さない */}
       <h1 className="sr-only">サークル情報</h1>
 
