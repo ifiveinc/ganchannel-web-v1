@@ -1,17 +1,17 @@
 // キャッシュ戦略を変えたら必ずバージョンを上げる。
 // activate 時に古い名前のキャッシュを消すため、これが更新の唯一の手段になる。
-const CACHE_NAME = 'ganchannel-cache-v2';
+const CACHE_NAME = 'ganchannel-cache-v3';
 const PRECACHE_URLS = [
   '/',
   '/manifest.json',
-  '/favicon.ico',
+  '/favicon.png',
 ];
 
 // Cache-First で扱ってよいのは、内容が変わったらURLも変わるものだけ。
 // ビルド成果物（/assets/以下はファイル名にハッシュが付く）とアイコン類に限定する。
 // ここを広げると、コード更新後も古いJSが返り続けて画面遷移が壊れる。
 const CACHE_FIRST_PREFIXES = ['/assets/', '/icons/'];
-const CACHE_FIRST_PATHS = ['/favicon.ico', '/manifest.json'];
+const CACHE_FIRST_PATHS = ['/favicon.png', '/manifest.json'];
 
 function isCacheFirst(url) {
   return (
