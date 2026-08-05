@@ -595,5 +595,75 @@ export const circles: Circle[] = [
     "newcomerEvent": null,
     "isOfficial": null,
     "updatedAt": "2026-08-04"
+  },
+  {
+    "id": "ifive",
+    "name": "iFive",
+    "organizationType": "学内カンパニー",
+    "kana": "あいふぁいぶ",
+    "aliases": [
+      "iFive"
+    ],
+    "description": "ITサービス専門の学内カンパニーです。自社開発のWebアプリ\"がんちゃんねる\"の他にも企業様や岩手大学、学内カンパニーから依頼を頂いて受託開発も行っています。開発するものに厳格な制約はありません、自分の好きなアプリやサービスを形にできます！また、メンバーの半数以上は実践的なプログラミングの経験はない状態からスタートしています。充実した教育プログラムと先輩のサポート体制が整っているため、未経験・文系の方でも安心して参加して頂けます！",
+    "activity": {
+      "place": "理工学部学生ミーティングルーム",
+      "schedule": "週1回・2時間・曜日不定",
+      "recruitmentPeriod": "通年"
+    },
+    "fee": {
+      "admission": null,
+      "annual": "0",
+      "other": null
+    },
+    "members": {
+      "total": "12",
+      "genderRatio": "9:1",
+      "beginnerRatio": "7:3"
+    },
+    "achievements": [],
+    "images": [
+      "https://drive.google.com/open?id=1cwsXP5SKK9L9aKTWZ4H4FRgrl0ZFNhc_"
+    ],
+    "logo": "https://drive.google.com/open?id=1U7bF-zaBcIA0hugnM5flvisCgc0UXeti",
+    "tags": [
+      "初心者歓迎",
+      "2年生以降も歓迎",
+      "見学OK",
+      "体験参加OK",
+      "テスト期間中は活動なし",
+      "長期休暇中も活動",
+      "就活に役立つ",
+      "プログラミング",
+      "ものづくり",
+      "週1以下",
+      "資格取得"
+    ],
+    "contact": {
+      "representative": null,
+      "email": "developer.ifive@gmail.com",
+      "links": [
+        {
+          "type": "x",
+          "label": "https://x.com/ifive_iu?s=21",
+          "url": "https://x.com/ifive_iu?s=21"
+        }
+      ]
+    },
+    "genres": [
+      "学術系"
+    ],
+    "recruitmentStatus": "募集中",
+    "isRecommended": true,
+    "summary": "自社開発のWebアプリ「がんちゃんねる」に加え、企業や岩手大学からの受託開発も手がけるITサービス専門の学内カンパニー。メンバーの半数以上がプログラミング未経験からのスタートです。",
+    "recommendedFor": [
+      "プログラミング未経験から実践的な開発を学びたい人",
+      "自分の好きなアプリやサービスを形にしたい人",
+      "実際に使われるサービスを作る経験がほしい人",
+      "文系でもIT分野に挑戦したい人"
+    ],
+    "restriction": null,
+    "newcomerEvent": null,
+    "isOfficial": true,
+    "updatedAt": "2026-08-05"
   }
 ];

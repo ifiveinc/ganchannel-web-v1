@@ -123,6 +123,13 @@ export const CIRCLE_IMAGE_OVERRIDES: CircleImageOverride[] = [
        "/circles/circle-b704e315/activity-05.jpg",
      ],
    },
+
+   // iFive（ロゴのみPNG。フォーム回答の活動写真は1枚）
+   {
+     circleId: "ifive",
+     logo: "/circles/ifive/logo.png",
+     images: ["/circles/ifive/activity-01.jpg"],
+   },
 ];
 
 export function findImageOverride(
