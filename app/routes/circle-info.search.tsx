@@ -12,6 +12,9 @@ import {
   isFilterEmpty,
 } from "~/lib/circle-info/filter-circles";
 
+// トップへ戻るボタンをインポート
+import BackToTopLink from "~/components/ui/back-to-top-link";
+
 export function meta() {
   return [
     { title: "サークルを探す | がんちゃんねる" },
@@ -48,8 +51,14 @@ export default function CircleInfoSearch() {
   );
 
   return (
-    <div className="flex flex-col gap-8 pt-4">
+    // 余白調整は外し、元のクラス設定に戻しています
+    <div className="flex flex-col gap-8 pb-20 md:pb-8 pt-4">
       <h1 className="sr-only">サークルを探す</h1>
+
+      {/* トップへ戻るボタン（他の要素の下に潜り込まないよう z-30 shrink-0 を設定） */}
+      <div className="relative z-30 shrink-0">
+        <BackToTopLink />
+      </div>
 
       <CircleSearchForm
         filter={filter}

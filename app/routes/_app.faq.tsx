@@ -47,7 +47,6 @@ export default function Faq() {
   
   
   return (
-    // 【変更箇所】一番外側のdivに md:ml-20 を追加
     // PCサイズ（md以上）のときだけ左側にサイドバーと同じ幅（w-20）のマージンを空ける
     <div className="md:ml-20">
       {/*relativeは座標系の親要素absoluteは子要素*/}
@@ -70,12 +69,14 @@ export default function Faq() {
         />
       </div>
 
-      {/*pは要素の内側に余白 mは外側に余白 outsideで改行位置を揃える*/}
-      <div className="bg-white text-black p-4 min-h-screen">
+      {/* 
+        【変更箇所】 p-4 のあとに pb-40 md:pb-8 を追加。
+        スマホ/タブレット時は pb-40(160px) でフッター＋バナーを避け、PC時は md:pb-8(32px) に戻す 
+      */}
+      <div className="bg-white text-black p-4 pb-40 md:pb-8 min-h-screen">
         {/* mapとidを使って各カテゴリーのリンクを作成 */}
         <div className="flex">
         {filteredFaqList.map((section, idx) =>(
-          // ※ Reactの警告を防ぐため key={idx} を追加しています
           <div key={idx} className="mb-2 mx-2 text-sm md:text-lg text-center font-mono bg-green-200 p-1 w-35 rounded-md ring-2 ring-gray-500">
             <a href={`#${section.id}`}>
               {section.category}
