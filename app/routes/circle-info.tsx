@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router";
 import CircleHeader from "~/components/features/circle-info/circle-header";
-import BottomNav from "~/components/layout/bottom-nav/bottom-nav";
+import BottomNav from "~/components/layout/nav-items/bottom-nav";
 import { CIRCLE_NAV_ITEMS } from "~/components/features/circle-info/circle-nav-items";
 
 // パスごとのヘッダータイトル（docs/circle-info/spec.md §2.1）
