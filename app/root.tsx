@@ -29,6 +29,8 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap",
   },
+  // ユーザ指定のファビコン(.png)を指定する
+  { rel: "icon", href: "/favicon.png?v=3", type: "image/png" },
 ];
 
 

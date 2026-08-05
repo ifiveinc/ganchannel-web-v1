@@ -14,9 +14,11 @@ export function meta({}: Route.MetaArgs) {
 }
 
 const SLIDE_IMAGES = [
-  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop",
+  "./top-page/top-view-01.jpg",
+  "./top-page/top-view-02.jpg",
+  "./top-page/top-view-03.jpg",
+  "./top-page/top-view-04.jpg",
+  "./top-page/top-view-05.jpg",
 ];
 
 export default function Index() {
