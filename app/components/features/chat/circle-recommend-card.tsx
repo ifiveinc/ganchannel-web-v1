@@ -29,14 +29,8 @@ export default function CircleRecommendCard({ card }: CircleRecommendCardProps) 
   }
 
   return (
-    // 新しいタブで開く。同じタブでcircle-infoへ遷移するとチャット画面（/chat）が
-    // アンマウントされ会話が消えてしまうため（chatの状態はメモリ上のみで保持、
-    // localStorage/sessionStorageは使わない設計）。複数のレコメンドを見比べたい
-    // 場合にも、それぞれ別タブで開けるようにする（2026-08-05）。
     <Link
       to={`/circle-info/${card.circleId}`}
-      target="_blank"
-      rel="noopener noreferrer"
       className="block rounded-card focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
     >
       {body}
