@@ -1,8 +1,8 @@
 import { Link } from "react-router";
-import { MdMenu } from "react-icons/md";
 import iFiveIcon from "~/assets/ifive-icon.png";
 import ChatWindow from "~/components/features/chat/chat-window";
 import ChatbotInfoDialog from "~/components/features/chat/chatbot-info-dialog";
+import ChatHamburgerMenu from "~/components/features/chat/chat-hamburger-menu";
 
 export function meta() {
   return [
@@ -35,15 +35,7 @@ export default function Chat() {
 
           <ChatbotInfoDialog />
 
-          {/* TODO: メニューの中身は未定。決まるまで無効状態で置く（circle-header.tsxと同じ扱い） */}
-          <button
-            type="button"
-            disabled
-            aria-label="メニュー（準備中）"
-            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <MdMenu size={24} aria-hidden />
-          </button>
+          <ChatHamburgerMenu />
         </div>
       </header>
 

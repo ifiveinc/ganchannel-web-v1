@@ -64,6 +64,10 @@ export default function ChatWindow() {
   const [isNoticeVisible, setIsNoticeVisible] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  // Chromeはname属性をキーに過去の入力履歴を保存し、autoComplete="off"だけでは
+  // サジェストを止められないことがある。マウントごとに変わるランダムなnameにする
+  // ことで、保存済みの履歴と一致しようがなくする（2026-08-05、モバイルでも再発したため）。
+  const inputNameRef = useRef(`chat-message-${Math.random().toString(36).slice(2)}`);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -188,17 +192,15 @@ export default function ChatWindow() {
             </button>
           </div>
         )}
-        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+        <form onSubmit={handleSubmit} autoComplete="off" className="flex items-center gap-2">
           <label htmlFor="chat-input" className="sr-only">
             メッセージを入力
           </label>
           <input
             id="chat-input"
+            name={inputNameRef.current}
             type="text"
-            // Chromeは通常のテキスト欄でautoComplete="off"を無視して過去の入力履歴を
-            // サジェストし続けることがある。"new-password"はパスワードマネージャー避けの
-            // 値だが、Chromeが確実に履歴サジェストを止める数少ない指定のため代用する。
-            autoComplete="new-password"
+            autoComplete="off"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="メッセージを入力してください..."

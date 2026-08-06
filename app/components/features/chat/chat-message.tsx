@@ -73,10 +73,13 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           <ul className="flex flex-col gap-0.5 px-1">
             {message.sourceUrls.map((url) => (
               <li key={url}>
+                {/* 内部リンク（/circle-info/{id}等）も含めすべて新しいタブで開く。
+                    同じタブで遷移するとチャット画面がアンマウントされ会話が消えるため
+                    （2026-08-05） */}
                 <a
                   href={url}
-                  target={url.startsWith("/") ? undefined : "_blank"}
-                  rel={url.startsWith("/") ? undefined : "noopener noreferrer"}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-xs break-all text-primary underline"
                 >
                   {url}
