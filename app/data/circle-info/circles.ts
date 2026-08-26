@@ -78,7 +78,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": true,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-99811a9c",
@@ -153,7 +153,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-1693988b",
@@ -230,7 +230,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-558573de",
@@ -294,7 +294,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-15559f43",
@@ -364,7 +364,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-348baae6",
@@ -449,7 +449,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-d1e360dd",
@@ -516,7 +516,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "circle-b704e315",
@@ -594,7 +594,7 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": null,
-    "updatedAt": "2026-08-04"
+    "updatedAt": "2026-08-11"
   },
   {
     "id": "ifive",
@@ -664,6 +664,83 @@ export const circles: Circle[] = [
     "restriction": null,
     "newcomerEvent": null,
     "isOfficial": true,
-    "updatedAt": "2026-08-05"
+    "updatedAt": "2026-08-11"
+  },
+  {
+    "id": "circle-fbc87743",
+    "name": "岩手大学サッカー部",
+    "organizationType": "部活",
+    "kana": "いわてだいがくさっかーぶ",
+    "aliases": [],
+    "description": "岩手大学サッカー部です！\n\n私たちは4年11名(マネ1人)、3年8人(マネ1人)、2年8人(マネ1人)、1年14人(マネ4人)の計44人で活動しています。\n\n東北大学サッカーリーグ2部に所属しており、普段は週5で朝6:00〜8:00で練習し、春〜秋にかけては土日に東北内の大学とリーグ戦を行い一部昇格を目標に日々サッカーしています。\n\n部員には高校までサッカーに熱心に取り組み全国大会に出場した部員から大学でサッカーを始めた部員まで幅広く在籍しています。\n\nサッカーを続けようか迷っている人、新しいことを始めてみたい人、ぜひ見学からお待ちしています！",
+    "activity": {
+      "place": "岩手大学グラウンド",
+      "schedule": "週5〜週6でam6:00〜am8:00(春〜秋は土日どちらかリーグ戦または練習試合)",
+      "recruitmentPeriod": "通年"
+    },
+    "fee": {
+      "admission": null,
+      "annual": "部費月額3000円(交通費や備品に使用)",
+      "other": "サッカー協会への登録費年額15000円"
+    },
+    "members": {
+      "total": "44",
+      "genderRatio": "9:1",
+      "beginnerRatio": "9:1"
+    },
+    "achievements": [
+      {
+        "year": "",
+        "content": "2026年度東北大学サッカーリーグ2部\n2025年度東北大学サッカーリーグ1部、2部降格\n2024年度東北大学サッカーリーグ2部北1位、1部昇格\n(過去の成績に関しては東北大学サッカーリーグHPを参照)"
+      }
+    ],
+    "images": [
+      "https://drive.google.com/open?id=1rfcv3tLOYKTDk6VGaMbQO6dfxN1DsKBX",
+      "https://drive.google.com/open?id=16jM-GimT4pujKA9VKiUvr96HSL3WVkqw",
+      "https://drive.google.com/open?id=19e-2zUUtRBJMtUa3gDLf8nLXzeU5VKtt",
+      "https://drive.google.com/open?id=1KHmXbUBs4t1rGfFMZU51WmI_-yPqnEut"
+    ],
+    "logo": "https://drive.google.com/open?id=1rpHdfa_L11E8zW5jTXjKOMq7ETMBfM5N",
+    "tags": [
+      "初心者歓迎",
+      "2年生以降も歓迎",
+      "男性歓迎",
+      "女性歓迎",
+      "経験者向け",
+      "見学OK",
+      "体験参加OK",
+      "ガチめ",
+      "飲み会多め",
+      "テスト期間中は活動なし",
+      "長期休暇中も活動",
+      "友達作り",
+      "就活に役立つ",
+      "運動不足解消",
+      "スポーツ",
+      "週2以上",
+      "大会参加"
+    ],
+    "contact": {
+      "representative": null,
+      "email": "iwateuniv.soccer@gmail.com",
+      "links": []
+    },
+    "genres": [
+      "運動系"
+    ],
+    "recruitmentStatus": "募集中",
+    "isRecommended": true,
+    "summary": "東北大学サッカーリーグ2部に所属する部活。週5〜6日の朝練習と春〜秋のリーグ戦に取り組み、大学からサッカーを始めた部員も在籍しています。",
+    "recommendedFor": [
+      "大学でも本気でサッカーを続けたい人",
+      "大学からサッカーを始めてみたい人",
+      "朝練習中心の生活リズムで活動したい人",
+      "リーグ戦でチームとして結果を追いたい人",
+      "まずは見学や体験から様子を見てみたい人"
+    ],
+    "restriction": null,
+    "newcomerEvent": null,
+    "isOfficial": true,
+    "updatedAt": "2026-08-11"
   }
 ];

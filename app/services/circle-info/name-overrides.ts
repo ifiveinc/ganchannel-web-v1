@@ -13,4 +13,8 @@ export interface NameOverride {
 
 export const NAME_OVERRIDES: NameOverride[] = [
   // 例: { formName: "写真部（サークル棟）", registryName: "写真部", circleId: "photo-club" },
+
+  // 大学のクラブ紹介ページ側は「サッカ－部」（長音符ではなく全角ハイフン U+FF0D）で
+  // 掲載されているため、NFKC正規化後も「岩手大学サッカー部」と一致しない。
+  { formName: "岩手大学サッカー部", registryName: "サッカ－部" },
 ];
