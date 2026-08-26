@@ -130,6 +130,18 @@ export const CIRCLE_IMAGE_OVERRIDES: CircleImageOverride[] = [
      logo: "/circles/ifive/logo.png",
      images: ["/circles/ifive/activity-01.jpg"],
    },
+
+   // 岩手大学サッカー部
+   {
+     circleId: "circle-fbc87743",
+     logo: "/circles/circle-fbc87743/logo.jpg",
+     images: [
+       "/circles/circle-fbc87743/activity-01.jpg",
+       "/circles/circle-fbc87743/activity-02.jpg",
+       "/circles/circle-fbc87743/activity-03.jpg",
+       "/circles/circle-fbc87743/activity-04.jpg",
+     ],
+   },
 ];
 
 export function findImageOverride(

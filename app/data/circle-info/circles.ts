@@ -725,14 +725,22 @@ export const circles: Circle[] = [
       "email": "iwateuniv.soccer@gmail.com",
       "links": []
     },
-    "genres": [],
+    "genres": [
+      "運動系"
+    ],
     "recruitmentStatus": "募集中",
-    "isRecommended": false,
-    "summary": "",
-    "recommendedFor": [],
+    "isRecommended": true,
+    "summary": "東北大学サッカーリーグ2部に所属する部活。週5〜6日の朝練習と春〜秋のリーグ戦に取り組み、大学からサッカーを始めた部員も在籍しています。",
+    "recommendedFor": [
+      "大学でも本気でサッカーを続けたい人",
+      "大学からサッカーを始めてみたい人",
+      "朝練習中心の生活リズムで活動したい人",
+      "リーグ戦でチームとして結果を追いたい人",
+      "まずは見学や体験から様子を見てみたい人"
+    ],
     "restriction": null,
     "newcomerEvent": null,
-    "isOfficial": null,
+    "isOfficial": true,
     "updatedAt": "2026-08-11"
   }
 ];
