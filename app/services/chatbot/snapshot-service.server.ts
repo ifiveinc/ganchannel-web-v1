@@ -4,7 +4,7 @@ import type { QaCacheEntry } from "~/types/chatbot/qa";
 import { getSupabaseClient } from "~/services/chatbot/supabase-client.server";
 
 // コーパス（chunks/qa_cache）を埋め込んだ時点の設定。埋め込みAPIのモデル・次元数・正規化の
-// 実行時設定とズレていないかの照合に使う（docs/chatbot-decisions.md §6）。
+// 実行時設定とズレていないかの照合に使う（docs/decisions/0004-chatbot-architecture.md §3）。
 export interface EmbeddingMetadata {
   embeddingModel: string;
   dimensions: number;
@@ -64,7 +64,7 @@ function parseVector(value: unknown): number[] | null {
 }
 
 // chunksを取得する。Supabaseへの接続を優先し、失敗した場合はスナップショットへ
-// 自動的に切り替える（docs/chatbot-decisions.md §4「スナップショットフォールバック（必須）」）。
+// 自動的に切り替える（docs/decisions/0004-chatbot-architecture.md §1「スナップショットフォールバック」）。
 export async function getChunks(): Promise<Chunk[]> {
   try {
     const client = getSupabaseClient();

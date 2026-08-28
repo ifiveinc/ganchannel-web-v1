@@ -9,7 +9,7 @@ import {
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 // Groqアダプタ。OpenAI互換のChat Completions APIをSSEストリーミングで呼ぶ
-// （docs/chatbot-decisions.md §5：主系が溢れた分を受ける第2系。Cerebrasから差し替え）。
+// （docs/decisions/0004-chatbot-architecture.md §2：主系が溢れた分を受ける第2系。Cerebrasから差し替え）。
 export class GroqProvider implements LLMProvider {
   readonly name = "groq";
 

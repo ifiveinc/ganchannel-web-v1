@@ -9,7 +9,7 @@ interface WriteQaLogParams {
 }
 
 // qa_logsへの書き込み。IPアドレス・ユーザー識別子は保存しない
-// （docs/chatbot-decisions.md §13「個人特定情報は保存しない」）。
+// （docs/decisions/0004-chatbot-architecture.md §10「個人特定情報は保存しない」）。
 // 失敗しても本処理を止めない（同§13）。書き込めた場合はidを返し、フィードバックAPIから参照する。
 export async function writeQaLog(params: WriteQaLogParams): Promise<number | null> {
   try {

@@ -20,7 +20,7 @@ import type { CascadeResult } from "~/types/chatbot/search";
 import type { ChatStreamChunk } from "~/types/chatbot/chatbot";
 import type { QaCacheEntry } from "~/types/chatbot/qa";
 
-// 検索カスケードの統括（docs/chatbot-decisions.md §7）。
+// 検索カスケードの統括（docs/decisions/0004-chatbot-architecture.md §4）。
 // 1段（C層ブロック）→2段（FAQ）→3段（qa_cache完全一致）→4段（サークル名の強一致、無料・高速）→
 // 5段（強一致が無ければクエリを1回だけ埋め込み、5a: qa_cache意味的一致 →
 //      サークルのベクトル検索 → 5b: キーワード検索+LLM生成）の順で評価する。
@@ -114,7 +114,7 @@ function countTerms(tokens: string[]): Map<string, number> {
 }
 
 // chunksをBM25スコアの降順で返す（コーパス全体をその場で走査する簡易実装。
-// 数百件規模までは十分な速度、docs/chatbot-decisions.md §4の逐次スキャン方針と同じ考え方）。
+// 数百件規模までは十分な速度、docs/decisions/0004-chatbot-architecture.md §1の逐次スキャン方針と同じ考え方）。
 // 大学名等の共通語は除去してからトークン化する（誤検知対策、app/lib/embedding-common-words.ts参照）。
 function rankChunksByBm25(question: string, chunks: Chunk[]): { chunk: Chunk; score: number }[] {
   if (chunks.length === 0) return [];
@@ -164,7 +164,7 @@ function dotProduct(a: number[], b: number[]): number {
 }
 
 // 埋め込みAPIが失敗した場合はqueryEmbeddingがnullになり、この段はスキップされる
-// （キーワード検索のみで応答する、docs/chatbot-decisions.md §7）。
+// （キーワード検索のみで応答する、docs/decisions/0004-chatbot-architecture.md §4）。
 function rankChunksByVector(
   chunks: Chunk[],
   queryEmbedding: number[]
@@ -177,7 +177,7 @@ function rankChunksByVector(
 
 // --- RRF（Reciprocal Rank Fusion） ---------------------------------------------------------
 // BM25とベクトル検索はスコアのスケールが異なるため直接加算せず、順位の逆数を合算して
-// 統合順位を作る（docs/chatbot-decisions.md §7、k=60は定番値）。
+// 統合順位を作る（docs/decisions/0004-chatbot-architecture.md §4、k=60は定番値）。
 
 const RRF_K = 60;
 
@@ -198,7 +198,7 @@ function fuseRankings(rankings: Chunk[][]): { chunk: Chunk; score: number }[] {
     .sort((a, b) => b.score - a.score);
 }
 
-// --- ガードレール・コンテキスト組み立て（docs/chatbot-decisions.md §12） -------------------
+// --- ガードレール・コンテキスト組み立て（docs/decisions/0004-chatbot-architecture.md §9） -------------------
 
 function buildSystemPrompt(): string {
   return [
@@ -210,7 +210,7 @@ function buildSystemPrompt(): string {
 }
 
 // サークル名簿は常にプロンプトに載せる。「存在するかどうか」に確実に答えるため
-// （docs/chatbot-decisions.md §7）。
+// （docs/decisions/0004-chatbot-architecture.md §4）。
 async function buildCircleRegistrySummary(): Promise<string> {
   const [circles, registry] = await Promise.all([fetchCircles(), fetchCircleRegistry()]);
 
@@ -243,7 +243,7 @@ async function buildLlmContext(chunks: Chunk[]): Promise<string> {
     .join("\n\n");
 }
 
-// --- サークル3状態の回答文組み立て（docs/chatbot-decisions.md §9） -------------------------
+// --- サークル3状態の回答文組み立て（docs/decisions/0004-chatbot-architecture.md §6） -------------------------
 
 // resolution.status === "detailed" はrespondToDetailedCircle()（LLM合成）で処理するため、
 // ここではregistered/unknownの定型文のみを扱う
@@ -280,7 +280,7 @@ function buildCircleAnswer(resolution: CircleResolution): { text: string; source
   };
 }
 
-// --- detailed団体への回答（LLM合成、docs/chatbot-decisions.md §9の"detailed"に対応） ---------
+// --- detailed団体への回答（LLM合成、docs/decisions/0004-chatbot-architecture.md §6の"detailed"に対応） ---------
 // 紹介文をそのまま貼るのではなく、団体の全データを渡して質問に応じた回答を生成する。
 
 function buildCircleSystemPrompt(): string {
@@ -377,7 +377,7 @@ async function* respondToDetailedCircle(
   };
 }
 
-// --- B層・縮退モードの定型文（docs/chatbot-decisions.md §8・§10） --------------------------
+// --- B層・縮退モードの定型文（docs/decisions/0004-chatbot-architecture.md §5・§7） --------------------------
 
 function buildBLayerRedirect(chunk: Chunk): string {
   return `「${chunk.title}」という制度・情報があります。具体的な条件・金額・期限は変更される可能性があるため、公式ページで最新情報をご確認ください。`;
@@ -535,7 +535,7 @@ async function* tryCircleVectorMatch(
 }
 
 // 埋め込みAPIが失敗した場合はキャッチし、キーワード検索のみで応答する
-// （docs/chatbot-decisions.md §7）。
+// （docs/decisions/0004-chatbot-architecture.md §4）。
 async function* runEmbeddingStage(
   question: string
 ): AsyncGenerator<ChatStreamChunk, CascadeResult, undefined> {

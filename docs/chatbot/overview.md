@@ -140,4 +140,5 @@ Supabaseのマイグレーション（`supabase/migrations/`）は自動適用�
 ## 関連ドキュメント
 
 - `docs/chatbot/spec.md` — 実装仕様書（フェーズ計画・受け入れ基準など）
-- `docs/chatbot-decisions.md` — 意思決定メモ（ローカル専用、gitignore対象のためリポジトリには含まれない）
+- [decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) — 意思決定の正本（データ基盤・LLM構成・検索・回答制御）
+- `docs/chatbot-decisions.md` — 実装時のより詳細なメモ（ローカル専用、gitignore対象のためリポジトリには含まれない）

@@ -8,7 +8,7 @@ import {
 const API_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 
 // Google AI Studio（Gemini）アダプタ。REST API（streamGenerateContent, SSE）を直接呼ぶ
-// （docs/chatbot-decisions.md §5：主系、日本語品質が最も安定）。
+// （docs/decisions/0004-chatbot-architecture.md §2：主系、日本語品質が最も安定）。
 export class GeminiProvider implements LLMProvider {
   readonly name = "gemini";
 

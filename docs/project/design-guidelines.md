@@ -34,7 +34,7 @@
 
 ### 0.4 要件定義書との差異（要確認事項）
 
-要件定義書の記載と、実際のリポジトリ構成が食い違っている箇所がある。本規約では**リポジトリの実態を正**として記述している。確認内容と選択肢は [hearing-points.md](./hearing-points.md) にまとめてある。
+要件定義書の記載と、実際のリポジトリ構成が食い違っている箇所がある。本規約では**リポジトリの実態を正**として記述している。確認内容と決定経緯は [decisions/0002](../decisions/0002-framework-react-router.md)・[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md) にまとめてある。
 
 | 項目 | 要件定義書の記載 | 本規約での扱い | 状態 |
 | --- | --- | --- | --- |
@@ -1362,8 +1362,8 @@ Pull Request作成前に確認する（開発規約 §17.1 の「画面変更が
 | 7 | `app/components/layout/footer/footer.tsx` | アイコンファミリーを `react-icons/md` に統一する | §11.1 | 中 | 対応済み（2026-08-02） |
 | 8 | `app/components/layout/footer/footer.css` | グローバルCSSを廃止し、`NavLink` のクラス関数で状態を表現する | §26.3 | 中 | 対応済み（2026-08-03、`footer.css` ごと廃止） |
 | 9 | `app/components/layout/ad-banner/ad-banner.tsx` | `max-w-lg mx-auto` を適用、`img` に `alt` を付ける、`🔘` を `react-icons` に置き換える | §6.1、§12.2、§13.4 | 中 | 対応済み（2026-08-04） |
-| 10 | 全ページ | ヘッダー（`components/layout/header/`）が未実装。**`md:` 以上の上部ナビを含む** | §19.1 | 中 | 一部対応（共通ヘッダーは実装済み。上部ナビは未実装） |
-| 11 | 全ページ | ハンバーガーメニュー（`components/layout/menu-drawer/`）が未実装 | §19.3 | 中 | 未対応 |
+| 10 | 全ページ | ヘッダー（`components/layout/header/`）が未実装。**`md:` 以上の上部ナビを含む** | §19.1 | 中 | 対応済み（`app-header.tsx` に `md:flex` の上部ナビを実装。ただし `root.tsx` が `BottomNav` を `md:` 以上でも描画したままで、`SideNav`（サイドバー）とあわせてナビが3種同時表示になっている。再度是正が必要、docs/project/festival-issues.md のE-3参照） |
+| 11 | 全ページ | ハンバーガーメニュー（`components/layout/menu-drawer/`）が未実装 | §19.3 | 中 | 一部対応（`app-header.tsx` にインラインで実装済み・動作する。独立コンポーネント化はしていない。`app/routes/chat.tsx` だけは専用レイアウトのため未接続で、ボタンが `disabled` のプレースホルダのまま） |
 | 12 | 全ページ | 下部固定要素ぶんの `pb-36 md:pb-24` が未適用 | §5.3 | 中 | 対応済み（2026-08-04） |
 | 13 | `app/components/features/news/news-card.tsx:24` | `block` と `flex` が同一要素に指定されている（`display` の重複） | — | 低 | 未対応 |
 | 14 | `package.json` | `@tailwindcss/line-clamp` は Tailwind v4 では不要のため削除する | §4.4 | 低 | 未対応 |
@@ -1395,7 +1395,6 @@ Pull Request作成前に確認する（開発規約 §17.1 の「画面変更が
 
 ### 30.3 未決事項
 
-- §0.4 のCSS管理方法の代表への確認 → [hearing-points.md](./hearing-points.md) §2
 - ハンバーガーメニューに載せる機能項目の確定（要件定義書 §1-3 の7機能のうち、どこまでをMVPで出すか）
 - ダークモードの対応時期
 - トップページの「機能一覧」ボタンの具体的な配置（要件定義書 §1-4）

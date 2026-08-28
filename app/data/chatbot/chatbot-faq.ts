@@ -1,12 +1,12 @@
-// 事前生成FAQ 20件（docs/chatbot/spec.md §1-4、docs/chatbot-decisions.md §7 カスケード第2段）。
-// カテゴリーは docs/chatbot-decisions.md §14 のサジェスト質問カテゴリー
+// 事前生成FAQ 20件（docs/chatbot/spec.md §1-4、docs/decisions/0004-chatbot-architecture.md §4 カスケード第2段）。
+// カテゴリーは docs/decisions/0004-chatbot-architecture.md §12 のサジェスト質問カテゴリー
 // （サークル / キャンパス / お金のこと / 盛岡での暮らし / 学部えらび）と揃え、
 // Phase 7（サジェスト質問UI）でもこのデータを再利用できるようにしている。
 //
 // app/data/faq-list.ts（既存のFAQページ用データ）とは対象読者・用途が異なるため、
 // サークル関連の内容も含め新規に書き起こしている（faq-list.ts自体は変更しない）。
 //
-// matchKeywords はコード側のみで一致判定するためのキーワード（docs/chatbot-decisions.md §8
+// matchKeywords はコード側のみで一致判定するためのキーワード（docs/decisions/0004-chatbot-architecture.md §5
 // 「判断はコード側で行う」）。埋め込みAPIは使わない。1項目あたりのトークン数を絞り込み用に
 // 少なくしているため、運用しながら実際の質問ログを見て調整する前提のデータである。
 
@@ -108,7 +108,7 @@ export const CHATBOT_FAQ_ITEMS: ChatbotFaqItem[] = [
   // ==========================================
   // お金のこと
   // ==========================================
-  // riskLevel B（docs/chatbot-decisions.md §10）に準じ、金額・条件・期限は断定せず
+  // riskLevel B（docs/decisions/0004-chatbot-architecture.md §7）に準じ、金額・条件・期限は断定せず
   // 制度の存在のみを案内し、公式ページへ誘導する
   {
     id: "money-scholarship",

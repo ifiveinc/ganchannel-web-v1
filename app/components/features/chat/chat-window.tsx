@@ -54,7 +54,7 @@ async function streamChat(
 }
 
 // チャット画面全体（メッセージ一覧＋入力欄）。状態はメモリ上のみで保持する
-// （localStorage/sessionStorageは使わない、docs/chatbot-decisions.md §14）。
+// （localStorage/sessionStorageは使わない、docs/decisions/0004-chatbot-architecture.md §12）。
 export default function ChatWindow() {
   const [messages, setMessages] = useState<ChatMessageData[]>([]);
   const [input, setInput] = useState("");

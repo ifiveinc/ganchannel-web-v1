@@ -79,7 +79,7 @@ export async function resolveCircle(query: string): Promise<CircleResolution> {
 }
 
 // 質問文（自由記述の1文）の中に、既知のサークル名・かな・別名が含まれるかを走査する
-// （検索カスケード第4段「サークル名・かな・別名に強一致」、docs/chatbot-decisions.md §7）。
+// （検索カスケード第4段「サークル名・かな・別名に強一致」、docs/decisions/0004-chatbot-architecture.md §4）。
 // 「第4段の閾値は高く設定する」方針のため、最小文字数に満たない短い名前は対象外にし、
 // 一致した名前が複数ある場合は最も長いものを採用する（短い部分一致による誤爆を避ける）。
 export async function findStrongCircleMatch(question: string): Promise<CircleResolution | null> {

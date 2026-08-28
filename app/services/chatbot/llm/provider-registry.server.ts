@@ -3,7 +3,7 @@ import { GeminiProvider } from "~/services/chatbot/llm/gemini-provider.server";
 import { GroqProvider } from "~/services/chatbot/llm/groq-provider.server";
 import { DegradedProvider } from "~/services/chatbot/llm/degraded-provider.server";
 
-// LLM_PROVIDERS環境変数で有効化するプロバイダ名（docs/chatbot-decisions.md §5）。
+// LLM_PROVIDERS環境変数で有効化するプロバイダ名（docs/decisions/0004-chatbot-architecture.md §2）。
 // 将来プロバイダを追加する場合は、ここに1行追加するだけで有効化できる。
 const PROVIDER_FACTORIES: Record<string, () => LLMProvider> = {
   gemini: () => new GeminiProvider(),
@@ -29,7 +29,7 @@ function resolveConfiguredProviders(): LLMProvider[] {
 }
 
 // LLM_PROVIDERSの順に呼び出し、失敗したら次のプロバイダへフォールバックする。
-// 全滅時は縮退モードへ落ちる（エラー画面を出さない、docs/chatbot-decisions.md §5・§13）。
+// 全滅時は縮退モードへ落ちる（エラー画面を出さない、docs/decisions/0004-chatbot-architecture.md §2・§10）。
 // 呼び出し元は最終的にどのプロバイダで応答したか（qa_logsのprovider_usedに対応）を
 // AsyncGeneratorの戻り値（string | null。null = 縮退モード）として受け取れる。
 export async function* completeWithFallback(
