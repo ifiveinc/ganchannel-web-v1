@@ -33,7 +33,7 @@ export interface CircleSimilarity {
 // app/data/circle-embeddings.json）の内積（双方正規化済みのためコサイン類似度に等しい）を
 // 比較し、類似度の高い順に返す。
 // サークルはSupabaseテーブルを持たない静的ファイル方式のため、埋め込みも実行時ではなく
-// ビルド時の静的ファイルとして持つ（docs/chatbot-decisions.md §6の設計をサークルにも適用）。
+// ビルド時の静的ファイルとして持つ（docs/decisions/0004-chatbot-architecture.md §3の設計をサークルにも適用）。
 export async function findSimilarCircles(queryEmbedding: number[]): Promise<CircleSimilarity[]> {
   const circles = await fetchCircles();
   const circleById = new Map(circles.map((circle) => [circle.id, circle]));

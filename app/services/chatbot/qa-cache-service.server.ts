@@ -5,7 +5,7 @@ import { getCurrentIndexVersion } from "~/services/chatbot/embedding-service.ser
 import type { QaCacheEntry } from "~/types/chatbot/qa";
 import type { RecommendCard } from "~/types/chatbot/circle-registry";
 
-// コサイン類似度の閾値（正規化済みベクトル同士の内積 > 0.95、docs/chatbot-decisions.md §4）
+// コサイン類似度の閾値（正規化済みベクトル同士の内積 > 0.95、docs/decisions/0004-chatbot-architecture.md §1）
 const SEMANTIC_MATCH_THRESHOLD = 0.95;
 
 interface QaCacheRow {
@@ -27,7 +27,7 @@ function normalizeQuestion(question: string): string {
   return question.normalize("NFKC").trim().replace(/\s+/g, "");
 }
 
-// 正規化した質問のハッシュ（docs/chatbot-decisions.md §4 qa_cache.question_hash）
+// 正規化した質問のハッシュ（docs/decisions/0004-chatbot-architecture.md §1 qa_cache.question_hash）
 export function computeQuestionHash(question: string): string {
   return createHash("sha256").update(normalizeQuestion(question)).digest("hex");
 }
@@ -71,7 +71,7 @@ async function incrementHitCount(id: number, currentHitCount: number): Promise<v
 }
 
 // 完全一致（検索カスケード第3段）。DBを優先し、失敗時はスナップショットへフォールバックする
-// （docs/chatbot-decisions.md §4）。index_versionが現在と異なるキャッシュは無効として扱う。
+// （docs/decisions/0004-chatbot-architecture.md §1）。index_versionが現在と異なるキャッシュは無効として扱う。
 export async function findExactMatch(question: string): Promise<QaCacheEntry | null> {
   const hash = computeQuestionHash(question);
   const currentIndexVersion = getCurrentIndexVersion();
@@ -123,7 +123,7 @@ function parseVector(value: unknown): number[] | null {
 // 意味的一致（検索カスケード第5a段）。クエリ埋め込みとqa_cache.question_vecの内積
 // （双方正規化済み前提のためコサイン類似度に等しい）を比較する。
 // スナップショットにはquestion_vecが含まれないため、DB利用時のみ対応する
-// （docs/chatbot-decisions.md §4「メモリ上のキャッシュは採用しない」の精神に合わせ、
+// （docs/decisions/0004-chatbot-architecture.md §1「メモリ上のキャッシュは採用しない」の精神に合わせ、
 // 意味的一致はDB接続時のみの機能として段階的に縮退させる）。
 export async function findSemanticMatch(queryEmbedding: number[]): Promise<QaCacheEntry | null> {
   const currentIndexVersion = getCurrentIndexVersion();
@@ -156,7 +156,7 @@ export async function findSemanticMatch(queryEmbedding: number[]): Promise<QaCac
   }
 }
 
-// 生成した回答をqa_cacheへ書き込む（失敗しても本処理を止めない、docs/chatbot-decisions.md §13）。
+// 生成した回答をqa_cacheへ書き込む（失敗しても本処理を止めない、docs/decisions/0004-chatbot-architecture.md §10）。
 // 既存の質問（question_hash重複）があれば上書きする（index_version更新後の再キャッシュに対応）。
 // sourceUrls/recommendCardsも保存し、キャッシュヒット時にリンク・カードを復元できるようにする
 // （Phase 10後の追加対応。当初はanswerのテキストのみをキャッシュしていた）。

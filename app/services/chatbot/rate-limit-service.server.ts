@@ -1,4 +1,4 @@
-// IP単位のレート制限判定。qa_logsにIPを保存しない方針（docs/chatbot-decisions.md §13）に合わせ、
+// IP単位のレート制限判定。qa_logsにIPを保存しない方針（docs/decisions/0004-chatbot-architecture.md §10）に合わせ、
 // DBは使わずメモリ上のみで保持する（docs/chatbot/spec.md §3、§8 item3）。
 //
 // 【要確認】§8 item3: RATE_LIMIT_MAX_REQUESTS / RATE_LIMIT_WINDOW_SECONDS の具体値は未確定。

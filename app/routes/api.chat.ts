@@ -37,7 +37,7 @@ export async function action({ request }: Route.ActionArgs) {
       };
 
       // レート制限を超えた場合はカスケードを実行せず、LLM APIも呼ばない
-      // （docs/chatbot-decisions.md §7受け入れ基準14）。エラー画面ではなくチャット内の
+      // （docs/decisions/0004-chatbot-architecture.md §4）。エラー画面ではなくチャット内の
       // メッセージとして返す（§8「エラー画面を出さない」の精神に合わせる）。
       if (!consumeRateLimit(clientId)) {
         send({ type: "error", text: RATE_LIMIT_MESSAGE });

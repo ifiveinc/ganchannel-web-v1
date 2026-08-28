@@ -4,7 +4,7 @@
 // サークルデータはSupabaseテーブルを持たない静的ファイル方式のため
 // （docs/chatbot/spec.md §9）、埋め込みも同様に静的ファイルとして持つ。
 // 実行時はクエリ側だけをその場で埋め込み、ここで作った値と比較する
-// （docs/chatbot-decisions.md §6「実行時に埋め込むのはクエリ1件のみ」の精神に合わせる）。
+// （docs/decisions/0004-chatbot-architecture.md §3「実行時に埋め込むのはクエリ1件のみ」の精神に合わせる）。
 //
 // `npm run sync:circles` で app/data/circle-info/circles.ts を更新した後、
 // このスクリプト（`npm run generate:circle-embeddings`）も忘れずに再実行すること。

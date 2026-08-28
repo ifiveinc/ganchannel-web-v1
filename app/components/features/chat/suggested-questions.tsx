@@ -13,7 +13,7 @@ type SuggestedQuestionsProps = {
   onSelect: (question: string) => void;
 };
 
-// カテゴリタブ付きサジェスト質問（docs/chatbot-decisions.md §14）。
+// カテゴリタブ付きサジェスト質問（docs/decisions/0004-chatbot-architecture.md §12）。
 // Phase 4で作成した事前生成FAQ（app/data/chatbot-faq.ts）をそのまま流用する。
 export default function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps) {
   const [activeCategory, setActiveCategory] = useState<ChatbotFaqCategory>(CATEGORIES[0]);

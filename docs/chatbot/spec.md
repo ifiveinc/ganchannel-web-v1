@@ -2,14 +2,14 @@
 
 - ステータス: ドラフト
 - 対象日: 2026-08-06（β版公開）
-- 決定事項の正本: `docs/chatbot-decisions.md`（ローカル専用、gitignore対象）。本書は決定事項を実装可能な単位に分解したものであり、本書と決定事項が矛盾する場合は決定事項を優先する
+- 決定事項の正本: [decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md)。本書は決定事項を実装可能な単位に分解したものであり、本書と決定事項が矛盾する場合は決定事項を優先する。実装時のより詳細なメモは `docs/chatbot-decisions.md`（ローカル専用、gitignore対象）にもある
 - 本書の型定義・DDLは「実装者が迷わないための契約定義」として記載する。関数の中身（実装ロジック）は含めない
 
 ---
 
 ## 0. 前提とスコープ
 
-- 本仕様書が対象とするのは `docs/chatbot-decisions.md` に記載された学内QAチャットボット機能のみ
+- 本仕様書が対象とするのは [decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) に記載された学内QAチャットボット機能のみ
 - 既存の `app/routes/`（`_app.tsx` / `_app._index.tsx` / `_app.faq.tsx` / `_app.features.tsx` / `_app.settings.tsx` / `news.tsx` / `ad-inquiry.tsx` / `kakunin.tsx`）とその配下のコンポーネント・データは変更しない。ナビへの追加のみ既存ファイルを変更する（§4参照）
 - ディレクトリ構成・命名規則は `docs/project/architecture.md` および `docs/project/development-guidelines.md` §10.2 に従う（ファイル: kebab-case / コンポーネント・型: PascalCase / 変数・関数: camelCase / 定数: UPPER_SNAKE_CASE）
 - **本書で「サークル」と呼ぶ対象は、フォームの「団体の形態」列（§9-5a）で管理される7つの団体形態（部活／サークル／同好会／学内カンパニー／学生委員会／NEXTSTEP工房〈学内カンパニーの派生〉／その他学生有志団体）の総称である**
@@ -30,7 +30,7 @@
 | `app/routes/api.chat.feedback.ts` | `/api/chat/feedback` | リソースルート（`action` のみ） |
 | `app/routes/api.health.ts` | `/api/health` | リソースルート（`loader` のみ） |
 
-**`/chat`は`_app.tsx`配下に置かない（`_app._index.tsx`のような命名にしない）。** `circle-info.tsx`と同様、`chat.tsx`を独自レイアウトとして扱い、共通ヘッダー（`AppHeader`）や共通ボトムナビ（`BottomNav`）を出さない。理由：チャット画面は入力欄を含む専用UIで、βバナー・非公式表記を常時表示する必要があり（`docs/chatbot-decisions.md` §14）、共通ナビと画面下部で競合するため（`circle-info`が共通フッターを隠したのと同じ理由、`root.tsx`参照）。この判断は暫定であり、チーム内で確認すること（§8参照）。
+**`/chat`は`_app.tsx`配下に置かない（`_app._index.tsx`のような命名にしない）。** `circle-info.tsx`と同様、`chat.tsx`を独自レイアウトとして扱い、共通ヘッダー（`AppHeader`）や共通ボトムナビ（`BottomNav`）を出さない。理由：チャット画面は入力欄を含む専用UIで、βバナー・非公式表記を常時表示する必要があり（[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §12）、共通ナビと画面下部で競合するため（`circle-info`が共通フッターを隠したのと同じ理由、`root.tsx`参照）。この判断は暫定であり、チーム内で確認すること（§8参照）。
 
 ### 1-2. サーバ専用サービス（`app/services/`、`*.server.ts`）
 
@@ -132,7 +132,7 @@ CIRCLE_FORM_CSV_URL=
 
 `CIRCLE_FORM_CSV_URL`は`scripts/sync-circles.ts`が取得するフォーム回答スプレッドシートのCSV公開URL（§9参照）。アプリのリクエスト経路では使わないため`.env.example`上は他の変数と区別しない。
 
-**`CIRCLE_DETAIL_URL_TEMPLATE`は廃止した（2026-08-04）。** `detailed`状態の詳細ページは`circle-info`機能の`/circle-info/{id}`にハードコードでリンクする。`circle-info`は同一リポジトリ内の確定した内部ルートであり、環境変数でURLを外部化する理由が無くなったため（旧`docs/chatbot-decisions.md` §9の「紹介ページに依存しない設計」は、紹介ページが未pushだった時点の判断。`circle-info`が同じ`Circle`データを共有するようになったため前提が変わった）。
+**`CIRCLE_DETAIL_URL_TEMPLATE`は廃止した（2026-08-04）。** `detailed`状態の詳細ページは`circle-info`機能の`/circle-info/{id}`にハードコードでリンクする。`circle-info`は同一リポジトリ内の確定した内部ルートであり、環境変数でURLを外部化する理由が無くなったため（[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §6の「紹介ページに依存しない設計」は、紹介ページが未pushだった時点の判断。`circle-info`が同じ`Circle`データを共有するようになったため前提が変わった）。
 
 `CIRCLE_INFO_FORM_URL` / `RATE_LIMIT_MAX_REQUESTS` / `RATE_LIMIT_WINDOW_SECONDS` / `SEARCH_SCORE_THRESHOLD` / `CIRCLE_STRONG_MATCH_THRESHOLD` の具体値は**要確認**（§8参照）。値は空欄のまま各実装フェーズのPRで確定させる。
 
@@ -304,7 +304,7 @@ export interface ChatStreamChunk {
 
 ## 3. Supabase テーブル定義（DDL）
 
-`qa_cache`は`docs/chatbot-decisions.md` §4に定義済みのため、そのまま転記する（変更しない）。
+`qa_cache`は[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §1に定義済みのため、そのまま転記する（変更しない）。
 
 **【2026-08-04変更】`circle_registry`・`circles`テーブルは作らない。** `circle-info`機能とのデータ統合方針（§0・§2・§9・§10）により、サークルデータは静的ファイル（`app/data/circles.ts`・`app/data/circle-registry.ts`）で持つことにした。Supabaseはチャンク・応答キャッシュ・質問ログのみに使う。
 
@@ -353,10 +353,10 @@ alter table qa_cache enable row level security;
 alter table qa_logs enable row level security;
 -- ポリシーは定義しない。service_roleキーはRLSをバイパスしてアクセスする一方、
 -- anon/authenticatedロールからのアクセスはデフォルトで拒否される状態を維持する
--- （docs/chatbot-decisions.md §4「RLSは多層防御」に対応）。
+-- （[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §1「RLSは多層防御」に対応）。
 ```
 
-`qa_logs`にはIPアドレス・ユーザー識別子を保存する列を設けない（`docs/chatbot-decisions.md` §13「個人特定情報は保存しない」に対応）。IPレート制限（§1-2 `rate-limit-service.server.ts`）はDBを使わない実装とする（具体的な保持方法は§8「要確認」参照）。
+`qa_logs`にはIPアドレス・ユーザー識別子を保存する列を設けない（[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §10「個人特定情報は保存しない」に対応）。IPレート制限（§1-2 `rate-limit-service.server.ts`）はDBを使わない実装とする（具体的な保持方法は§8「要確認」参照）。
 
 ---
 
@@ -432,7 +432,7 @@ alter table qa_logs enable row level security;
 | 11 | 中 | 2, 8 | かな正規化・別名対応の強一致検索、タグフィルタ、雰囲気タグ | `circle-registry-service.ts`／`circle-resolution-service.ts`（拡張） |
 | 12 | 低 | 8 | pgvectorによる類似検索本実装、RRF融合 | `search-service.server.ts`（拡張） |
 
-`docs/chatbot-decisions.md` §16の「絶対に落とさないもの」（3状態分岐/C層ブロック/縮退モード/βバナーと非公式表記）はフェーズ0〜7に含まれる。「落とす順序」（ベクトル検索→レコメンド→応答キャッシュ）と対応させ、応答キャッシュ（8）→レコメンド（10）→ベクトル検索（12）の順で後方に配置している。
+[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §10の「省略しない4つ」（3状態分岐/C層ブロック/縮退モード/βバナーと非公式表記）はフェーズ0〜7に含まれる。「落とす順序」（ベクトル検索→レコメンド→応答キャッシュ）と対応させ、応答キャッシュ（8）→レコメンド（10）→ベクトル検索（12）の順で後方に配置している。
 
 各フェーズはSupabaseへのマイグレーション適用・環境変数設定など**コード変更以外の準備作業を伴う場合がある**。PR本文にその旨と実施済みかどうかを明記する（`docs/project/development-guidelines.md` §8.3のPRテンプレートに従う）。
 
@@ -473,7 +473,7 @@ alter table qa_logs enable row level security;
 | 5 | §1-7 | `CIRCLE_STRONG_MATCH_THRESHOLD`（サークル名強一致の閾値。「高く設定する」という方針のみ決定済みで数値は未確定） |
 | 6 | §1-6 | **対応済み。** 写真の保存先は`circle-info`側の既存規約（`public/circles/<id>/`、`docs/circle-info/spec.md` §6.3）に合わせる。Supabase Storageは使わない |
 | 7 | §1-6 | `scripts/generate-snapshot.ts`の実行主体・タイミング（開発者が手動実行してコミットするか、CIで実行するか）が未確定。Renderのビルドコンテナにはgit push権限が無いため、「ビルド時に生成しリポジトリに含める」はRenderの`npm run build`内では成立しない |
-| 9 | 全体 | `docs/chatbot-decisions.md` §17に記載の未確定事項（LLMモデルのGA確認、Cerebrasモデル選定、商用利用可否確認など）は本書の対象外。該当フェーズ（5, 8）の着手前に別途解消すること |
+| 9 | 全体 | β版公開（8/6）前に確認していた未確定事項（LLMモデルのGA確認、Cerebrasモデル選定、商用利用可否確認など）は公開時点で解消済み。新たな未確認事項が出た場合はこの表に追記する |
 | 10 | §9-4 | **対応済み（問題自体が解消）。** `circle_registry`をSupabaseテーブルから静的ファイル（`app/data/circle-registry.ts`）に変更したため、FK制約は存在しない。§9-4の「registry未登録」警告は、単なる名寄せ結果の警告出力（データの書き込み先を問わない）として扱う |
 | 11 | §1-6 | `scripts/sync-photos.ts`の実行方法（npm scriptにするか、手動実行のみか、実行タイミング）が未定 |
 | 12 | §9-5a / §10-2 | `Circle.organizationType`（既存の`circle-info`の呼称。旧称「団体の形態」7種）は採用済み。`circle_registry`側の分類（学生委員会/体育系/文化系/同好会の4種）とは軸が異なるが、**別軸のまま許容する（対応済み、item 17参照）**。「種別」列との比較は不要（採用元は「団体の形態」＝`organizationType`で確定） |
@@ -617,7 +617,7 @@ CSVの各行を、既存の`app/data/circles.ts`の該当エントリ（§9-4の
 
 ## 10. サークル名簿（`circle_registry`）の取り込み
 
-「サークル」と呼んでいる対象は、厳密には7つの団体形態（部活／サークル／同好会／学内カンパニー／学生委員会／NEXT STEP工房〈学内カンパニーの派生〉／その他学生有志団体、`organizationType`）の総称であり、フォームの「団体の形態」列（§9-5a）で管理される（`docs/chatbot-decisions.md` §9参照）。それぞれの団体形態には対応する名簿が存在するが、様式は統一されていない。`circle_registry`（`app/data/circle-registry.ts`、`CircleRegistryEntry[]`、§2）はこれらを集約して作る**静的ファイル**（Supabaseは使わない、§3参照）。
+「サークル」と呼んでいる対象は、厳密には7つの団体形態（部活／サークル／同好会／学内カンパニー／学生委員会／NEXT STEP工房〈学内カンパニーの派生〉／その他学生有志団体、`organizationType`）の総称であり、フォームの「団体の形態」列（§9-5a）で管理される（[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §6参照）。それぞれの団体形態には対応する名簿が存在するが、様式は統一されていない。`circle_registry`（`app/data/circle-registry.ts`、`CircleRegistryEntry[]`、§2）はこれらを集約して作る**静的ファイル**（Supabaseは使わない、§3参照）。
 
 ### 10-1. 団体形態とデータソースの対応
 
@@ -632,7 +632,7 @@ CSVの各行を、既存の`app/data/circles.ts`の該当エントリ（§9-4の
 `https://www.iwate-u.ac.jp/campus/activity/club.html`は、学生委員会（6団体）／体育系（約50団体）／文化系（約40団体）／同好会（約60団体以上）の4分類に分かれた単純な`ul`/`li`のリストで、約7〜8割の団体は個別紹介PDFへのリンクを持つ（本書作成時点での実地確認結果）。
 
 - **団体名以外の情報がほぼ無い。ふりがな（かな）の記載が無い。** `CircleRegistryEntry.kana`は`null`許容（§2）とし、この情報源からはかなを取得しない。ふりがなはフォーム回答済みの団体（`Circle.kana`）のみが持つ情報として扱う（§8 item 16、対応済み）
-- 個別紹介PDFの内容は転載しない（著作権のため、`docs/chatbot-decisions.md` §9と同じ方針）。取得するのは団体名と分類（学生委員会/体育系/文化系/同好会）のみ
+- 個別紹介PDFの内容は転載しない（著作権のため、[decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) §6と同じ方針）。取得するのは団体名と分類（学生委員会/体育系/文化系/同好会）のみ
 - ページの分類（学生委員会/体育系/文化系/同好会の4分類）と、フォームの`organizationType`（7分類、§9-5a）は軸が異なるが、揃えない設計とする。`CircleRegistryEntry.category`にはこのページの4分類がそのまま入り、`Circle.organizationType`（7分類）とは別軸として扱う（§8 item 17、対応済み）
 - スクレイピングの実行方法（`scripts/sync-registry.ts`として`sync-circles.ts`と同様に手動実行する想定。§10-5）、および対象ページのHTML構造が変わった場合の検知方法は未定
 

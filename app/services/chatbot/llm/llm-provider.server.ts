@@ -16,18 +16,18 @@ export class LLMProviderError extends Error {
 }
 
 // 429（レート制限）/ 5xx（サーバエラー）かどうかの判定
-// （docs/chatbot-decisions.md §5「429/5xxで次のプロバイダへ自動フォールバック」）
+// （docs/decisions/0004-chatbot-architecture.md §2「429/5xxで次のプロバイダへ自動フォールバック」）
 export function isRetryableStatus(status: number): boolean {
   return status === 429 || (status >= 500 && status <= 599);
 }
 
-// -preview が付いたモデルIDは使わない方針（docs/chatbot-decisions.md §5）をコード側で強制する
+// -preview が付いたモデルIDは使わない方針（docs/decisions/0004-chatbot-architecture.md §2）をコード側で強制する
 export function assertNotPreviewModel(model: string, providerName: string): void {
   if (model.includes("-preview")) {
     throw new LLMProviderError(
       providerName,
       null,
-      `${providerName}のモデルID「${model}」は -preview を含むため使用できません（docs/chatbot-decisions.md §5）。`
+      `${providerName}のモデルID「${model}」は -preview を含むため使用できません（docs/decisions/0004-chatbot-architecture.md §2）。`
     );
   }
 }
