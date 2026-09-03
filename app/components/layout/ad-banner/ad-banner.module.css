@@ -1,6 +1,6 @@
 /* 広告バナー（デザイン規約 §5.3・§6.1・§6.4）。
-   下部固定ナビの真上に重ね、上部のバーを下へドラッグすると本体がナビの裏へ隠れる。
-   隠れている間もバーだけは残り、引き上げれば元に戻せる。 */
+   md: 未満は下部固定ナビの真上に全幅で、md: 以上はナビが無いため画面下端の中央に置く。
+   上部のバーを下へドラッグすると本体が隠れ、バーだけが残る。引き上げれば元に戻せる。 */
 
 .banner {
   /* 下部固定ナビ（h-16 = 4rem）の真上に置くためのオフセット */
@@ -30,7 +30,7 @@
   transition: none;
 }
 
-/* 畳んだ状態：バーの高さぶんだけ残し、本体は下部固定ナビの裏へ送り込む */
+/* 畳んだ状態：バーの高さぶんだけ残し、本体は下部固定ナビ（md: 以上では画面外）へ送り込む */
 .bannerCollapsed {
   transform: translateY(calc(100% - var(--ad-banner-handle)));
   transition: transform 240ms ease-in;
@@ -46,10 +46,18 @@
   }
 }
 
-/* md: 以上では表示しない（下部固定ナビと同じ扱い） */
+/* md: 以上は下部固定ナビが無いため、バナー単体を画面下端の中央に置く（規約 §6.2 のPC構成）。
+   transform はドラッグに使うため、中央寄せは inset-inline + margin-inline で行う。 */
 @media (min-width: 48rem) {
   .banner {
-    display: none;
+    --ad-banner-offset: 0rem;
+
+    margin-inline: auto;
+    max-width: 32rem;
+    border-inline: 1px solid var(--color-border);
+    border-bottom: none;
+    /* 画面下端にだけ接するため、上の2角のみ丸める（規約 §8.1 sheet・§8.2） */
+    border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
   }
 }
 
