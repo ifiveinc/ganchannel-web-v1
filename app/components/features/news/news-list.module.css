@@ -1,0 +1,7 @@
+/* ニュース一覧の並び。余白は margin ではなく親の gap で作る（デザイン規約 §5.2）。 */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
