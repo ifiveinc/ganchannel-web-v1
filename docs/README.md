@@ -17,7 +17,7 @@ Web版 がんちゃんねる の各種ドキュメントを管理する。
 | [design-guidelines.md](./project/design-guidelines.md) | デザイン規約（色・余白・フォント・UI） | 運用中 |
 | [design-guidelines-input.md](./project/design-guidelines-input.md) | デザイン規約の要件定義書（規約のインプット・受領物） | 確定 |
 | [product-requirements.md](./project/product-requirements.md) | アプリ全体の要件・仕様 | 作成中 |
-| [post-mvp-agenda.md](./project/post-mvp-agenda.md) | MVP公開後に担当者間で話し合う事項の一覧 | 運用中 |
+| [pending-decisions.md](./project/pending-decisions.md) | MVP公開後に担当者間で話し合う事項の一覧 | 運用中 |
 
 ### 機能ごとの要件・仕様
 

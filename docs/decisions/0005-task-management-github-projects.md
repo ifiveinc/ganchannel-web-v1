@@ -5,7 +5,7 @@
 
 ## 背景
 
-開発規約 §4.1・§5・§6.3は「正式な開発タスクはGitHub Issues、進捗管理はGitHub Projects」を前提に書かれていたが、post-mvp-agenda.md A-4で指摘されていたとおり、実際にはIssueがほとんど使われておらず、ブランチ名にもIssue番号が入っていない状態だった（規約と運用の乖離）。
+開発規約 §4.1・§5・§6.3は「正式な開発タスクはGitHub Issues、進捗管理はGitHub Projects」を前提に書かれていたが、pending-decisions.md A-4で指摘されていたとおり、実際にはIssueがほとんど使われておらず、ブランチ名にもIssue番号が入っていない状態だった（規約と運用の乖離）。
 
 この解消にあたり、GitHub Issues/Projectsを実際に運用に乗せる案に加えて、企業で実際に使われるJira＋Confluenceを導入する案が挙がった。チーム内で複数の意見を出し合い、以下の論点を検討した。
 
@@ -31,5 +31,5 @@
 
 - 開発規約 §2・§4.1・§5・§6.3は変更なし（元のGitHub Issues/Projects/Notion前提のまま）
 - team-structure.md・festival-issues.mdのJira関連の記載は元に戻した
-- post-mvp-agenda.md A-4（タスク管理方法の検討）は本ADRの決定をもって解消し、該当行を削除した
+- pending-decisions.md A-4（タスク管理方法の検討）は本ADRの決定をもって解消し、該当行を削除した
 - GitHub Projectsのボード作成・メンバー向けオンボーディングをfestival-issues.md 0-1のタスクに追加した

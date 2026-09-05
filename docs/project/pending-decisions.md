@@ -1,10 +1,10 @@
-# MVP公開後の協議事項
+# 未決事項一覧
 
 MVP公開（2026/08/06）までは各担当者がそれぞれの進め方を優先し、
 **全体に影響する判断・大規模な改修は公開後にまとめて行う**
-（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md) 適用時期）。
+（[decisions/0003](../decisions/0003-css-modules-and-feature-directories.md) 適用時期）という方針のもと、公開前に作成された。
 
-本書は、そのときに話し合う必要がある事項を1か所に集めたもの。
+MVP公開後の現在も、開発規約・デザイン規約の未決事項を1か所に集める場として継続して使う（development-guidelines.md §26.3）。
 
 作成日：2026-08-05
 

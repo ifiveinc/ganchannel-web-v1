@@ -1347,7 +1347,7 @@ Issueが完了したと判断する基準を、Definition of Doneとして定め
 
 ### 26.3 未決事項
 
-本規約（および関連するデザイン規約）の未決事項は`docs/project/post-mvp-agenda.md`で一元管理する。個別のリストはここには持たない。
+本規約（および関連するデザイン規約）の未決事項は`docs/project/pending-decisions.md`で一元管理する。個別のリストはここには持たない。
 
 ---
 
