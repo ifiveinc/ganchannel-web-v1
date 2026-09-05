@@ -1,9 +1,8 @@
-# FES-0 学祭データ 仮定義まとめ
+# FES-0 学祭データ 仮定義まとめ（SWEレビュー用）
 
-このドキュメントは2つの用途を兼ねる。
+`app/types/festival/` 以下に実装した型・仮データの内容を、コードを読まなくても把握できるようにするための資料。SWEメンバーのレビュー用。
 
-1. **SWEメンバーのレビュー用**：`app/types/festival/` 以下に実装した型・仮データの内容を、コードを読まなくても把握できるようにする
-2. **9/8 不来方祭実行委員会 打ち合わせでの提示資料用**：「昨年の紙パンフレットを参考に、今年こういう項目を想定しているが問題ないか」を確認するための叩き台（[festival-meeting-0908.md](./festival-meeting-0908.md) 参照）
+不来方祭実行委員会への提示用資料は分けている（非技術者向け・git管理対象外）：[festival-data-committee-preview.md](./festival-data-committee-preview.md)。両ファイルの仮データの内容は同じものを指すため、仮データを更新した場合は両方に反映すること。
 
 元にしたのは**第76回不来方祭パンフレット（紙、実物PDF）**。過去の実物を参照することで型の作り直しリスクを下げる、という [festival-issues.md](./festival-issues.md) FES-0の方針に沿っている。仮データの一部（企画名・団体名・説明文）は、このパンフレットに実際に掲載されていた内容をそのまま流用した。
 
@@ -17,6 +16,10 @@
 | [app/data/festival/programs.ts](../../app/data/festival/programs.ts) | 企画（模擬店・屋内出店）の仮データ |
 | [app/data/festival/stage-programs.ts](../../app/data/festival/stage-programs.ts) | ステージ企画・タイムテーブルの仮データ |
 | [app/data/festival/areas.ts](../../app/data/festival/areas.ts) | 構内マップ用のグループ・エリア情報 |
+| [app/data/festival/greetings.ts](../../app/data/festival/greetings.ts) | 学長挨拶・実行委員長挨拶の仮データ（掲載未定、§4参照） |
+| [app/data/festival/staff.ts](../../app/data/festival/staff.ts) | スタッフ紹介（役職のみ）の仮データ（掲載未定、§4参照） |
+| [app/data/festival/sponsors.ts](../../app/data/festival/sponsors.ts) | 協賛企業の仮データ（掲載未定、§4参照） |
+| [app/data/festival/survey.ts](../../app/data/festival/survey.ts) | アンケート導線の仮データ（掲載未定、§4参照） |
 | [app/services/festival/festival-service.ts](../../app/services/festival/festival-service.ts) | データ取得関数（UIから分離） |
 | [app/services/festival/adapter.ts](../../app/services/festival/adapter.ts) | 実データ→型変換のアダプター（FES-1確定後、直すのはここだけで済む設計） |
 
@@ -24,7 +27,7 @@ FES-2・FES-3・FES-4・FES-6は、`festival-service.ts` の関数（`fetchFesti
 
 ---
 
-## 2. データ項目の想定（実行委員会への確認用）
+## 2. データ項目の想定
 
 パンフレット実物を見ると、企画は大きく3種類（屋外模擬店・屋内出店・ステージ企画）に分かれており、項目構成が少し異なっていた。
 
@@ -98,18 +101,23 @@ FES-2・FES-3・FES-4・FES-6は、`festival-service.ts` の関数（`fetchFesti
 
 ---
 
-## 4. 打ち合わせで確認したいこと（実行委員会向け）
+## 4. 企画情報以外の項目（掲載するかは未定）
 
-- 企画（模擬店・屋内出店）の項目は「企画名・団体名・場所・説明文・画像」で過不足ないか。**時間指定は屋外模擬店には無い、という理解で合っているか**（雨天・混雑等で臨時に時間指定が入るケースはあるか）
-- ステージ企画の項目は「企画名・出演団体／出演者・開始〜終了時刻・説明文」で過不足ないか
-- 屋外エリアの「グループ記号＋番号」（例: A1）、屋内の「建物＋階＋室番号」という場所の表し方は、今年も同じ運用で問題ないか
-- 「上田商店街」のような地域連携枠を示すタグ（特記事項）は他にもパターンがあるか
+パンフレットの序盤・終盤には、企画一覧・タイムテーブル以外にも以下のような編集コンテンツがあった。いずれも「企画を探す・お気に入り登録する・通知を受け取る」という行動補助が目的のデジタル版には本来含めない想定だが、**掲載するかどうかはiFive側だけで決め切れる話ではなく、9/8の打ち合わせで実行委員会に意向を確認する**（festival-data-committee-preview.md §3・§4、festival-meeting-0908.md §6・§7参照）。
 
-（それ以外の確認事項は [festival-meeting-0908.md](./festival-meeting-0908.md) 「打ち合わせで確認して持ち帰ること」を参照）
+打ち合わせ後に「載せる」となった場合の後戻り（型設計のやり直し）を避けるため、型・仮データは対象外と決め打ちせず先に用意した。9/8の結果を受けて、実際に画面へ組み込むかどうかだけを判断すればよい状態にしてある。
 
----
+| 項目 | 型・データ | 備考 |
+| --- | --- | --- |
+| ゲストの詳細プロフィール（YouTube登録者数等） | 追加の型は無し | `FestivalStageProgram`の`description`・`imageUrl`で表現できるため、既存の型のままでよい（型のギャップではない） |
+| アンケート | `FestivalSurveyLink` / [survey.ts](../../app/data/festival/survey.ts) | 「来場者に回答してほしい」という実行委員会側のニーズと相性が良く、**掲載を希望される可能性が高い**項目 |
+| 学長挨拶・実行委員長挨拶 | `FestivalGreeting` / [greetings.ts](../../app/data/festival/greetings.ts) | パンフレット実物の挨拶文をそのまま流用 |
+| スタッフ紹介（編集後記） | `FestivalStaffMember` / [staff.ts](../../app/data/festival/staff.ts) | 個人名は掲載しない方針（下記参照） |
+| **協賛企業** | `FestivalSponsor` / [sponsors.ts](../../app/data/festival/sponsors.ts) | 広告費を払っている商業的な関係のため、iFive側の一存で対象外と決めてよいか特に怪しい項目 |
 
-## 5. 実データ差し替えの方針（SWE向け補足）
+**個人名の扱いについて**：スタッフ紹介はパンフレット実物では個人のフルネームが掲載されているが、`FestivalStaffMember`の仮データでは`name`を常に`null`にし、役職（`role`）のみ入れている。理由は`app/services/circle-info/column-map.ts`の「代表者名は個人情報のため取り込まない」という既存方針と同じで、実行委員個人のフルネーム一覧をコードに含めないため。学長・実行委員長の挨拶は、パンフレット上で氏名が前面に出る公的な立場（大学の代表者・実行委員会の代表者）のため、他の学生の実名とは扱いを分けて`authorName`に含めている。
+
+## 5. 実データ差し替えの方針
 
 - 実データは `app/services/festival/adapter.ts` の `adaptRawFestivalPrograms` / `adaptRawFestivalStagePrograms` を通して現在の型に変換する
 - 実行委員会からのデータの列名・構造が上記の想定と違っていた場合も、直すのは `adapter.ts` の `Raw*Row` 型と変換ロジックのみで、`app/types/festival/festival.ts` の型自体・FES-2/FES-3/FES-4/FES-6のUI側コードは変更不要な設計にしている

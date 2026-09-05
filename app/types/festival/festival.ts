@@ -61,7 +61,7 @@ export type FestivalStageProgram = {
   id: string;
   day: FestivalDay;
   name: string;
-  /** 出演団体・出演者名。学長挨拶等、団体名が無い企画はnull */
+  /** 出演団体・出演者名。式典等、出演者名が無い企画はnull */
   performer: string | null;
   description: string | null;
   imageUrl: string | null;
@@ -87,4 +87,47 @@ export type FestivalIndoorAreaInfo = {
   floor: string;
   mapImageUrl: string | null;
   programIds: string[];
+};
+
+// --- 企画情報以外の項目 ---------------------------------------------------
+// パンフレット序盤・終盤の編集コンテンツ（挨拶・スタッフ紹介・協賛企業・アンケート）。
+// 「企画を探す・お気に入り登録する・通知を受け取る」という行動補助が目的のデジタル版には
+// 本来含めない想定だが、実行委員会への確認結果次第で追加する可能性があるため、
+// 型・仮データだけ先に用意しておく（festival-data-fes0.md §4参照）。
+
+/** 学長挨拶・実行委員長挨拶等、単発の挨拶文 */
+export type FestivalGreeting = {
+  id: string;
+  /** 例: "岩手大学学長挨拶" */
+  title: string;
+  authorName: string;
+  /** 例: "学長" */
+  authorRole: string;
+  body: string;
+  imageUrl: string | null;
+};
+
+// 実行委員スタッフの役職一覧（パンフレットの編集後記に掲載）。
+// 個人名は掲載しない方針にしている。理由は app/services/circle-info/column-map.ts の
+// 「代表者名は個人情報のため取り込まない」という既存方針と同じ（サークルの代表者名を
+// Circle型に含めていないのと同様、実行委員個人のフルネームの一覧をコードに含めない）。
+export type FestivalStaffMember = {
+  /** 例: "委員長" */
+  role: string;
+  name: string | null;
+};
+
+/** 協賛企業。広告費を払って掲載枠を得ている紙面と異なり、デジタル版への掲載可否は要確認 */
+export type FestivalSponsor = {
+  id: string;
+  name: string;
+  logoUrl: string | null;
+  url: string | null;
+};
+
+/** アンケート等、単純なリンク1本の案内 */
+export type FestivalSurveyLink = {
+  label: string;
+  /** パンフレットがQRコードのみでURL文字列を印字していない場合はnull */
+  url: string | null;
 };
