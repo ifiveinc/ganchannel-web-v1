@@ -2,7 +2,7 @@
 // app/data/circle-embeddings.json へ書き出す。
 //
 // サークルデータはSupabaseテーブルを持たない静的ファイル方式のため
-// （docs/chatbot/spec.md §9）、埋め込みも同様に静的ファイルとして持つ。
+// （docs/chat/spec.md §9）、埋め込みも同様に静的ファイルとして持つ。
 // 実行時はクエリ側だけをその場で埋め込み、ここで作った値と比較する
 // （docs/decisions/0004-chatbot-architecture.md §3「実行時に埋め込むのはクエリ1件のみ」の精神に合わせる）。
 //

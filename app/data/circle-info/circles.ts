@@ -1,7 +1,7 @@
 import type { Circle } from "~/types/circle-info/circle";
 
 // 掲載する団体データ。scripts/sync-circles.ts（自動生成）とcircle-infoチームの手動編集の
-// 両方が更新する（docs/chatbot/spec.md §9-2a）。フィールド単位の所有権は同ファイルを参照。
+// 両方が更新する（docs/chat/spec.md §9-2a）。フィールド単位の所有権は同ファイルを参照。
 // UIから直接importせず、必ず services/circle-service.ts を経由すること。
 export const circles: Circle[] = [
   {

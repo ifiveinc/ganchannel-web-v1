@@ -32,8 +32,7 @@ app/
 │   ├── circle-info._index.tsx  #   /circle-info（機能ホーム）
 │   ├── circle-info.search.tsx  #   /circle-info/search（探す）
 │   ├── circle-info.favorites.tsx # /circle-info/favorites（気になる）
-│   ├── circle-info.$circleId.tsx # /circle-info/:circleId（サークル詳細）
-│   └── kakunin.tsx             #   /kakunin（開発用の確認ページ）
+│   └── circle-info.$circleId.tsx # /circle-info/:circleId（サークル詳細）
 ├── components/
 │   ├── ui/                     # 複数画面で使う共通UI（empty-state, loading-spinner 等）
 │   ├── layout/                 # アプリ全体の chrome（bottom-nav, ad-banner, header）
@@ -53,7 +52,7 @@ app/
 │   └── news/                   #   news
 ├── lib/                        # 純粋関数のユーティリティ
 │   ├── circle-info/            #   filter-circles, favorites-storage
-│   └── chatbot/                #   text-similarity, embedding-common-words
+│   └── chatbot/                #   embedding-common-words
 ├── constants/                  # 定数（APIのURL・カテゴリ一覧 等）
 ├── hooks/                      # カスタムフック（use-xxx.ts）
 ├── styles/                     # グローバルCSS（app.css）

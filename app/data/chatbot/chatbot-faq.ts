@@ -1,4 +1,4 @@
-// 事前生成FAQ 20件（docs/chatbot/spec.md §1-4、docs/decisions/0004-chatbot-architecture.md §4 カスケード第2段）。
+// 事前生成FAQ 20件（docs/chat/spec.md §1-4、docs/decisions/0004-chatbot-architecture.md §4 カスケード第2段）。
 // カテゴリーは docs/decisions/0004-chatbot-architecture.md §12 のサジェスト質問カテゴリー
 // （サークル / キャンパス / お金のこと / 盛岡での暮らし / 学部えらび）と揃え、
 // Phase 7（サジェスト質問UI）でもこのデータを再利用できるようにしている。

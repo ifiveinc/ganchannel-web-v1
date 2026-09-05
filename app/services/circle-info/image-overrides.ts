@@ -4,7 +4,7 @@
 // これらは非公開ファイルのため <img> では描画できない（サインイン画面のHTMLが返る）。
 // また images / logo は scripts/sync-circles.ts の所有フィールドで、
 // app/data/circle-info/circles.ts を直接書き換えても次回の `npm run sync:circles` で上書きされる
-// （docs/chatbot/spec.md §9-2a）。
+// （docs/chat/spec.md §9-2a）。
 //
 // そのため、Driveからダウンロードした画像は public/circles/<circleId>/ に置き、
 // パスをこの表で指定する。circle-service.ts が読み出し時に差し替える。

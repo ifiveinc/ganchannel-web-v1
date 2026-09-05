@@ -1,8 +1,8 @@
 // サークル紹介フォームの回答CSVを取得・正規化し、app/data/circle-info/circles.ts へマージするスクリプト
-// （docs/chatbot/spec.md §9）。`npm run sync:circles` で開発者が手動実行する。
+// （docs/chat/spec.md §9）。`npm run sync:circles` で開発者が手動実行する。
 // 8/6当日の応答経路（/api/chat）には含めない。
 //
-// 【要確認事項（着手前にチームで確認すること。docs/chatbot/spec.md §8）】
+// 【要確認事項（着手前にチームで確認すること。docs/chat/spec.md §8）】
 // - item22: Circle.id（スラッグ）の生成方法が未定のため、本スクリプトでは
 //   name-overrides.ts での手動指定が無い場合、団体名のハッシュ値（circle-xxxxxxxx）を
 //   暫定的な生成方法として採用している
@@ -186,7 +186,7 @@ function parseAliases(raw: string | undefined): string[] {
 
 // 「団体の形態」は複数選択可能（例:「学内カンパニー, NEXT STEP工房」）。
 // Circle.organizationTypeは単一値のため、有効な候補のうち最初に一致したものを採用する
-// （2つ目以降の分類はcircle_registry側で別エントリとして持つ想定、docs/chatbot/spec.md §10-1）。
+// （2つ目以降の分類はcircle_registry側で別エントリとして持つ想定、docs/chat/spec.md §10-1）。
 function normalizeOrganizationType(raw: string): OrganizationType | null {
   const candidates = raw
     .split(",")
@@ -401,7 +401,7 @@ async function main() {
   const fileContent = `import type { Circle } from "~/types/circle-info/circle";
 
 // 掲載する団体データ。scripts/sync-circles.ts（自動生成）とcircle-infoチームの手動編集の
-// 両方が更新する（docs/chatbot/spec.md §9-2a）。フィールド単位の所有権は同ファイルを参照。
+// 両方が更新する（docs/chat/spec.md §9-2a）。フィールド単位の所有権は同ファイルを参照。
 // UIから直接importせず、必ず services/circle-service.ts を経由すること。
 export const circles: Circle[] = ${JSON.stringify(merged, null, 2)};
 `;

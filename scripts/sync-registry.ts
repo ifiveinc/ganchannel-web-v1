@@ -1,5 +1,5 @@
 // 大学公式サイトのクラブ紹介ページのスクレイピングと circle-registry-manual.ts を統合し、
-// app/data/circle-registry.ts を生成・上書きする（docs/chatbot/spec.md §10-5）。
+// app/data/circle-registry.ts を生成・上書きする（docs/chat/spec.md §10-5）。
 // `npm run sync:registry` で開発者が手動実行する。生成物は差分を確認してコミットする。
 //
 // 実行順序: circles.ts の名寄せ（sync-circles.ts）が最新の名簿を前提とするため、
@@ -94,7 +94,7 @@ async function main() {
 
   const fileContent = `// scripts/sync-registry.ts の生成物。手動編集しないこと。
 // クラブ紹介ページのスクレイピング結果と circle-registry-manual.ts を統合したもの
-// （docs/chatbot/spec.md §10-5）。生成日時: ${new Date().toISOString()}
+// （docs/chat/spec.md §10-5）。生成日時: ${new Date().toISOString()}
 
 import type { CircleRegistryEntry } from "~/types/chatbot/circle-registry";
 

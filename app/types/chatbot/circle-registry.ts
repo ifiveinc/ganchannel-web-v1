@@ -2,7 +2,7 @@ import type { Circle } from "../circle-info/circle";
 
 export type CircleStatus = "detailed" | "registered" | "unknown";
 
-// circle_registry（クラブ紹介ページ・手動書き起こし由来の名簿。docs/chatbot/spec.md §10）のエントリ。
+// circle_registry（クラブ紹介ページ・手動書き起こし由来の名簿。docs/chat/spec.md §10）のエントリ。
 // circle-infoのCircle型より情報が少ない「名前と分類だけ分かっている団体」を表す。
 // descriptionはクラブ紹介ページのスクレイピング（§10-2）では取得できないためnullになるが、
 // 学内カンパニー・NEXT STEP工房の手動書き起こし（§10-3）では入力される想定。

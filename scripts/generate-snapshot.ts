@@ -1,6 +1,6 @@
 // Supabaseの chunks / qa_cache テーブルの内容を app/data/snapshot.json へ書き出す。
 // 開発者が `npm run generate:snapshot` で手動実行する（Renderのビルド時には実行しない、
-// docs/chatbot/spec.md §8 item7）。生成物は差分を確認してコミットする。
+// docs/chat/spec.md §8 item7）。生成物は差分を確認してコミットする。
 
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";

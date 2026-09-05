@@ -65,6 +65,7 @@
 | スタイル | Tailwind CSS v4 |
 | データベース | Supabase（PostgreSQL） |
 | インフラ・デプロイ先 | Render（常駐Nodeプロセス、`react-router-serve`） |
+| 本番環境URL | https://ganchannel.onrender.com/ |
 | デザイン資料 | 作成中 |
 | 仕様書 | 作成中 |
 
@@ -112,6 +113,7 @@ MVP公開後、カンパニー全体の方針に従い**Next.jsへ移行する**
 | 日常的な連絡・相談 | DiscordまたはSlack |
 | 重要な意思決定 | Notion、Issue、議事録 |
 | 不具合報告 | GitHub Issues |
+| 外部向け窓口・体制情報 | Notion（リポジトリ・本番URLへのリンク、外部向け文書、担当領域アサイン、スプレッドシートへのリンク、議事録） |
 
 チャット上の会話だけで、重要な仕様や決定事項を完結させない。
 

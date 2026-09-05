@@ -1,5 +1,5 @@
 // 団体名の表記ゆれ手動対応表。
-// circle_registry との名寄せ（docs/chatbot/spec.md §9-4）で自動一致しない場合に参照する。
+// circle_registry との名寄せ（docs/chat/spec.md §9-4）で自動一致しない場合に参照する。
 // 加えて、Circle.id（スラッグ）を手動指定したい団体があればここで上書きできる（§8 item22）。
 
 export interface NameOverride {
