@@ -12,7 +12,7 @@ function toKatakana(value: string): string {
 }
 
 // 名前の表記ゆれ吸収用の正規化。全角→半角、スペース除去、前後の空白除去、
-// かな表記統一（ひらがな→カタカナ）を行う（docs/chatbot/spec.md §9-4 手順2、Phase 11）。
+// かな表記統一（ひらがな→カタカナ）を行う（docs/chat/spec.md §9-4 手順2、Phase 11）。
 // 「部」「同好会」等の接尾辞は削除しない。
 export function normalizeCircleName(name: string): string {
   return toKatakana(

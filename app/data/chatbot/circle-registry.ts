@@ -1,6 +1,6 @@
 // scripts/sync-registry.ts の生成物。手動編集しないこと。
 // クラブ紹介ページのスクレイピング結果と circle-registry-manual.ts を統合したもの
-// （docs/chatbot/spec.md §10-5）。生成日時: 2026-08-04T01:18:40.441Z
+// （docs/chat/spec.md §10-5）。生成日時: 2026-08-04T01:18:40.441Z
 
 import type { CircleRegistryEntry } from "~/types/chatbot/circle-registry";
 

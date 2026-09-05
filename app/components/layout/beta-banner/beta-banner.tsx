@@ -1,6 +1,6 @@
 import { MdInfoOutline } from "react-icons/md";
 
-// βバナー・非公式表記。root.tsxにAdと同様に常時マウントする（docs/chatbot/spec.md §1-8）。
+// βバナー・非公式表記。root.tsxにAdと同様に常時マウントする（docs/chat/spec.md §1-8）。
 // 常時表示のため閉じるボタンは付けない（docs/decisions/0004-chatbot-architecture.md §12）。
 export default function BetaBanner() {
   return (

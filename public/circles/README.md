@@ -29,7 +29,7 @@
 ## なぜデータファイルを直接書き換えないのか
 
 `app/data/circles.ts` の `images` / `logo` は `scripts/sync-circles.ts` の所有フィールドで、
-`npm run sync:circles` を実行すると**フォームの値で上書きされる**（docs/chatbot/spec.md §9-2a）。
+`npm run sync:circles` を実行すると**フォームの値で上書きされる**（docs/chat/spec.md §9-2a）。
 そのため画像パスは同期スクリプトが触らない `image-overrides.ts` 側で管理する。
 
 登録がない団体は、描画できないURL（Driveリンク）が自動的に除外され、

@@ -37,7 +37,7 @@ export const links: Route.LinksFunction = () => [
 export default function Root() {
   // circle-info・chat は機能内に専用のUI（circle-infoはボトムナビ、chatは入力欄）を持つため、
   // 共通ナビと下部で衝突する。配下では共通ナビを描画しない
-  // （docs/circle-info/spec.md §7.2、docs/chatbot/spec.md §1-8）。
+  // （docs/circle-info/spec.md §7.2、docs/chat/spec.md §1-8）。
   const { pathname } = useLocation();
   const hasOwnBottomNav = pathname.startsWith("/circle-info") || pathname.startsWith("/chat");
   // chatは画面最下部が常に入力欄で、広告バナー（fixed bottom-20）と競合するため非表示にする
@@ -86,7 +86,7 @@ export default function Root() {
         <Links />
       </head>
       <body>
-        {/* βバナー・非公式表記は全ページ共通で常時表示する（docs/chatbot/spec.md §1-8） */}
+        {/* βバナー・非公式表記は全ページ共通で常時表示する（docs/chat/spec.md §1-8） */}
         <BetaBanner />
 
         {/* PCサイズではサイド固定ナビを表示する。md:未満では非表示（hidden） */}

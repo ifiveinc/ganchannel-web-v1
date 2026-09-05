@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@react-router/dev": "^7.7.1",
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",
     "@types/papaparse": "^5.5.2",

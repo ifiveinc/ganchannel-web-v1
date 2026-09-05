@@ -31,7 +31,7 @@ function stripQuestionSuffix(question: string): string {
 }
 
 // 名前・かな・別名でCircleを検索する。circleRegistryIdのような永続的な紐付けは持たず、
-// 問い合わせのたびにその場で突合する（docs/chatbot/spec.md §2）。
+// 問い合わせのたびにその場で突合する（docs/chat/spec.md §2）。
 async function findCircleByNameKanaOrAlias(query: string): Promise<Circle | null> {
   const circles = await fetchCircles();
   const normalizedQuery = normalizeCircleName(query);

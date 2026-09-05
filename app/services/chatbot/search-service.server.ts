@@ -29,10 +29,10 @@ import type { QaCacheEntry } from "~/types/chatbot/qa";
 // 団体の全データをLLMに渡して質問に応じた回答を生成する（機械的な引用を避けるため）。
 
 const CIRCLE_INFO_DETAIL_PATH_PREFIX = "/circle-info";
-// クラブ紹介ページ内の「サークル・同好会紹介パンフレット」（docs/chatbot/spec.md §10-2で確認済み）
+// クラブ紹介ページ内の「サークル・同好会紹介パンフレット」（docs/chat/spec.md §10-2で確認済み）
 const CIRCLE_PAMPHLET_URL =
   "https://www.iwate-u.ac.jp/upload/2bd82ee3a605c480a5e650c4b47060d4.pdf";
-// このパンフレットが対象とする団体形態（docs/chatbot/spec.md §10-1）。
+// このパンフレットが対象とする団体形態（docs/chat/spec.md §10-1）。
 // 学内カンパニー・NEXT STEP工房は別ソースの名簿のため対象外
 const PAMPHLET_CATEGORIES = ["学生委員会", "体育系", "文化系", "同好会"];
 
@@ -90,8 +90,8 @@ const CHUNK_VECTOR_MATCH_THRESHOLD = 0.55;
 const CHUNK_WINNER_MIN_VECTOR_SCORE = 0.68;
 
 // --- キーワード検索（5b: BM25） ----------------------------------------------------------
-// 日本語は分かち書きが無いため、形態素解析の代わりに文字bigramを「単語」として扱う
-// （app/lib/text-similarity.tsのbigram一致率と同じ理由）。Okapi BM25、k1・bは一般的な既定値。
+// 日本語は分かち書きが無いため、形態素解析の代わりに文字bigramを「単語」として扱う。
+// Okapi BM25、k1・bは一般的な既定値。
 
 const BM25_K1 = 1.5;
 const BM25_B = 0.75;

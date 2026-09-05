@@ -10,7 +10,7 @@
 ## 0. 前提とスコープ
 
 - 本仕様書が対象とするのは [decisions/0004-chatbot-architecture.md](../decisions/0004-chatbot-architecture.md) に記載された学内QAチャットボット機能のみ
-- 既存の `app/routes/`（`_app.tsx` / `_app._index.tsx` / `_app.faq.tsx` / `_app.features.tsx` / `_app.settings.tsx` / `news.tsx` / `ad-inquiry.tsx` / `kakunin.tsx`）とその配下のコンポーネント・データは変更しない。ナビへの追加のみ既存ファイルを変更する（§4参照）
+- 既存の `app/routes/`（`_app.tsx` / `_app._index.tsx` / `_app.faq.tsx` / `_app.features.tsx` / `_app.settings.tsx` / `news.tsx` / `ad-inquiry.tsx`）とその配下のコンポーネント・データは変更しない。ナビへの追加のみ既存ファイルを変更する（§4参照）
 - ディレクトリ構成・命名規則は `docs/project/architecture.md` および `docs/project/development-guidelines.md` §10.2 に従う（ファイル: kebab-case / コンポーネント・型: PascalCase / 変数・関数: camelCase / 定数: UPPER_SNAKE_CASE）
 - **本書で「サークル」と呼ぶ対象は、フォームの「団体の形態」列（§9-5a）で管理される7つの団体形態（部活／サークル／同好会／学内カンパニー／学生委員会／NEXTSTEP工房〈学内カンパニーの派生〉／その他学生有志団体）の総称である**
 - **【2026-08-04追記・重要】`develop`に既存の`circle-info`機能（`docs/circle-info/`配下に要件定義・仕様書あり）と、データモデル・データソースを可能な限り一本化する。** `circle-info`は本書と同じ学生団体データ（同じGoogleフォームが情報源、`docs/circle-info/input-sheet.md` Q3-1・Q3-6で確認済み）を扱う独立機能で、`app/types/circle.ts`の`Circle`型・`app/data/circles.ts`（静的データ）・`app/services/circle-service.ts`がすでに実装済み。本書は**新たに`Circle`型やSupabaseテーブルを作らず、`circle-info`の型・データを拡張して再利用する**方針に変更する（詳細は§2・§9・§10）。`circle-info`側の型・コンポーネント・ルートは、拡張以外は変更しない
