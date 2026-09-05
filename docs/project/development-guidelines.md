@@ -107,7 +107,7 @@ MVP公開後、カンパニー全体の方針に従い**Next.jsへ移行する**
 | --- | --- |
 | 正式な開発タスク | GitHub Issues |
 | タスクの進捗状況 | GitHub Projects |
-| 要件・仕様書 | GitHub（`docs/`配下。Notionはミラーとして閲覧のみ） |
+| 要件・仕様書 | GitHub（`docs/`配下） |
 | デザイン | Figmaまたは指定ツール |
 | コード | GitHub |
 | 日常的な連絡・相談 | Slack |
