@@ -18,7 +18,6 @@ type BottomNavProps = {
 };
 
 // 下部固定ナビ（デザイン規約 §19.2）。
-// 広告バナー（z-20）を裏へ潜り込ませるため、z-30 に置く。
 // アプリ全体・機能内のどちらでも使う共通コンポーネントで、項目だけを差し替える。
 export default function BottomNav({
   items,
@@ -28,7 +27,7 @@ export default function BottomNav({
   return (
     <nav
       aria-label={ariaLabel}
-      className={`fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-10 border-t border-border bg-surface md:hidden ${
         hideOnDesktop ? "md:hidden" : ""
       }`}
     >

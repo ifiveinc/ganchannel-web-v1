@@ -1,37 +1,26 @@
-import InquiryHeader from "~/components/features/inquiry/inquiry-header";
-import InquiryContactCard from "~/components/features/inquiry/inquiry-contact-card";
-import BackToTopLink from "~/components/ui/back-to-top-link";
+import iFiveIcon from "~/assets/ifive-icon.png";
 
-export function meta() {
-  return [
-    { title: "お問い合わせ | がんちゃんねる" },
-    {
-      name: "description",
-      content:
-        "広告掲載のご相談、ご意見・ご要望、不具合のご報告はこちらから受け付けています。",
-    },
-  ];
-}
 
 export default function AdInquiry() {
+
+
   return (
-    <>
-      <InquiryHeader />
-
-      {/* 下部固定要素（ナビ・広告バナー）に隠れないよう下余白を確保する（規約 §5.3） */}
-      <main className="mx-auto w-full max-w-lg px-4 pt-4 pb-36">
-        {/* 見出しはヘッダーのタイトルが兼ねるため、視覚的には出さない */}
-        <h1 className="sr-only">お問い合わせ</h1>
-
-        <div className="flex flex-col gap-6">
-          {/* 機能内で迷子にならないための脱出口（circle-info と同じ導線） */}
-          <div>
-            <BackToTopLink />
-          </div>
-
-          <InquiryContactCard />
+    <div>
+        <div className="relative font-serif h-20 bg-green-800 text-4xl items-center flex justify-center">
+            <a href="/" className="absolute left-4 ml-4">
+                 <img className="rounded-full bg-white w-12 h-12" src={iFiveIcon} alt="" />
+            </a>
+            問い合わせ
         </div>
-      </main>
-    </>
+          <div className="bg-white h-200 font-mono text-2xl text-black font-serif text-center pt-4">
+            お問い合わせは
+            <a href="mailto:developer.iFive@gmail.com" className="text-blue-600">
+              こちら
+            </a>     
+            から、お気軽にご相談ください。<br/>
+            （※リンクをクリックするとメールアプリへ移動します）
+          </div>
+    </div>
   );
-}
+};
+
