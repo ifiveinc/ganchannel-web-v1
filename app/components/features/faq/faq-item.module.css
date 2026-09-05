@@ -1,0 +1,106 @@
+/* 1件の質問と回答（デザイン規約 §16）。立体表現は影ではなく境界線で行う。 */
+
+.item {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-card);
+}
+
+/* summary 標準の三角マーカーを消し、右端の矢印アイコンに置き換える */
+.question {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: var(--radius-card);
+  padding: 0.75rem;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+  color: var(--color-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) {
+  .question:hover {
+    color: var(--color-primary);
+  }
+}
+
+.question:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.questionText {
+  min-width: 0;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  transition: transform 150ms;
+}
+
+/* 開いているかどうかを、矢印の向きでも示す（規約 §3.2） */
+.item[open] .icon {
+  transform: rotate(180deg);
+}
+
+/* 動きに敏感な利用者には即座に切り替える（規約 §24.4） */
+@media (prefers-reduced-motion: reduce) {
+  .icon {
+    transition-duration: 0s;
+  }
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid var(--color-border);
+  padding: 0.75rem;
+}
+
+.paragraph {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink);
+}
+
+.link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: flex-start;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-primary);
+  text-decoration-line: underline;
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.linkIcon {
+  flex-shrink: 0;
+}
+
+/* 長いURLでも横スクロールを起こさない（規約 §18.2） */
+.linkText {
+  min-width: 0;
+  word-break: break-all;
+}

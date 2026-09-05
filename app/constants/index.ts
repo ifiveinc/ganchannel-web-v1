@@ -48,3 +48,7 @@ export const RECRUITMENT_STATUSES = ["募集中", "募集停止"] as const;
 export const RECOMMENDED_CIRCLE_LIMIT = 10;
 
 // タグは自由入力のため定数にしない。「探す」画面の選択肢は掲載データから動的に生成する
+
+// --- お問い合わせ（ad-inquiry）-----------------------------------------------
+// 広告掲載・ご意見・不具合報告の受付先。iFive の共用アドレス
+export const INQUIRY_EMAIL = "developer.iFive@gmail.com";
