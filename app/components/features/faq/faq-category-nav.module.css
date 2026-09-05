@@ -1,0 +1,49 @@
+/* カテゴリーへのページ内ジャンプ。circle-info のタグボタンに合わせたピル型で揃える。
+   件数が増えても横スクロールさせず折り返す（規約 §19.4）。 */
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* タップ領域 44px を確保する（規約 §13.2） */
+.link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface);
+  padding-inline: 0.875rem;
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  white-space: nowrap;
+  color: var(--color-ink);
+  transition-property: color, background-color, border-color;
+  transition-duration: 150ms;
+}
+
+/* タッチ端末で hover が固着しないよう、ポインタがある環境に限定する */
+@media (hover: hover) {
+  .link:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-subtle);
+    color: var(--color-primary);
+  }
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+/* 件数は色だけでなく数字そのもので伝える */
+.count {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  color: var(--color-ink-muted);
+}

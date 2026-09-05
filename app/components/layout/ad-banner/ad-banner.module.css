@@ -1,0 +1,183 @@
+/* 広告バナー（デザイン規約 §5.3・§6.1・§6.4）。
+   md: 未満は下部固定ナビの真上に全幅で、md: 以上はナビが無いため画面下端の中央に置く。
+   上部のバーを下へドラッグすると本体が隠れ、バーだけが残る。引き上げれば元に戻せる。 */
+
+.banner {
+  /* 下部固定ナビ（h-16 = 4rem）の真上に置くためのオフセット */
+  --ad-banner-offset: 4rem;
+  /* バーの高さ。畳んだときに残す高さでもあるため、値は1か所にまとめる。
+     バー本体 4px の上下に 4px ずつを残した最小構成 */
+  --ad-banner-handle: 0.75rem;
+
+  position: fixed;
+  inset-inline: 0;
+  bottom: var(--ad-banner-offset);
+  /* 規約 §6.4 の広告バナー層。畳んだ本体は、これより上に置いた下部固定ナビ（z-30）の裏へ潜る */
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  /* 規約に duration の既定値が無いため、位置の変化を目で追える 240ms を採用する
+     （色変化の 150ms では速すぎ、300ms を超えると閉じ操作が重く感じるため） */
+  transition: transform 240ms ease-out;
+}
+
+/* ドラッグ中は指の動きに1対1で追従させる（transform は inline style で与える） */
+.bannerDragging {
+  transition: none;
+}
+
+/* 畳んだ状態：バーの高さぶんだけ残し、本体は下部固定ナビ（md: 以上では画面外）へ送り込む */
+.bannerCollapsed {
+  transform: translateY(calc(100% - var(--ad-banner-handle)));
+  transition: transform 240ms ease-in;
+}
+
+/* 動きに敏感な利用者には即座に切り替える（規約 §24.4） */
+@media (prefers-reduced-motion: reduce) {
+  .banner,
+  .bannerCollapsed,
+  .bannerCollapsed .inner {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+
+/* md: 以上は下部固定ナビが無いため、バナー単体を画面下端の中央に置く（規約 §6.2 のPC構成）。
+   transform はドラッグに使うため、中央寄せは inset-inline + margin-inline で行う。 */
+@media (min-width: 48rem) {
+  .banner {
+    --ad-banner-offset: 0rem;
+
+    margin-inline: auto;
+    max-width: 32rem;
+    border-inline: 1px solid var(--color-border);
+    border-bottom: none;
+    /* 画面下端にだけ接するため、上の2角のみ丸める（規約 §8.1 sheet・§8.2） */
+    border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  }
+}
+
+/* 上下にスライドできることを示すバー。タップ・Enter でも開閉できるようボタンで組む */
+.handle {
+  display: flex;
+  height: var(--ad-banner-handle);
+  width: 100%;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  /* 縦方向のドラッグをブラウザのスクロールに奪われないようにする */
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.handleBar {
+  height: 0.25rem;
+  width: 2.25rem;
+  border-radius: 9999px;
+  background-color: var(--color-border-strong);
+  transition: background-color 150ms;
+}
+
+/* タッチ端末で hover が固着しないよう、ポインタがある環境に限定する */
+@media (hover: hover) {
+  .handle:hover .handleBar {
+    background-color: var(--color-ink-muted);
+  }
+}
+
+.handle:focus-visible {
+  outline: none;
+}
+
+/* フォーカスリングはバー自体に付ける（規約 §24.3・§26.5） */
+.handle:focus-visible .handleBar {
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+/* 中央のコンテンツ列と幅を揃える（規約 §6.1） */
+.inner {
+  display: flex;
+  align-items: stretch;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 32rem;
+  transition: visibility 0s;
+}
+
+/* 畳み終わってから隠す。ナビの裏で見えない本文がタブ順・読み上げに残らないようにする */
+.bannerCollapsed .inner {
+  visibility: hidden;
+  transition: visibility 0s 240ms;
+}
+
+.link {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.link:focus-visible {
+  outline: none;
+  /* 内側の 2px は背景色で縁取り、外側 2px がフォーカスリング（ring-offset 相当） */
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.thumbnail {
+  width: 4rem;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  object-fit: contain;
+}
+
+.body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 0.5rem;
+  padding-right: 0.75rem;
+}
+
+.title {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  font-weight: 700;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-muted);
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-primary);
+}
